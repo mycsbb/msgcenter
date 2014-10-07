@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="jdbc.properties"/>
+	<typeAliases>
+		<typeAlias alias="Department" type="com.csrc.msgcenter.model.Department"/>
+		<typeAlias alias="Level" type="com.csrc.msgcenter.model.Level"/>
+		<typeAlias alias="User" type="com.csrc.msgcenter.model.User"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+<!-- 		<mapper resource="com/pku/mybatis/GoodsMapper.xml"/> -->
+<!-- 		<mapper resource="GoodsMapper.xml"/> -->
+<!-- 		<mapper class="com.pku.mybatis.GoodsMapper"/> -->
+		<mapper resource="DepartmentMapper.xml"/>
+		<mapper resource="LevelMapper.xml"/>
+		<mapper resource="UserMapper.xml"/>
+	</mappers>
+</configuration>

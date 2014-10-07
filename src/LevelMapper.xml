@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Level">
+	<!-- 查询指定id的User对象 -->
+	<select id="queryById" parameterType="int" resultType="Level">
+		select * from level where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultType="Level">
+		select * from level
+	</select>
+
+	<!-- 查询总数据条数 -->
+	<select id="totalCount" resultType="int">
+		select count(*) from level
+	</select>
+</mapper>
