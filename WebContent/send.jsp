@@ -1,19 +1,23 @@
 <%@ page contentType="text/html; charset=utf-8" language="java"
 	import="java.sql.*,com.csrc.msgcenter.filter.*,com.csrc.msgcenter.model.User" errorPage=""%>
 <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	
 	User user = (User)session.getAttribute(AuthFilter.USER_SESSION_KEY);
 	String zhname = user.getZhname(); 
 %>
 <!DOCTYPE html>
 <HTML>
 <HEAD>
-	<TITLE> ZTREE DEMO - getChangeCheckedNodes / getCheckedNodes</TITLE>
+	<TITLE>msgcenter</TITLE>
+	<base href="<%=basePath%>">
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" href="./css/demo.css" type="text/css">
-	<link rel="stylesheet" href="./css/zTreeStyle/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="./js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="./js/jquery.ztree.core-3.5.js"></script>
-	<script type="text/javascript" src="./js/jquery.ztree.excheck-3.5.js"></script>
+	<link rel="stylesheet" href="css/demo.css" type="text/css">
+	<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
 	<SCRIPT type="text/javascript">
 		<!--
 		var setting = {
@@ -84,7 +88,7 @@
 
 		function createTree() {
 			$.ajax({
-				url : './getTree',
+				url : 'getTree',
 				data : {},
 				type : 'post',
 				dataType : 'text',
@@ -106,7 +110,7 @@
 		
 		function send() {
 			$.ajax({
-				url : './getTree?action=send',
+				url : 'getTree?action=send',
 				data : {idstr : idstr, msg : $("#msgarea").val()},
 				type : 'post',
 				dataType : 'text',
@@ -123,7 +127,7 @@
 <h1>信息平台</h1>
 <div style="float: right;margin-right: 100px">
 	<span><%=zhname%>, 欢迎你!</span>
-	<span><a href="./auth?action=logout">注销</a></span>
+	<span><a href="auth?action=logout">注销</a></span>
 </div>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
