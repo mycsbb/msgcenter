@@ -121,6 +121,12 @@
 		}
 	//-->
 	</SCRIPT>
+	<style type="text/css">
+	 body {
+	 	background: #e8eff4;
+		overflow: hidden;
+	 }
+	</style>
 </HEAD>
 
 <BODY>

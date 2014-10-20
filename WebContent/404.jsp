@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -14,6 +16,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
 <title>NotFound</title>
+<style type="text/css">
+body {
+	background: #e8eff4;
+	overflow: hidden;
+}
+</style>
 </head>
 <body>
 <center><h1>404 Not found..</h1></center>
