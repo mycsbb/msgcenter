@@ -1,11 +1,13 @@
 <%@ page contentType="text/html; charset=utf-8" language="java"
 	import="java.sql.*,com.csrc.msgcenter.filter.*,com.csrc.msgcenter.model.User" errorPage=""%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 	
 	User user = (User)session.getAttribute(AuthFilter.USER_SESSION_KEY);
 	String zhname = user.getZhname(); 
+	
 %>
 <!DOCTYPE html>
 <HTML>
@@ -132,7 +134,7 @@
 <BODY>
 <h1>信息平台</h1>
 <div style="float: right;margin-right: 100px">
-	<span><%=zhname%>, 欢迎你!</span>
+	<span>${sessionScope["MsgCenterUser"].zhname}, 欢迎你!</span>
 	<span><a href="auth?action=logout">注销</a></span>
 </div>
 <div class="content_wrap">

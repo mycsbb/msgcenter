@@ -9,7 +9,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- 	<link rel="stylesheet" href="../../../css/demo.css" type="text/css"> -->
 	<link rel="stylesheet" href="css/demo.css" type="text/css">
 	<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>

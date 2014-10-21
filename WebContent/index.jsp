@@ -26,12 +26,15 @@ body {
 </style>
 </head>
 <body>
+<div style="margin: 50px 0 0 auto">
 	<center>
 		<a href="send.html">进入发送界面</a>
 	</center>
 	<center>
 		<a href="login.html">进入登录界面</a>
 	</center>
+</div>
+	
 
 </body>
 </html>
