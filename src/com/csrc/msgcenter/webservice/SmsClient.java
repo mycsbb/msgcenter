@@ -48,6 +48,9 @@ public class SmsClient {
 			}
 		}
 	}
+	public static void sendMessage(String mobilephone, java.lang.String content) {
+		sendMessage(mobilephone, content, 10100, "", 1,(short) 0, (short) 0, (short) 0, "");
+	}
 
 	public static void sendMessage(java.lang.String mobilephone,
 			java.lang.String content, int operId, java.lang.String tosend_time,
@@ -75,6 +78,7 @@ public class SmsClient {
 		if (!matcher.matches()) {
 			System.out.println("发送失败：手机号格式不正确！！");
 		}
+		System.out.println("enter......send more phone---" + phones);
 		// 多个手机号码发送
 		try {
 			//SmsReturnObj retObj = SmsWebClient.webSendMessage("13520782089,13241822626", "多个手机号码,短信发送测试", 10030, "", 1, (short) 0, (short) 0, (short) 0, "");

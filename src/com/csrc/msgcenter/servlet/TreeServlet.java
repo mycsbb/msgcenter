@@ -115,8 +115,16 @@ public class TreeServlet extends HttpServlet {
 						phones += phone + ",";
 					}
 					phones = phones.substring(0, phones.length() - 1);
-					//SmsClient.sendMorephoneMessage(phones, msg);
-					out.write("发送成功！！");
+					int phone_num = phones.split(",").length;
+					if (phone_num < 1) {
+						out.write("请填好信息接收人！！");
+					} else if (phone_num == 1) {
+						SmsClient.sendMessage(phones, msg);
+						out.write("发送成功！！");
+					} else {
+						SmsClient.sendMorephoneMessage(phones, msg);
+						out.write("发送成功！！");
+					}
 				}finally{
 					session.close();
 				}
