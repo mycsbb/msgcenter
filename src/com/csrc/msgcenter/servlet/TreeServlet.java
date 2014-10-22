@@ -2,6 +2,7 @@ package com.csrc.msgcenter.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,10 +14,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.csrc.msgcenter.filter.AuthFilter;
 import com.csrc.msgcenter.model.Department;
+import com.csrc.msgcenter.model.Message;
 import com.csrc.msgcenter.model.User;
 import com.csrc.msgcenter.util.JSONUtil;
 import com.csrc.msgcenter.util.SessionUtil;
@@ -92,6 +96,9 @@ public class TreeServlet extends HttpServlet {
 	
 	private void sendmsg(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession httpSession = request.getSession();
+		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
+		
 		String idstr = request.getParameter("idstr");
 		String msg = request.getParameter("msg");
 		System.out.println("idstr=" + idstr);
@@ -118,13 +125,19 @@ public class TreeServlet extends HttpServlet {
 					int phone_num = phones.split(",").length;
 					if (phone_num < 1) {
 						out.write("请填好信息接收人！！");
-					} else if (phone_num == 1) {
-						SmsClient.sendMessage(phones, msg);
-						out.write("发送成功！！");
 					} else {
-						SmsClient.sendMorephoneMessage(phones, msg);
+						SmsClient.sendMessage(phones, msg);
+						//把信息放入数据库
+						String sender = cur_user.getUsername();
+						String receiver = phones;
+						String content = msg;
+						Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+						Message message = new Message(sender, receiver, content, timestamp);
+						session.insert("Message.insert", message);
+						session.commit();
+						//返回成功信息
 						out.write("发送成功！！");
-					}
+					} 
 				}finally{
 					session.close();
 				}

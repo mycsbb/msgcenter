@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Message">
+	<insert id="insert" parameterType="Message">
+		insert into
+		message(sender,receiver,content,timestamp) values(
+		#{sender},
+		#{receiver},
+		#{content},
+		#{timestamp}
+		)
+	</insert>
+	
+	<select id="queryById" parameterType="int" resultType="Message">
+		select * from message where id = #{id}
+	</select>
+	
+	<!--与MessageMapper接口中的queryByPhone方法对应，包括方法名和参数类型。SQL语句中以“#{}”的形式引用参数-->
+	<select id="queryByPhone" parameterType="map" resultType="Message">
+		select * from message where sender like '%${sender}%' or receiver like '%${receiver}%'
+	</select>
+	
+	<select id="queryByContent" parameterType="string" resultType="Message">
+		select * from message where content like '%${content}%'
+	</select>
+	
+</mapper>
