@@ -79,7 +79,7 @@ a:HOVER {
 			<form action="auth" id="loginform" method="post">
 				<ul style="list-style-type: none">
 					<li>用户名：<input type="text" name="username" /></li>
-					<li style="margin-top: 5px">密码：&nbsp;&nbsp;<input type="text"
+					<li style="margin-top: 5px">密码：&nbsp;&nbsp;<input type="password"
 						name="password" /></li>
 					<li style="margin-left: 170px; margin-top: 5px"></li>
 				</ul>

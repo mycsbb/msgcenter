@@ -58,6 +58,12 @@ public class TreeServlet extends HttpServlet {
 		if (action == null) getTree(request, response);
 		else if (action.equals("send")) {
 			sendmsg(request, response);
+		} else if (action.equals("queryByPhone")) {
+			queryByPhone(request, response);
+		} else if (action.equals("queryByContent")) {
+			queryByContent(request, response);
+		} else if (action.equals("update")) {
+			updateUserInfo(request, response);
 		} else {
 			PrintWriter out = response.getWriter();
 			out.write("<center><H1>404 not found!!</H1></center>");
@@ -65,11 +71,101 @@ public class TreeServlet extends HttpServlet {
 		}
 	}
 	
-	protected void getTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void updateUserInfo(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String password = request.getParameter("password");
+		String phone = request.getParameter("phone");
+		PrintWriter out = response.getWriter();
+		if (password == null || password.equals("") || phone == null || phone.equals("")) {
+			out.write("信息不能为空！");
+			out.flush();
+			return;
+		}
+		HttpSession httpSession = request .getSession();
+		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
-		
+		try{
+			cur_user.setPassword(password);
+			cur_user.setPhone(phone);
+			int n = session.delete("User.update", cur_user); 
+			session.commit();
+			if (n > 0) {
+				out.write("更新成功！");
+			}
+			else out.write("更新失败！");
+			out.flush();
+		}finally{
+			session.close();
+		}
+	}
+
+	private void queryByPhone(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String key = request.getParameter("key");
+		if (key == null || key.equals("")) return;
+		HttpSession httpSession = request .getSession();
+		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
+		SqlSession session = SessionUtil.getSessionFactory().openSession();
 		String json = "";
 		try{
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("sender", cur_user.getUsername());
+			paramMap.put("receiver", key);
+			List<Message> msgList = session.selectList("Message.queryByPhone", paramMap);
+			//生成json
+			for (Message msg : msgList) {
+				System.out.println(msg);
+				json += messageToJson(msg) + ",";
+			}
+			if (json != "") {
+				json = "[" + json.substring(0, json.length() - 1) + "]";
+				System.out.println(json);
+			}
+		}finally{
+			session.close();
+		}
+		PrintWriter out = response.getWriter();
+		out.write(json);
+		out.flush();
+	}
+	
+	
+
+	private void queryByContent(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String key = request.getParameter("key");
+		if (key == null || key.equals("")) return;
+		HttpSession httpSession = request .getSession();
+		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
+		SqlSession session = SessionUtil.getSessionFactory().openSession();
+		String json = "";
+		try{
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("sender", cur_user.getUsername());
+			paramMap.put("content", key);
+			List<Message> msgList = session.selectList("Message.queryByContent", paramMap);
+			//生成json
+			for (Message msg : msgList) {
+				System.out.println(msg);
+				json += messageToJson(msg) + ",";
+			}
+			if (json != "") {
+				json = "[" + json.substring(0, json.length() - 1) + "]";
+				System.out.println(json);
+			}
+		}finally{
+			session.close();
+		}
+		PrintWriter out = response.getWriter();
+		out.write(json);
+		out.flush();
+	}
+
+	protected void getTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		SqlSession session = SessionUtil.getSessionFactory().openSession();
+		String json = "";
+		try{
+			
 			List<Department> departments = session.selectList("Department.queryAll");
 			List<User> users = session.selectList("User.queryAll");
 			for (User user : users) {
@@ -96,9 +192,10 @@ public class TreeServlet extends HttpServlet {
 	
 	private void sendmsg(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		HttpSession httpSession = request.getSession();
+		HttpSession httpSession = request .getSession();
 		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
 		
+		SqlSession session = SessionUtil.getSessionFactory().openSession();
 		String idstr = request.getParameter("idstr");
 		String msg = request.getParameter("msg");
 		System.out.println("idstr=" + idstr);
@@ -109,7 +206,6 @@ public class TreeServlet extends HttpServlet {
 			Matcher matcher = pattern.matcher(idstr);
 			if (matcher.matches()) {
 				idstr = idstr.replaceAll("-", "");
-				SqlSession session = SessionUtil.getSessionFactory().openSession();
 				try{
 					List<Integer> idlist = new ArrayList<Integer>();
 					String id_strs[] = idstr.split(",");
@@ -148,7 +244,15 @@ public class TreeServlet extends HttpServlet {
 		
 		out.flush();
 	}
-
+	
+	private String messageToJson(Message msg) {
+		Map<String, String> filterMap = new HashMap<String, String>();
+		filterMap.put(Message.class.getName(), "sender");
+		String str = JSONUtil.toJSON(msg, 0, false, filterMap, 1);
+		
+		return str;
+	}
+	
 	public String userToJson(User user) {
 		Map<String, String> filterMap = new HashMap<String, String>();
 		filterMap.put(User.class.getName(), "username,password,levelId,phone");

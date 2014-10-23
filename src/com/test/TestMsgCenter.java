@@ -106,8 +106,8 @@ public class TestMsgCenter {
 		//MessageMapper mapper = session.getMapper(MessageMapper.class);
 		try {
 			Map<String, Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("sender", "18010");
-			paramMap.put("receiver", "1801090");
+			paramMap.put("sender", "chen1");
+			paramMap.put("receiver", "18010");
 			List<Message> msgList = session.selectList("Message.queryByPhone", paramMap);
 			for (Message msg : msgList) {
 				System.out.println(msg);
