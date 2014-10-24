@@ -81,6 +81,15 @@ public class TreeServlet extends HttpServlet {
 			out.flush();
 			return;
 		}
+		//下面验证手机格式
+		String regex = "^\\d+$";
+		Pattern phone_pattern = Pattern.compile(regex);
+		Matcher matcher = phone_pattern.matcher(phone);
+		if (!matcher.matches()) {
+			out.write("手机格式不正确！");
+			out.flush();
+			return;
+		}
 		HttpSession httpSession = request .getSession();
 		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
@@ -101,8 +110,19 @@ public class TreeServlet extends HttpServlet {
 
 	private void queryByPhone(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		PrintWriter out = response.getWriter();
+		
 		String key = request.getParameter("key");
 		if (key == null || key.equals("")) return;
+		String regex = "^\\d+$";
+		Pattern phone_pattern = Pattern.compile(regex);
+		Matcher matcher = phone_pattern.matcher(key);
+		if (!matcher.matches()) {
+			out.write("手机格式不正确！");
+			out.flush();
+			return;
+		}
+		
 		HttpSession httpSession = request .getSession();
 		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
@@ -124,13 +144,10 @@ public class TreeServlet extends HttpServlet {
 		}finally{
 			session.close();
 		}
-		PrintWriter out = response.getWriter();
 		out.write(json);
 		out.flush();
 	}
 	
-	
-
 	private void queryByContent(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String key = request.getParameter("key");
@@ -165,7 +182,6 @@ public class TreeServlet extends HttpServlet {
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
 		String json = "";
 		try{
-			
 			List<Department> departments = session.selectList("Department.queryAll");
 			List<User> users = session.selectList("User.queryAll");
 			for (User user : users) {
@@ -194,14 +210,19 @@ public class TreeServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSession = request .getSession();
 		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
-		
+		PrintWriter out = response.getWriter();
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
 		String idstr = request.getParameter("idstr");
 		String msg = request.getParameter("msg");
+		if (msg == null || msg.equals("")) {
+			out.write("信息不能为空！！");
+			out.flush();
+		}
 		System.out.println("idstr=" + idstr);
-		PrintWriter out = response.getWriter();
-		if (idstr == null) {
-			out.write("发送失败！！");
+		
+		if (idstr == null || idstr.equals("")) {
+			out.write("接收人有误！！");
+			out.flush();
 		} else {
 			Matcher matcher = pattern.matcher(idstr);
 			if (matcher.matches()) {
@@ -221,6 +242,7 @@ public class TreeServlet extends HttpServlet {
 					int phone_num = phones.split(",").length;
 					if (phone_num < 1) {
 						out.write("请填好信息接收人！！");
+						out.flush();
 					} else {
 						SmsClient.sendMessage(phones, msg);
 						//把信息放入数据库
@@ -233,16 +255,17 @@ public class TreeServlet extends HttpServlet {
 						session.commit();
 						//返回成功信息
 						out.write("发送成功！！");
+						out.flush();
 					} 
 				}finally{
 					session.close();
 				}
 			} else {
 				out.write("发送失败！！");
+				out.flush();
 			}
 		}
 		
-		out.flush();
 	}
 	
 	private String messageToJson(Message msg) {

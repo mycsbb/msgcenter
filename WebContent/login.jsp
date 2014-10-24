@@ -77,10 +77,10 @@ a:HOVER {
 	border: 1px grey solid;" id="login">
 		<div style="">
 			<form action="auth" id="loginform" method="post">
-				<ul style="list-style-type: none">
-					<li>用户名：<input type="text" name="username" /></li>
+				<ul style="list-style-type: none;font-family: 宋体, simsun;">
+					<li>用户名：<input type="text" name="username" style="width: 140px"/></li>
 					<li style="margin-top: 5px">密码：&nbsp;&nbsp;<input type="password"
-						name="password" /></li>
+						name="password" style="width: 140px"/></li>
 					<li style="margin-left: 170px; margin-top: 5px"></li>
 				</ul>
 			</form>

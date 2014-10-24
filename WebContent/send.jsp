@@ -64,9 +64,6 @@
 			changeCount = zTree.getChangeCheckedNodes().length;
 			
 			var nodes = zTree.getCheckedNodes(true);
-			//var dsp = $("#ddd").css("display");
-			//if (dsp == "none")  $("#ddd").css("display", "block");
-			//else $("#ddd").css("display", "none");
 			var peers = "";
 			idstr = "";
 			for (var i = 0; i < nodes.length; i++)
@@ -77,10 +74,7 @@
 				}
 			}
 			$("#peers").html(peers);
-			
-			//var data =  JSON.parse('[{"name":"chen","age":21},{"name":"chen","age":21}]'); 
-			//$("#peers").html(data[0].name);
-			//$("#peers").html(JSON.stringify(data[0]));
+			//$("#peers input").val(peers);
 			
 			$("#checkCount").text(checkCount);
 			$("#nocheckCount").text(nocheckCount);
@@ -95,7 +89,8 @@
 				type : 'post',
 				dataType : 'text',
 				success : function(data) {
-					zNodes = JSON.parse(data);
+					//zNodes = JSON.parse(data);
+					zNodes = eval("(" + data + ")");
 					$.fn.zTree.init($("#tree"), setting, zNodes);
 					count();
 					clearFlag = $("#last").attr("checked");
@@ -107,17 +102,21 @@
 		var startTime = -1, curTime;
 		var interval = 800;
 		var queryResults, resultMap = new Object();
+		var max_receiver = 30;
+		var max_content = 30;
 		function query() {
 			if (canQuery == 0) {
 				canQuery = 1;
 				return;
 			}
-			var key = $("input[name='key']").val();
-			if (key.trim() == "") return; 
+			var key = $("input[name='key']").val().trim();
+			if (key == "") return; 
 			var action = "";
 			var queryType = $("input[name='queryType']:checked").val();
 			if (queryType == "phone") {
 				action = "queryByPhone";
+				var reg = /^\d+$/;
+				if (!reg.test(key)) return;
 			} else if (queryType == "content") {
 				action = "queryByContent";
 			}
@@ -129,21 +128,35 @@
 				success : function(data) {
 					$("div#queryResult ul:first").html("");
 					if (data == "") return;
-					queryResults = JSON.parse(data);
+					//queryResults = JSON.parse(data);
+					queryResults = eval("(" + data + ")");
 					for (var p in resultMap) {
 						resultMap[p] = null;
 					}
+					var ul_html = "";
 					for (var i = 0; i < queryResults.length; i++) {
 						resultMap[queryResults[i].id] = queryResults[i];
-						$("div#queryResult ul:first").append("<li onmouseover=\"showMessage(this)\" id=\"" + queryResults[i].id 
-								+ "\"><div>timestamp: " + queryResults[i].timestamp +
-								"; receicer: " + queryResults[i].receiver +
-								"; content: " + queryResults[i].content + "</div></li>");
+						var content = "";
+						var receiver = "";
+						if (content.length > max_content) {
+							content = queryResults[i].content.substring(0, max_content) + "...";
+						} else {
+							content = queryResults[i].content;
+						}
+						if (receiver.length > max_receiver) {
+							receiver = queryResults[i].receiver.substring(0, max_content) + "...";
+						} else {
+							receiver = queryResults[i].receiver;
+						}
+						ul_html += "<li onmouseover=\"showMessage(this)\" id=\"" + queryResults[i].id 
+						+ "\"><div>时间: " + queryResults[i].timestamp +
+						"; 接收号码: " + receiver + "; 内容: " + content + "</div></li>";
 					}
+					$("div#detailShow ul:first").html("");
+					$("div#queryResult ul:first").html(ul_html);
 				}
 			});
 		}
-
 		$(document).ready(function() {
 			createTree();
 			$("#init").bind("change", createTree);
@@ -151,14 +164,13 @@
 			
 			//下面是查询功能的准备
 			//change要失去焦点才生效
-// 			$("input[name='key']").change(function(){
+// 			$("input[name='key']").change(function(){ 
 // 			    alert("111");
 // 			}); 
-			
 			 $("input[name='key']").bind("keydown",function(e){
 				 if (e.keyCode == 8 || e.keyCode == 37 || e.keyCode == 38 || 
 						 e.keyCode == 39 || e.keyCode == 40) return;
-				 if ($("input[name='queryType']").attr("checked") == false) {
+				 if ($("input[name='queryType']:checked").length <= 0) {
 					 alert("请选择类型"); 
 					 return; 
 				 }
@@ -179,7 +191,7 @@
 			if (num == 0) {
 				$("#result").html("发送中<b>. . .</b>");
 			} else if (num == 1) {
-				$("#result").html("发送中<b>. </b>");
+				$("#result").html("发送中<b>.</b>");
 			} else if (num == 2) {
 				$("#result").html("发送中<b>. .</b>");
 			}
@@ -230,21 +242,23 @@
 				}
 			});
 		}
-		//testMap(); 
+		
+		//显示单条短信的详细信息; 
 		var showed = -1;
 		function showMessage(obj) {
 			$("#person_info").css("display", "none");
 			if (showed == obj.id) return;
-			var ul_html = "<li><div><b>timestamp:&nbsp;&nbsp;</b>" 
+			var ul_html = "<li><div><b>时间:&nbsp;&nbsp;</b>" 
 				+ resultMap[obj.id].timestamp + "</div></li>" 
-				+ "<li><div><b>receiver:&nbsp;&nbsp;</b>" 
+				+ "<li><div><b>接收号码:&nbsp;&nbsp;</b>" 
 				+ resultMap[obj.id].receiver + "</div></li>"
-				+ "<li><div><b>content:&nbsp;&nbsp;</b>" 
+				+ "<li><div><b>内容:&nbsp;&nbsp;</b>" 
 				+  resultMap[obj.id].content + "</div></li>";
 			$("div#detailShow ul:first").html(ul_html);
 			showed = obj.id;
 		}
 		
+		//显示个人信息
 		function showinfo() {
 			$("div#detailShow ul:first").html("");
 			if ($("#person_info").css("display") == "none") {
@@ -260,6 +274,11 @@
 				alert("信息不能放空！");
 				return;
 			} 
+			var reg = /^\d+$/;
+			if (!reg.test(phone)) {
+				alert("电话格式不正确！");
+				return;
+			}
 			$.ajax({
 				url : 'getTree?action=update',
 				data : {
@@ -277,6 +296,8 @@
 	<style type="text/css">
 	 body {
 	 	background: #e8eff4;
+	 	width: 1200px;
+	 	margin: 0 auto;
 /* 		overflow: hidden; */
 	 }
 	 ul li {
@@ -286,7 +307,6 @@
 	 	list-style-type: disc;
 	 }
 	 a:LINK {
-		color: background;
 		text-decoration: none;
  	 }
 	a:HOVER {
@@ -297,26 +317,31 @@
 
 <BODY>
 <div>
-<h1>信息平台</h1>
+<h1>短信平台</h1>
 </div>
 <div style="border: 0px solid grey; height: 20px">
-<div style="float: right;margin-right: 112px">
+<div style="float: right;margin-right: 0px">
 	<span><a href="javascript:showinfo()">${sessionScope["MsgCenterUser"].zhname}</a>, 欢迎你!</span>
 	<span><a href="auth?action=logout">注销</a></span>
 </div>
 </div>
 <div style="margin-top: 10px">
 <div class="content_wrap">
-	<div class="zTreeBackground left">
+	<div class="zTreeBackground left" style="margin-left: 0px">
 		<ul id="tree" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<div>接收人：</div>
-		<div style="display: block; border: 1px solid grey;
-		width: 300px; height: 30px; " id="peers">
+		<div style="border-width: 1px; border-color: #808080; border-style: solid; 
+		width: 300px; min-height: 22px;" id="peers">
+<!-- 			<input type="text" name="peers" readonly="readonly"  -->
+<!-- 			style="width: 280px; height: 21px; background-color: #E8EFF4;  -->
+<!-- /* 			border-width: 1px; border-color: #808080; border-style: solid;  */ -->
+<!-- 			margin-top: 3px; font-size: 14px"/> -->
 		</div>
 		<div>已发送：</div>
-		<div style="width: 300px;height: 200px; border:1px solid grey;overflow:auto;"  id="sended">
+		<div style="border-width: 1px; border-color: #808080; border-style: solid;  
+		width: 300px;height: 200px; overflow:auto;"  id="sended">
 			<ul style="list-style: none;"> 
 <!-- 				<li> -->
 <!-- 				 	<div><b>2014-10-22 15:56:00 :</b></div> -->
@@ -340,9 +365,8 @@ float: left; margin-top: 6px; overflow: auto;" id="query">
 		历史查询
 		<div>
 					按手机号<input type="radio" name="queryType" value="phone"/> 
-					按内容<input type="radio" value="content"
-						name="queryType" /> <input type="text" name="key"/> 
-<!-- 						<input type="button" value="查询" onclick="" /> -->
+					按内容<input type="radio" name="queryType" value="content"/> 
+					<input type="text" name="key"/> 
 		</div>
 		<div id="queryResult">
 			<ul style="list-style-type: circle;"></ul>
@@ -350,8 +374,8 @@ float: left; margin-top: 6px; overflow: auto;" id="query">
 	</div>
 </div>
 <div style="width: 300px;height: 365px; float: right;border:0px solid grey; 
-float: left; margin-top: 6px; overflow: auto;">
-	<div style="margin-left: 30px; margin-top: 15px" id="detailShow">
+float: left; margin-top: 6px; overflow: hidden;">
+	<div style="margin-left: 30px; margin-top: 15px; width:280px;" id="detailShow">
 		<ul></ul>
 	</div>
 </div>

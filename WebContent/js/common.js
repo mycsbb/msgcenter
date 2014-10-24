@@ -1,3 +1,28 @@
+//判断浏览器
+function getBStype(jquery) {
+	alert(57557);
+	if(jquery.browser.msie) { 
+		var isIE = !!window.ActiveXObject;  
+		var isIE6 = isIE && !window.XMLHttpRequest;  
+		var isIE8 = isIE && !!document.documentMode;  
+		var isIE7 = isIE && !isIE6 && !isIE8; 
+		
+		if (isIE6) return "ie6";
+		if (isIE7) return "ie7";
+		if (isIE8) return "ie8";
+	} 
+	else if(jquery.browser.safari) 
+	{ 
+		return "safari";
+	} else if(jquery.browser.mozilla) { 
+		return "mozilla";
+	} else if(jquery.browser.opera) { 
+		return "opera";
+	} else { 
+		return "unknown";
+	} 
+}
+
 function currentTime() {
 	var d = new Date(), str = '';
 	str += d.getFullYear() + '年';
