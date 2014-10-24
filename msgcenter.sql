@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50037
 File Encoding         : 65001
 
-Date: 2014-10-23 17:56:52
+Date: 2014-10-24 17:35:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -89,6 +89,7 @@ INSERT INTO `message` VALUES ('8', 'chen1', '18010151140', '467677', '2014-10-23
 INSERT INTO `message` VALUES ('9', 'chen1', '18010151140', '6888', '2014-10-23 15:53:50');
 INSERT INTO `message` VALUES ('10', 'chen1', '18010151140', '78989', '2014-10-23 15:55:33');
 INSERT INTO `message` VALUES ('11', 'chen1', '18010151140', 'vhfjvhfgbg', '2014-10-23 15:57:55');
+INSERT INTO `message` VALUES ('12', 'chen1', '18010151140,13910392825', 'hello', '2014-10-24 15:22:02');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -110,9 +111,10 @@ CREATE TABLE `user` (
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '2', '1', 'ouyang', '123', '欧阳健生', '1234');
 INSERT INTO `user` VALUES ('2', '2', '2', 'honglei', '123', '洪磊', '1234');
-INSERT INTO `user` VALUES ('3', '7', '100', 'chen1', '12', '陈水宝', '18010151140');
+INSERT INTO `user` VALUES ('3', '7', '100', 'chen1', '123', '陈水宝', '18010151140');
 INSERT INTO `user` VALUES ('4', '7', '100', 'chen2', '123', '陈明', '15005059526');
 INSERT INTO `user` VALUES ('5', '4', '4', 'sunling', '123', '孙凌', '1234');
 INSERT INTO `user` VALUES ('6', '3', '6', 'peishengchun', '123', '斐胜春', '1234');
 INSERT INTO `user` VALUES ('7', '5', '4', 'wanglu', '123', '王鲁', '1234');
 INSERT INTO `user` VALUES ('8', '6', '4', 'wuqian', '123', '吴茜', '1234');
+INSERT INTO `user` VALUES ('9', '7', '4', 'xiaoxin', '123', '王晓新', '13910392825');
