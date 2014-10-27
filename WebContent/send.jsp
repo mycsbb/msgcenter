@@ -354,17 +354,16 @@
 			</ul>
 		</div>
 		<div style="margin-top: 9px;">
-			<textarea style="width: 298px; height: 120px
-				border-width: 0px; border-color: #808080; border-style: solid; " 
+			<textarea style="width: 298px; height: 120px; " 
 			id="msgarea" ></textarea>
 		</div>
 		
 		<div id="form" style="margin-top: 7px; margin-right: 40px;
 		border-width: 1px; border-color: #808080; border-style: solid; ">
-			<div id="result" style="margin-top: 10px; display: inline; 
-			width: 100px;height:8px;
+			<div id="result" style="margin-top: 10px; display:inline-block;
+			width: 100px;height:30px;
 			border-width: 1px; border-color: #808080; border-style: solid; "></div>
-			<div style="display: inline;">
+			<div style="display:inline-block;">
 				<input type="button" value="发送" style="font-weight: bold; width: 50px;"
 			 onclick="send()"/>
 			</div>
