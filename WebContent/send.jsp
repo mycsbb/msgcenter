@@ -22,6 +22,11 @@
 	<script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
 	<SCRIPT type="text/javascript">
+	  	if(typeof String.prototype.trim !== 'function') {
+          	String.prototype.trim = function() {
+              return this.replace(/^\s+|\s+$/g, ''); 
+          	}
+      	}
 		var setting = {
 			view: {
 				selectedMulti: false
@@ -205,7 +210,7 @@
 			});
 			$('#sended').scrollTop(height);
 		}
-
+		
 		var clock;
 		function send() {
 			var msg = $("#msgarea").val();
@@ -213,7 +218,6 @@
 				alert("接收人或短信息不能为空！！");
 				return;
 			}
-			
 			$("#result").html("发送中.");
 			elapse = elapse + 1;
 			clock = setInterval("indicator()", 250);
@@ -309,14 +313,14 @@
 	 a:LINK {
 		text-decoration: none;
  	 }
-	a:HOVER {
+	 a:HOVER {
 		text-decoration: underline;
-	}
+	 }	
 	</style>
 </HEAD>
 
 <BODY>
-<div>
+<div style="margin-top: 10px">
 <h1>短信平台</h1>
 </div>
 <div style="border: 0px solid grey; height: 20px">
@@ -341,7 +345,7 @@
 		</div>
 		<div>已发送：</div>
 		<div style="border-width: 1px; border-color: #808080; border-style: solid;  
-		width: 300px;height: 200px; overflow:auto;"  id="sended">
+		width: 300px;height: 150px; overflow:auto;"  id="sended">
 			<ul style="list-style: none;"> 
 <!-- 				<li> -->
 <!-- 				 	<div><b>2014-10-22 15:56:00 :</b></div> -->
@@ -350,13 +354,23 @@
 			</ul>
 		</div>
 		<div style="margin-top: 9px;">
-			<textarea rows="3" cols="34" style=" border: 1px solid grey;" id="msgarea" ></textarea>
+			<textarea style="width: 298px; height: 120px
+				border-width: 0px; border-color: #808080; border-style: solid; " 
+			id="msgarea" ></textarea>
 		</div>
 		
-		<div id="form" style="float: right; margin-top: 7px; margin-right: 40px">
-			<input type="button" value="发送" style="font-weight: bold;" onclick="send()"/>
+		<div id="form" style="margin-top: 7px; margin-right: 40px;
+		border-width: 1px; border-color: #808080; border-style: solid; ">
+			<div id="result" style="margin-top: 10px; display: inline; 
+			width: 100px;height:8px;
+			border-width: 1px; border-color: #808080; border-style: solid; "></div>
+			<div style="display: inline;">
+				<input type="button" value="发送" style="font-weight: bold; width: 50px;"
+			 onclick="send()"/>
+			</div>
+			
 		</div>
-		<div id="result" style="margin-top: 10px;"></div>
+		
 	</div>
 </div>
 <div style="width: 300px;height: 365px; float: right;border:0px solid grey; 
@@ -375,7 +389,7 @@ float: left; margin-top: 6px; overflow: auto;" id="query">
 </div>
 <div style="width: 300px;height: 365px; float: right;border:0px solid grey; 
 float: left; margin-top: 6px; overflow: hidden;">
-	<div style="margin-left: 30px; margin-top: 15px; width:280px;" id="detailShow">
+	<div style="margin-left: 40px; margin-top: 15px; width:280px;" id="detailShow">
 		<ul></ul>
 	</div>
 </div>
