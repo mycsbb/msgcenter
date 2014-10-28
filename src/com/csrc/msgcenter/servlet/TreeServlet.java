@@ -2,6 +2,7 @@ package com.csrc.msgcenter.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,6 +114,8 @@ public class TreeServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		String key = request.getParameter("key");
+		key = URLDecoder.decode(key, "utf-8");
+		System.out.println("key=" + key);
 		if (key == null || key.equals("")) return;
 		String regex = "^\\d+$";
 		Pattern phone_pattern = Pattern.compile(regex);
@@ -152,6 +155,8 @@ public class TreeServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException {
 		String key = request.getParameter("key");
 		if (key == null || key.equals("")) return;
+		key = URLDecoder.decode(key, "utf-8");
+		System.out.println("key=" + key);
 		HttpSession httpSession = request .getSession();
 		User cur_user = (User)httpSession.getAttribute(AuthFilter.USER_SESSION_KEY);
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
@@ -214,6 +219,8 @@ public class TreeServlet extends HttpServlet {
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
 		String idstr = request.getParameter("idstr");
 		String msg = request.getParameter("msg");
+		msg = URLDecoder.decode(msg, "utf-8");
+		System.out.println("msg=" + msg);
 		if (msg == null || msg.equals("")) {
 			out.write("信息不能为空！！");
 			out.flush();

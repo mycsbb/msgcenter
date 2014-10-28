@@ -116,6 +116,7 @@
 			}
 			var key = $("input[name='key']").val().trim();
 			if (key == "") return; 
+			key = encodeURIComponent(key);
 			var action = "";
 			var queryType = $("input[name='queryType']:checked").val();
 			if (queryType == "phone") {
@@ -143,13 +144,15 @@
 						resultMap[queryResults[i].id] = queryResults[i];
 						var content = "";
 						var receiver = "";
-						if (content.length > max_content) {
-							content = queryResults[i].content.substring(0, max_content) + "...";
+						if (queryResults[i].content.length > max_content) {
+							content = queryResults[i].content.substring(0, max_content) 
+								+ "<b>. . .</b>";
 						} else {
 							content = queryResults[i].content;
 						}
-						if (receiver.length > max_receiver) {
-							receiver = queryResults[i].receiver.substring(0, max_content) + "...";
+						if (queryResults[i].receiver.length > max_receiver) {
+							receiver = queryResults[i].receiver.substring(0, max_content) 
+								+ "<b>. . .</b>";
 						} else {
 							receiver = queryResults[i].receiver;
 						}
@@ -179,6 +182,8 @@
 					 alert("请选择类型"); 
 					 return; 
 				 }
+				 $("div#detailShow ul:first").html("");
+				 $("div#queryResult ul:first").html("");
 				 curTime = new Date().getTime();
 				 if (curTime - startTime < interval) {
 					 canQuery = 0;
@@ -186,6 +191,10 @@
 				 startTime = curTime;
 				 
 				 setTimeout("query()", interval);
+			 });
+			 $("input[name='queryType']").click(function() {
+				 $("div#detailShow ul:first").html("");
+				 $("div#queryResult ul:first").html("");
 			 });
 
 		});
@@ -222,6 +231,7 @@
 			elapse = elapse + 1;
 			clock = setInterval("indicator()", 250);
 			var msg = $("#msgarea").val();
+			msg = encodeURIComponent(msg);
 			$.ajax({
 				url : 'getTree?action=send',
 				data : {
@@ -241,7 +251,7 @@
 					peers = peers.substring(0, peers.length);
 					$('div#sended ul:first').append("<li><div><b>" + currentTime() 
 							+ "</b></div><div><b>TO:&nbsp;" + peers + "</b></div><div>" 
-							+ msg + "</div></li>");
+							+ decodeURIComponent(msg) + "</div></li>");
 					scrollBottom();
 				}
 			});
@@ -251,7 +261,7 @@
 		var showed = -1;
 		function showMessage(obj) {
 			$("#person_info").css("display", "none");
-			if (showed == obj.id) return;
+			//if (showed == obj.id) return;
 			var ul_html = "<li><div><b>时间:&nbsp;&nbsp;</b>" 
 				+ resultMap[obj.id].timestamp + "</div></li>" 
 				+ "<li><div><b>接收号码:&nbsp;&nbsp;</b>" 
@@ -329,52 +339,56 @@
 	<span><a href="auth?action=logout">注销</a></span>
 </div>
 </div>
-<div style="margin-top: 10px">
-<div class="content_wrap">
+<div style="margin-top: 10px; border-width: 0px; border-color: #808080; border-style: solid;
+height: 400px">
+<div class="content_wrap" style="
+	border-width: 0px; border-color: #808080; border-style: solid;
+	float: left;">
 	<div class="zTreeBackground left" style="margin-left: 0px">
 		<ul id="tree" class="ztree"></ul>
 	</div>
-	<div class="right">
+	<div class="right" style="border-width: 0px; border-color: #808080; border-style: solid;">
 		<div>接收人：</div>
 		<div style="border-width: 1px; border-color: #808080; border-style: solid; 
-		width: 300px; min-height: 22px;" id="peers">
-<!-- 			<input type="text" name="peers" readonly="readonly"  -->
-<!-- 			style="width: 280px; height: 21px; background-color: #E8EFF4;  -->
-<!-- /* 			border-width: 1px; border-color: #808080; border-style: solid;  */ -->
-<!-- 			margin-top: 3px; font-size: 14px"/> -->
-		</div>
+		width: 300px; min-height: 22px;" id="peers"></div>
 		<div>已发送：</div>
 		<div style="border-width: 1px; border-color: #808080; border-style: solid;  
 		width: 300px;height: 150px; overflow:auto;"  id="sended">
-			<ul style="list-style: none;"> 
-<!-- 				<li> -->
-<!-- 				 	<div><b>2014-10-22 15:56:00 :</b></div> -->
-<!-- 					<div>hello chen</div> -->
-<!-- 				</li> -->
-			</ul>
+			<ul style="list-style: none;"></ul>
 		</div>
 		<div style="margin-top: 9px;">
 			<textarea style="width: 298px; height: 120px; " 
 			id="msgarea" ></textarea>
 		</div>
 		
-		<div id="form" style="margin-top: 7px; margin-right: 40px;
-		border-width: 1px; border-color: #808080; border-style: solid; ">
-			<div id="result" style="margin-top: 10px; display:inline-block;
-			width: 100px;height:30px;
-			border-width: 1px; border-color: #808080; border-style: solid; "></div>
-			<div style="display:inline-block;">
+		<div id="sendarea" style="margin-top: 7px; margin-right: 0px;
+		border-width: 0px; border-color: #808080; border-style: solid; 
+		width: 300px; height:32px;overflow:hidden;
+		float: left;">
+			
+			<span style="float: right; margin-top: 0px;
+			border-width: 0px; border-color: #808080; border-style: solid;">
 				<input type="button" value="发送" style="font-weight: bold; width: 50px;"
 			 onclick="send()"/>
-			</div>
+			</span>
+			<span id="result" style="margin-top: 0px; height:30px;
+			border-width: 0px; border-color: #808080; border-style: solid;">
+			</span>
+<!-- 			<div style="border-width: 1px; border-color: #808080; border-style: solid; -->
+<!-- /* 			display:inline-block !important;*display:inline;zoom:1; */ -->
+<!-- 			margin-top: 1px"> -->
+<!-- 				<input type="button" value="发送" style="font-weight: bold; width: 50px;" -->
+<!-- 			 onclick="send()"/> -->
+<!-- 			</div> -->
 			
 		</div>
 		
 	</div>
 </div>
-<div style="width: 300px;height: 365px; float: right;border:0px solid grey; 
-float: left; margin-top: 6px; overflow: auto;" id="query">
-	<div style="margin-left: 15px; margin-top: 15px;">
+<div style="width: 300px;height: 400px; float: left;
+border-width: 0px; border-color: #808080; border-style: solid;
+overflow: auto; margin-left: 10px" id="query">
+	<div style="margin-left: 0px; margin-top: 15px;">
 		历史查询
 		<div>
 					按手机号<input type="radio" name="queryType" value="phone"/> 
@@ -382,13 +396,14 @@ float: left; margin-top: 6px; overflow: auto;" id="query">
 					<input type="text" name="key"/> 
 		</div>
 		<div id="queryResult">
-			<ul style="list-style-type: circle;"></ul>
+			<ul style="list-style-type: disc;"></ul>
 		</div>
 	</div>
 </div>
-<div style="width: 300px;height: 365px; float: right;border:0px solid grey; 
-float: left; margin-top: 6px; overflow: hidden;">
-	<div style="margin-left: 40px; margin-top: 15px; width:280px;" id="detailShow">
+<div style="width: 300px;height: 400px; float: left;
+border-width: 0px; border-color: #808080; border-style: solid;
+">
+	<div style="margin-left: 20px; margin-top: 15px; width:280px;" id="detailShow">
 		<ul></ul>
 	</div>
 </div>

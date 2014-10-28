@@ -90,10 +90,10 @@ a:HOVER {
 				<div>
 					用户名：<input type="text" name="username" style="width: 140px"/>
 				</div>
-				<div>
+				<div style="margin-top: 5px">
 					密码：&nbsp;&nbsp;<input type="password" name="password" style="width: 140px"/>
 				</div>
-				<div style="margin-left: 160px">
+				<div style="margin-top: 5px; margin-left: 160px">
 					<input type="button" value="登录" onclick="login()" style="width: 50px;"/>
 				</div>				
 <!-- 			</form> -->
