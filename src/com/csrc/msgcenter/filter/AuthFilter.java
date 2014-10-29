@@ -85,7 +85,7 @@ public class AuthFilter implements Filter {
 			System.out.println(GOING_OUT);
 		} else {
 			if (servletPath.startsWith("/js/") || servletPath.startsWith("/css/") || 
-					servletPath.startsWith("/pass")) {
+					servletPath.startsWith("/test/")) {
 				chain.doFilter(req, res);
 			} else if (servletPath.equals("/login.html") || servletPath.equals("/")) {
 				request.getRequestDispatcher("/login.jsp").forward(req, res);

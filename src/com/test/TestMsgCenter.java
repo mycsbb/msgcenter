@@ -39,7 +39,7 @@ public class TestMsgCenter {
 
 	@Test
 	public void t01() {
-		User user = new User(1, "chen1", "123", 1, 1, "陈", "123");
+		User user = new User(1, "chen1", "123", 1, 1, "陈", "123",1);
 		System.out.println(JSONUtil.toJSON(user));
 		System.out.println("12,34".split(",").length);
 	}
@@ -63,6 +63,28 @@ public class TestMsgCenter {
 				json = "[" + json.substring(0, json.length() - 1) + "]";
 				System.out.println(json);
 			}
+		} finally {
+			session.close();
+		}
+	}
+
+	@Test
+	public void tInsert() throws SQLException, IOException {
+		SqlSession session = sessionFactory.openSession();
+		try {
+			User user = new User();
+			user.setUsername("lili");
+			user.setPassword("abc001");
+			User suser = session.selectOne("User.queryByUsername", "lilix");
+			if (suser != null) {
+				System.out.println("exist..");
+				return;
+			}
+			int n = session.insert("User.insert", user);
+			System.out.println("user.id: " + user.getId());
+			session.commit();
+			System.out.println("user.id: " + user.getId());
+			System.out.println("n条记录受影响：" + n);
 		} finally {
 			session.close();
 		}
@@ -99,16 +121,17 @@ public class TestMsgCenter {
 			session.close();
 		}
 	}
-	
+
 	@Test
 	public void tQueryMultiLike() throws SQLException, IOException {
 		SqlSession session = sessionFactory.openSession();
-		//MessageMapper mapper = session.getMapper(MessageMapper.class);
+		// MessageMapper mapper = session.getMapper(MessageMapper.class);
 		try {
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("sender", "chen1");
 			paramMap.put("receiver", "18010");
-			List<Message> msgList = session.selectList("Message.queryByPhone", paramMap);
+			List<Message> msgList = session.selectList("Message.queryByPhone",
+					paramMap);
 			for (Message msg : msgList) {
 				System.out.println(msg);
 			}

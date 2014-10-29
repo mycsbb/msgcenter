@@ -3,6 +3,14 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="User">
+	<insert id="insert" parameterType="User">
+		insert into
+		user(departId,levelId,username,password,zhname,phone,role) values(
+			#{departId}, #{levelId}, #{username}, #{password}, #{zhname},
+			#{phone}, #{role}
+		)
+	</insert>
+	
 	<!-- 查询指定id的User对象 -->
 	<select id="queryById" parameterType="int" resultType="User">
 		select * from user where id = #{id}

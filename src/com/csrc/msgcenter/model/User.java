@@ -8,22 +8,26 @@ public class User {
 	private Integer levelId;
 	private String zhname;
 	private String phone;
+	private Integer role;
 	
 	public User() {
 		super();
 	}
 
-	/**
-	 * @param id
-	 * @param username
-	 * @param password
-	 * @param departId
-	 * @param levelId
-	 * @param zhname
-	 * @param phone
-	 */
+	public User(String username, String password, Integer departId,
+			Integer levelId, String zhname, String phone, Integer role) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.departId = departId;
+		this.levelId = levelId;
+		this.zhname = zhname;
+		this.phone = phone;
+		this.role = role;
+	}
+
 	public User(Integer id, String username, String password, Integer departId,
-			Integer levelId, String zhname, String phone) {
+			Integer levelId, String zhname, String phone, Integer role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -32,8 +36,9 @@ public class User {
 		this.levelId = levelId;
 		this.zhname = zhname;
 		this.phone = phone;
+		this.role = role;
 	}
-	
+
 	/**
 	 * @return the id
 	 */
@@ -117,6 +122,14 @@ public class User {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

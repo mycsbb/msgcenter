@@ -65,6 +65,8 @@ public class TreeServlet extends HttpServlet {
 			queryByContent(request, response);
 		} else if (action.equals("update")) {
 			updateUserInfo(request, response);
+		} else if (action.equals("insert")) {
+			insertUser(request, response);
 		} else {
 			PrintWriter out = response.getWriter();
 			out.write("<center><H1>404 not found!!</H1></center>");
@@ -72,6 +74,88 @@ public class TreeServlet extends HttpServlet {
 		}
 	}
 	
+	private void insertUser(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String departId_str = request.getParameter("departId");
+		String levelId_str = request.getParameter("levelId");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String zhname = request.getParameter("zhname");
+		String phone = request.getParameter("phone");
+		
+		PrintWriter out = response.getWriter();
+		if (departId_str == null || departId_str.equals("") ||
+				levelId_str == null || levelId_str.equals("") ||
+				username == null || username.equals("") || 
+				password == null || password.equals("") || 
+				zhname == null || zhname.equals("") || 
+				phone == null || phone.equals("")) {
+			out.write("用户字段信息不能为空！");
+			out.flush();
+			return;
+		}
+		
+		departId_str = departId_str.trim();
+		levelId_str = levelId_str.trim();
+		username = username.trim();
+		password = password.trim();
+		zhname = zhname.trim();
+		phone = phone.trim();
+		
+		//下面验证手机格式
+		String regex = "^\\d+$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(phone);
+		if (!matcher.matches()) {
+			out.write("手机格式不正确！");
+			out.flush();
+			return;
+		}
+		
+		regex = "[1-9]+\\d*";
+		pattern = Pattern.compile(regex);
+		matcher = pattern.matcher(departId_str);
+		if (!matcher.matches()) {
+			out.write("部门格式不正确！");
+			out.flush();
+			return;
+		}
+		int departId = Integer.parseInt(departId_str);
+		
+		matcher = pattern.matcher(levelId_str);
+		if (!matcher.matches()) {
+			out.write("职务格式不正确！");
+			out.flush();
+			return;
+		}
+		int levelId = Integer.parseInt(levelId_str);
+		
+		//表示普通用户
+		int role = 1;
+		User user = new User(username, password, departId, levelId, zhname, phone, role);
+
+		SqlSession session = SessionUtil.getSessionFactory().openSession();
+		try{
+			User quser = session.selectOne("User.queryByUsername", username);
+			if (quser != null) {
+				out.write("用户名已经存在！");
+				out.flush();
+				return;
+			}
+			int n = session.insert("User.insert", user);
+			System.out.println("添加之前user.id: " + user.getId());
+			session.commit();
+			System.out.println("添加之后user.id: " + user.getId());
+			System.out.println("n条记录受影响：" + n);
+			if (n > 0) {
+				out.write("添加成功！");
+			} else out.write("添加失败！");
+			out.flush();
+		}finally{
+			session.close();
+		}
+	}
+
 	private void updateUserInfo(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String password = request.getParameter("password");
@@ -303,5 +387,5 @@ public class TreeServlet extends HttpServlet {
 		
 		return str;
 	}
-
+	
 }
