@@ -1,0 +1,91 @@
+body {
+	background: #e8eff4;
+	width: 1360;
+	margin: 0 auto;
+/* 	overflow: hidden; */
+}
+#headarea {
+	width: 1360px;
+	height: 80px;
+	overflow: hidden;
+/* 	background-color: blue; */
+}
+#menuarea {
+	width: 1360px;
+	height: 40px;
+	overflow: hidden;
+/* 	background-color: green; */
+}
+#funcarea {
+	width: 1360px;
+	height: 485px;
+	overflow: hidden;
+/* 	background-color: gray; */
+}
+#funcmenu {
+	width: 240px;
+	height: 485px;
+/* 	background-color: olive; */
+	float: left;
+	overflow: hidden;
+}
+#funcpage {
+	width: 1120px;
+	height: 485px;
+	background-color: orange;
+	float: left;
+	position: relative;
+}
+#sendarea {
+	margin-top: 30px;
+	margin-left: 20px;
+	width: 1060px;
+	height: 430px;
+	display: none;
+}
+table#sendtable {
+	border-collapse: collapse;
+/* 	border-width: 1px; */
+	width: 1060px;
+/* 	height: 470px; */
+}
+table#sendtable td.color {
+	background-color: #EFFDFF;
+	width: 150px;
+	text-align: right;
+	border: 1px;
+	border-style: solid;
+}
+table#sendtable td.white {
+	background-color: white;
+	width: 910px;
+}
+.line_up{
+    background: #cccccc;   /*不能渐变的浏览器*/  
+    filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=white,endcolorstr=#195893, gradientType=0);  /*IE*/  
+    -ms-filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=white,endcolorstr=#195893, gradientType=0 ); /*IE8*/  
+    background: -o-linear-gradient(top, white 0%, #195893 95%);  /*opera*/  
+    background: -moz-linear-gradient(top, white, #195893 95%);   /*firefox*/  
+    background: -webkit-gradient(linear, 0 0, 0 500, from(white),to(#195893) ); /*chrome, safari*/
+}
+.line_down{
+    background: #cccccc;   /*不能渐变的浏览器*/  
+    filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=#195893,endcolorstr=white, gradientType=0);  /*IE*/  
+    -ms-filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=#195893,endcolorstr=white, gradientType=0 ); /*IE8*/  
+    background: -o-linear-gradient(top, #195893 0%, white 95%);  /*opera*/  
+    background: -moz-linear-gradient(top, #195893, white 95%);   /*firefox*/  
+    background: -webkit-gradient(linear, 0 0, 0 500, from(#195893),to(white) ); /*chrome, safari*/
+}
+.yuan {
+	border: 2px solid #C0C0C0;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	position:relative;
+	padding:5px;
+	background:#FFF;
+	z-index:2;
+	width:330px;
+	height:200px;
+	behavior: url(css/iecss3.htc)
+}

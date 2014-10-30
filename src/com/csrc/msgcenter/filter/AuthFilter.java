@@ -1,6 +1,10 @@
 package com.csrc.msgcenter.filter;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -19,6 +23,7 @@ public class AuthFilter implements Filter {
 	public static final String USER_SESSION_KEY = "MsgCenterUser";
 	public static final String COOKIE_REMEMBERME_KEY = "aicaCookie";
 	public static final String GOING_TO_INFO_KEY = "GOING_TO";
+	public static boolean isNeedAuth = false;
 	public String GOING_IN = "Enter AuthInterceptor.";
 	public String GOING_OUT = "Go out AuthInterceptor.";
 
@@ -40,6 +45,12 @@ public class AuthFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 		System.out.println("enter filter...");
+		
+		if (!isNeedAuth) {
+			chain.doFilter(req, res);
+			System.out.println(GOING_OUT);
+			return;
+		}
 
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;

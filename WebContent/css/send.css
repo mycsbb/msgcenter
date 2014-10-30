@@ -1,0 +1,16 @@
+table#sendtable {
+	border-collapse: collapse;
+/* 	border-width: 1px; */
+	width: 700px;
+/* 	height: 470px; */
+}
+table#sendtable td.color {
+	background-color: #EFFDFF;
+	width: 130px;
+	text-align: right;
+}
+table#sendtable td.white {
+	background-color: white;
+	width: 770px;
+}
+

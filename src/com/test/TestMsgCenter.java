@@ -1,13 +1,18 @@
 package com.test;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -39,7 +44,7 @@ public class TestMsgCenter {
 
 	@Test
 	public void t01() {
-		User user = new User(1, "chen1", "123", 1, 1, "陈", "123",1);
+		User user = new User(1, "chen1", "123", 1, 1, "陈", "123", 1);
 		System.out.println(JSONUtil.toJSON(user));
 		System.out.println("12,34".split(",").length);
 	}
@@ -148,6 +153,27 @@ public class TestMsgCenter {
 			System.out.println(user);
 		} finally {
 			session.close();
+		}
+	}
+
+	@Test
+	public void tReadProperties() throws SQLException, IOException {
+		String path=this.getClass().getResource("/").getPath();
+		System.out.println(path);
+		Properties prop = new Properties();
+		try {
+			// 读取属性文件a.properties
+			InputStream in = new BufferedInputStream(new FileInputStream(
+					path + "msgcenter.properties"));
+			prop.load(in); // /加载属性列表
+			Iterator<String> it = prop.stringPropertyNames().iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				System.out.println(key + ":" + prop.getProperty(key));
+			}
+			in.close();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 
