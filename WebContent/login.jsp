@@ -67,6 +67,7 @@ a:VISITED {
 a:HOVER {
 	text-decoration: underline;
 }
+
 #login {
 	background-color: #D2EEFC;
 }
@@ -74,38 +75,37 @@ a:HOVER {
 
 </head>
 <body>
-	<div style="margin: 60px auto auto auto; width: 300px; height: 120px; 
-	border-width: 1px; border-color: #808080; border-style: solid; " id="login">
-		<div style="margin-top: 24px; margin-left: 42px;
-		width: 220px; border-width: 0px; border-style: solid;">
-			<div style="border-width: 0px; border-color: #808080; border-style: solid;
-			font-family: 宋体, simsun;">
-<!-- 				<form action="auth" id="loginform" method="post" style="font-family: 宋体, simsun;"> -->
-<!-- 				<ul style="list-style-type: none;font-family: 宋体, simsun;"> -->
-<!-- 					<li>用户名：<input type="text" name="username" style="width: 140px"/></li> -->
-<!-- 					<li style="margin-top: 5px">密码：&nbsp;&nbsp;<input type="password" -->
-<!-- 						name="password" style="width: 140px"/></li> -->
-<!-- 					<li style="margin-left: 170px; margin-top: 5px"></li> -->
-<!-- 				</ul> -->
+	<div
+		style="margin: 60px auto auto auto; width: 300px; height: 120px; border-width: 1px; border-color: #808080; border-style: solid;"
+		id="login">
+		<div
+			style="margin-top: 24px; margin-left: 42px; width: 220px; border-width: 0px; border-style: solid;">
+			<div
+				style="border-width: 0px; border-color: #808080; border-style: solid; font-family: 宋体, simsun;">
+				<!-- 				<form action="auth" id="loginform" method="post" style="font-family: 宋体, simsun;"> -->
+				<!-- 				<ul style="list-style-type: none;font-family: 宋体, simsun;"> -->
+				<!-- 					<li>用户名：<input type="text" name="username" style="width: 140px"/></li> -->
+				<!-- 					<li style="margin-top: 5px">密码：&nbsp;&nbsp;<input type="password" -->
+				<!-- 						name="password" style="width: 140px"/></li> -->
+				<!-- 					<li style="margin-left: 170px; margin-top: 5px"></li> -->
+				<!-- 				</ul> -->
 				<div>
-					用户名：<input type="text" name="username" style="width: 140px"/>
+					用户名：<input type="text" name="username" style="width: 140px" />
 				</div>
 				<div style="margin-top: 5px">
-					密码：&nbsp;&nbsp;<input type="password" name="password" style="width: 140px"/>
+					密码：&nbsp;&nbsp;<input type="password" name="password"
+						style="width: 140px" />
 				</div>
 				<div style="margin-top: 5px; margin-left: 160px">
-					<input type="button" value="登录" onclick="login()" style="width: 50px;"/>
-				</div>				
-<!-- 			</form> -->
+					<input type="button" value="登录" onclick="login()"
+						style="width: 50px;" />
+				</div>
+				<!-- 			</form> -->
 			</div>
-<!-- 			<div style="margin-left: 00px"> -->
-<!-- <!-- 				<input type="button" value="登录" onclick="login()" /> --> 
-<!-- 			</div> -->
-			
 		</div>
-		<div id="login_info" style="color: red; text-align: center;
-			border-width: 0px; border-color: #808080; border-style: solid;"></div>
-		
+		<div id="login_info"
+			style="color: red; text-align: center; border-width: 0px; border-color: #808080; border-style: solid;"></div>
+
 	</div>
 </body>
 </html>

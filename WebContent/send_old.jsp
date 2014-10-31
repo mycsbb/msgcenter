@@ -390,7 +390,8 @@ a:HOVER {
 		</div>
 	</div>
 	<div
-		style="margin-top: 10px; border-width: 0px; border-color: #808080; border-style: solid; height: 400px">
+		style="margin-top: 10px; 
+		border-width: 0px; border-color: #808080; border-style: solid; height: 400px">
 		<div class="content_wrap"
 			style="border-width: 0px; border-color: #808080; border-style: solid; float: left;">
 			<div class="zTreeBackground left" style="margin-left: 0px">
