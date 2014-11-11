@@ -34,8 +34,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</select>
 	
+	<select id="deleteUsers">
+		DELETE FROM user
+		WHERE id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
 	<!-- 更新 -->
-	<update id="update" parameterType="User">
+	<update id="update_personal" parameterType="User">
+		update user
+		<set>
+			<if test="password!=null">password=#{password},</if>
+			<if test="phone!=null">phone=#{phone}</if>
+		</set>
+		<where>
+			<if test="id!=null">id=#{id}</if>
+		</where>
+	</update>
+	<update id="update_user" parameterType="User">
 		update user
 		<set>
 			<if test="password!=null">password=#{password},</if>

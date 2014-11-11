@@ -1,3 +1,8 @@
+if (typeof String.prototype.trim !== 'function') {
+	String.prototype.trim = function() {
+		return this.replace(/^\s+|\s+$/g, '');
+	};
+}
 //判断浏览器
 function getBStype(jquery) {
 	alert(57557);
@@ -35,6 +40,16 @@ function currentTime() {
 	return str;
 }
 
+//显示对象所有属性
+function showObject(obj) {
+	var str = ""; 
+	for (var p in obj) {
+		str = str + p + ": " + obj[p] + "\n";
+	}
+	alert(str);
+}
+
+//下面是Map类
 Array.prototype.remove = function(s) {   
     for (var i = 0; i < this.length; i++) {   
         if (s == this[i])   

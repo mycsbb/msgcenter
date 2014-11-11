@@ -30,6 +30,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</style>
 </head>
 <body>
-
+<div style="width: 200px; height: 200px;
+margin-left: 300px;margin-top: 100px;">
+	<table border="1" cellspacing="0" style="border-collapse: collapse;" bordercolor="black">
+		<tr>
+			<td style="">hello</td>
+			<td style="">hello</td>
+			<td style="">hello</td>
+		</tr>
+		<tr>
+			<td style="">hello</td>
+			<td style="">hello</td>
+			<td style="">hello</td>
+		</tr>
+		<tr>
+			<td style="">hello</td>
+			<td style="">hello</td>
+			<td style="">hello</td>
+		</tr>
+		
+	</table>
+</div>
 </body>
 </html>

@@ -23,7 +23,7 @@ public class AuthFilter implements Filter {
 	public static final String USER_SESSION_KEY = "MsgCenterUser";
 	public static final String COOKIE_REMEMBERME_KEY = "aicaCookie";
 	public static final String GOING_TO_INFO_KEY = "GOING_TO";
-	public static boolean isNeedAuth = false;
+	public static boolean isNeedAuth = true;
 	public String GOING_IN = "Enter AuthInterceptor.";
 	public String GOING_OUT = "Go out AuthInterceptor.";
 
@@ -65,10 +65,9 @@ public class AuthFilter implements Filter {
 		if (reqType.equalsIgnoreCase("post") && servletPath.equals("/auth")) {
 			if (session != null && session.getAttribute(USER_SESSION_KEY) != null) {
 				System.out.println("[login-post-has-session]");
-				request.getRequestDispatcher("/send.jsp").forward(req, res);
+				request.getRequestDispatcher("/index.jsp").forward(req, res);
 				System.out.println(GOING_OUT);
 			} else {
-				System.out.println(11);
 				chain.doFilter(req, res);
 			}
 			return;
@@ -81,7 +80,7 @@ public class AuthFilter implements Filter {
 					response.sendRedirect(request.getContextPath() + "/login.html");
 				} else {
 					System.out.println("[has-session]");
-					request.getRequestDispatcher("/send.jsp").forward(req, res);
+					request.getRequestDispatcher("/index.jsp").forward(req, res);
 					System.out.println(GOING_OUT);
 				}
 			} else {
@@ -100,8 +99,8 @@ public class AuthFilter implements Filter {
 				chain.doFilter(req, res);
 			} else if (servletPath.equals("/login.html") || servletPath.equals("/")) {
 				request.getRequestDispatcher("/login.jsp").forward(req, res);
-			} else if (servletPath.equals("/index.html")) {
-				request.getRequestDispatcher("/index.jsp").forward(req, res);
+			} else if (servletPath.equals("/index.html") || servletPath.equals("/index.jsp")) {
+				response.sendRedirect(request.getContextPath() + "/login.html");
 			} else {
 				request.getRequestDispatcher("/404.jsp").forward(req, res);
 			}

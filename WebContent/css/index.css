@@ -32,7 +32,7 @@ body {
 #funcpage {
 	width: 1120px;
 	height: 485px;
-	background-color: orange;
+	background-color: #FCFCB4;
 	float: left;
 	position: relative;
 }
@@ -49,16 +49,20 @@ table#sendtable {
 	width: 1060px;
 /* 	height: 470px; */
 }
-table#sendtable td.color {
+.color {
 	background-color: #EFFDFF;
 	width: 150px;
 	text-align: right;
-	border: 1px;
-	border-style: solid;
+/* 	border: 1px; */
+/* 	border-style: solid; */
 }
 table#sendtable td.white {
 	background-color: white;
 	width: 910px;
+}
+td.white1 {
+	background-color: white;
+	width: 440px;
 }
 .line_up{
     background: #cccccc;   /*不能渐变的浏览器*/  

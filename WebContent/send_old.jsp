@@ -31,11 +31,6 @@
 <script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
 <script type="text/javascript" src="js/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
-	if (typeof String.prototype.trim !== 'function') {
-		String.prototype.trim = function() {
-			return this.replace(/^\s+|\s+$/g, '');
-		};
-	}
 	var setting = {
 		view : {
 			selectedMulti : false
@@ -340,7 +335,7 @@
 			return;
 		}
 		$.ajax({
-			url : 'getTree?action=update',
+			url : 'getTree?action=update_personal',
 			data : {
 				password : password,
 				phone : phone
