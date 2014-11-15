@@ -1,37 +1,37 @@
 body {
 	background: #e8eff4;
-	width: 1360;
+	width: 1360px;
 	margin: 0 auto;
 /* 	overflow: hidden; */
 }
 #headarea {
 	width: 1360px;
 	height: 80px;
-	overflow: hidden;
+/* 	overflow: hidden; */
 /* 	background-color: blue; */
 }
 #menuarea {
 	width: 1360px;
 	height: 40px;
-	overflow: hidden;
+/* 	overflow: hidden; */
 /* 	background-color: green; */
 }
 #funcarea {
 	width: 1360px;
-	height: 485px;
+	height: 475px;
 	overflow: hidden;
 /* 	background-color: gray; */
 }
 #funcmenu {
 	width: 240px;
-	height: 485px;
+	height: 475px;
 /* 	background-color: olive; */
 	float: left;
 	overflow: hidden;
 }
 #funcpage {
 	width: 1120px;
-	height: 485px;
+	height: 475px;
 	background-color: #FCFCB4;
 	float: left;
 	position: relative;
@@ -43,13 +43,7 @@ body {
 	height: 430px;
 	display: none;
 }
-table#sendtable {
-	border-collapse: collapse;
-/* 	border-width: 1px; */
-	width: 1060px;
-/* 	height: 470px; */
-}
-.color {
+td.color {
 	background-color: #EFFDFF;
 	width: 150px;
 	text-align: right;
@@ -58,7 +52,7 @@ table#sendtable {
 }
 table#sendtable td.white {
 	background-color: white;
-	width: 910px;
+	width: 850px;
 }
 td.white1 {
 	background-color: white;
@@ -92,4 +86,9 @@ td.white1 {
 	width:330px;
 	height:200px;
 	behavior: url(css/iecss3.htc)
+}
+
+.opacity {
+	filter:Alpha(opacity=30);
+	opacity: 0.3;
 }

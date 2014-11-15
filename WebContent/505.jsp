@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>NotFound</title>
+<title>Server Internal error</title>
 <style type="text/css">
 body {
 	background: #e8eff4;
@@ -22,7 +22,7 @@ body {
 <body>
 	<div style="position: absolute; left: 30px; top: 10px;">
 		<center>
-			<h1>404 Not found..</h1>
+			<h1>505 server intenal error..</h1>
 		</center>
 	</div>
 </body>

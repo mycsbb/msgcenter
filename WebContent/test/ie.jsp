@@ -30,6 +30,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</style>
 </head>
 <body>
+<div style="width: 1200px; height: 200px; background-color: aqua;">
+	<div style="width: 50px; height: 50px; background-color: blue;
+	float: right;"></div>
+	<div style="width: 1200px; height: 100px; background-color: green;
+	margin-top: 10px"></div>
+</div>
 <div style="width: 200px; height: 200px;
 margin-left: 300px;margin-top: 100px;">
 	<table border="1" cellspacing="0" style="border-collapse: collapse;" bordercolor="black">
@@ -48,7 +54,6 @@ margin-left: 300px;margin-top: 100px;">
 			<td style="">hello</td>
 			<td style="">hello</td>
 		</tr>
-		
 	</table>
 </div>
 </body>

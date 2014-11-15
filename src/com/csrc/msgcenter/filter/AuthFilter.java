@@ -1,10 +1,8 @@
 package com.csrc.msgcenter.filter;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -24,6 +22,7 @@ public class AuthFilter implements Filter {
 	public static final String COOKIE_REMEMBERME_KEY = "aicaCookie";
 	public static final String GOING_TO_INFO_KEY = "GOING_TO";
 	public static boolean isNeedAuth = true;
+	public static List<String> urls_permitted = new ArrayList<String>();
 	public String GOING_IN = "Enter AuthInterceptor.";
 	public String GOING_OUT = "Go out AuthInterceptor.";
 
@@ -61,6 +60,24 @@ public class AuthFilter implements Filter {
 
 		System.out.println("servletPath=" + servletPath);
 		
+		int flag = 0;
+		for (int i = 0; i < urls_permitted.size(); i++) {
+			String url = urls_permitted.get(i);
+			if (url.endsWith("*")) {
+				if (servletPath.startsWith(url.replace("*", ""))) {
+					flag = 1;
+					break;
+				}
+			} else if (servletPath.equals(url)) {
+				flag = 1;
+				break;
+			}
+		}
+		if (flag == 0) {
+			request.getRequestDispatcher("/404.jsp").forward(req, res);
+			return;
+		}
+		
 		String action = request.getParameter("action");
 		if (reqType.equalsIgnoreCase("post") && servletPath.equals("/auth")) {
 			if (session != null && session.getAttribute(USER_SESSION_KEY) != null) {
@@ -91,7 +108,12 @@ public class AuthFilter implements Filter {
 		
 		if (session != null && session.getAttribute(USER_SESSION_KEY) != null) {
 			System.out.println("[login-post-has-session]");
-			chain.doFilter(req, res);
+			if (servletPath.endsWith(".html")) {
+				request.getRequestDispatcher(servletPath.replace(".html", ".jsp"))
+					.forward(req, res);
+			} else {
+				chain.doFilter(req, res);
+			}
 			System.out.println(GOING_OUT);
 		} else {
 			if (servletPath.startsWith("/js/") || servletPath.startsWith("/css/") || 
@@ -99,10 +121,10 @@ public class AuthFilter implements Filter {
 				chain.doFilter(req, res);
 			} else if (servletPath.equals("/login.html") || servletPath.equals("/")) {
 				request.getRequestDispatcher("/login.jsp").forward(req, res);
-			} else if (servletPath.equals("/index.html") || servletPath.equals("/index.jsp")) {
+			} else if (servletPath.equals("/index.html")) {
 				response.sendRedirect(request.getContextPath() + "/login.html");
 			} else {
-				request.getRequestDispatcher("/404.jsp").forward(req, res);
+				request.getRequestDispatcher("/expired.jsp").forward(req, res);
 			}
 		}
 	}
