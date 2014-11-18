@@ -25,7 +25,7 @@ function onCheck(e, treeId, treeNode) {
 	}
 }
 function clearCheckedOldNodes() {
-	var zTree = $.fn.zTree.getZTreeObj("tree"), nodes = zTree
+	var zTree = $.fn.zTree.getZTreeObj(setting.container_id), nodes = zTree
 			.getChangeCheckedNodes();
 	for ( var i = 0, l = nodes.length; i < l; i++) {
 		nodes[i].checkedOld = nodes[i].checked;
@@ -34,11 +34,12 @@ function clearCheckedOldNodes() {
 
 var cnt = 0;
 var idstr = "";
+var peers = "";
 function dealcheck_1(e, treeId, treeNode) {
-	var zTree = $.fn.zTree.getZTreeObj("tree");
+	var zTree = $.fn.zTree.getZTreeObj(setting.container_id);
 	var nodes = zTree.getCheckedNodes(true);
 	
-	var peers = "";
+	peers = "";
 	idstr = "";
 	var n_peers = 0;
 	for ( var i = 0; i < nodes.length; i++) {
@@ -48,12 +49,12 @@ function dealcheck_1(e, treeId, treeNode) {
 			n_peers++;
 		}
 	}
-	$("#peers").html(peers);
+	$("#peers").html(peers + contact_str);
 }
 
 var cur_node;
 function dealcheck_2(e, treeId, treeNode) {
-	var zTree = $.fn.zTree.getZTreeObj("tree");
+	var zTree = $.fn.zTree.getZTreeObj(setting.container_id);
 	var nodes = zTree.getCheckedNodes(true);
 	
 	idstr = "";
@@ -68,6 +69,8 @@ function dealcheck_2(e, treeId, treeNode) {
 	if (n_peers == 0) {
 		$("#mgrform")[0].reset();
 		cur_node = null;
+		$("#depart option[value='-1']").attr("selected", "selected");
+		$("#level option[value='-1']").attr("selected", "selected");
 	} else if (n_peers == 1) {
 		var id = treeNode.id * (-1);
 		$.ajax({
@@ -97,6 +100,8 @@ function dealcheck_2(e, treeId, treeNode) {
 		});
 	} else if (n_peers > 1) {
 		$("#mgrform")[0].reset();
+		$("#depart option[value='-1']").attr("selected", "selected");
+		$("#level option[value='-1']").attr("selected", "selected");
 		cur_node = null;
 	}
 }
@@ -109,8 +114,9 @@ function count(e, treeId, treeNode) {
 	}
 }
 
-function createTree(flag) {
+function createTree(flag, container_id) {
 	setting.flag = flag;
+	setting.container_id = container_id;
 	$.ajax({
 		url : 'getTree',
 		data : {},
@@ -119,7 +125,7 @@ function createTree(flag) {
 		success : function(data) {
 			// zNodes = JSON.parse(data);
 			zNodes = eval("(" + data + ")");
-			$.fn.zTree.init($("#tree"), setting, zNodes);
+			$.fn.zTree.init($("#" + container_id), setting, zNodes);
 			//count();
 			// clearFlag = $("#last").attr("checked");
 		}

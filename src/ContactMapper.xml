@@ -3,30 +3,33 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Contact">
-	<insert id="insert" parameterType="User">
+	<insert id="insert" parameterType="Contact">
 		insert into
-		user(departId,levelId,username,password,zhname,phone,role) values(
-			#{departId}, #{levelId}, #{username}, #{password}, #{zhname},
-			#{phone}, #{role}
+		contact(zhname,phone) values(
+			 #{zhname}, #{phone}
 		)
 	</insert>
 	
 	<!-- 查询指定id的User对象 -->
-	<select id="queryById" parameterType="int" resultType="User">
-		select * from user where id = #{id}
+	<select id="queryById" parameterType="int" resultType="Contact">
+		select * from contact where id = #{id}
 	</select>
 	
-	<select id="queryByUsername" parameterType="string" resultType="User">
-		select * from user where username = #{username}
+	<select id="queryByZhname" parameterType="map" resultType="Contact">
+		select * from contact where userId = #{userId} and zhname = #{zhname}
 	</select>
 	
-	<select id="queryAll" resultType="User">
-		select * from user order by levelId
+	<select id="queryLikeZhname" parameterType="map" resultType="Contact">
+		select * from contact where userId = #{userId} and zhname like '%${zhname}%'
+	</select>
+	
+	<select id="queryAll" resultType="Contact">
+		select * from contact
 	</select>
 	
 	
-	<select id="deleteUsers">
-		DELETE FROM user
+	<select id="deleteContacts">
+		DELETE FROM contact
 		WHERE id in
 		<foreach item="item" index="index" collection="list" open="("
 			separator="," close=")">
@@ -35,20 +38,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 更新 -->
-	<update id="update_personal" parameterType="User">
-		update user
+	<update id="update" parameterType="Contact">
+		update contact
 		<set>
-			<if test="password!=null">password=#{password},</if>
-			<if test="phone!=null">phone=#{phone}</if>
-		</set>
-		<where>
-			<if test="id!=null">id=#{id}</if>
-		</where>
-	</update>
-	<update id="update_user" parameterType="User">
-		update user
-		<set>
-			<if test="password!=null">password=#{password},</if>
+			<if test="zhname!=null">zhname=#{zhname},</if>
 			<if test="phone!=null">phone=#{phone}</if>
 		</set>
 		<where>

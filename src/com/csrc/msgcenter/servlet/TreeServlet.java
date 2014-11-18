@@ -87,8 +87,8 @@ public class TreeServlet extends HttpServlet {
 		
 		String id_str = request.getParameter("id");
 		System.out.println("id_str=" + id_str);
-		if (id_str == null || id_str.equals("")) {
-			out.write("数据库可能有变！！");
+		if (id_str == null || id_str.trim().equals("")) {
+			out.write("字段信息不能为空！！");
 			out.flush();
 			return;
 		}
@@ -123,7 +123,7 @@ public class TreeServlet extends HttpServlet {
 		
 		String idstr = request.getParameter("idstr");
 		System.out.println("idstr=" + idstr);
-		if (idstr == null || idstr.equals("")) {
+		if (idstr == null || idstr.trim().equals("")) {
 			out.write("请重新选择要删除的人！！");
 			out.flush();
 		} else {
@@ -166,11 +166,11 @@ public class TreeServlet extends HttpServlet {
 		String phone = request.getParameter("phone");
 		
 		PrintWriter out = response.getWriter();
-		if (departId_str == null || departId_str.equals("") ||
-				username == null || username.equals("") || 
-				password == null || password.equals("") || 
-				zhname == null || zhname.equals("") || 
-				phone == null || phone.equals("")) {
+		if (departId_str == null || departId_str.trim().equals("") ||
+				username == null || username.trim().equals("") || 
+				password == null || password.trim().equals("") || 
+				zhname == null || zhname.trim().equals("") || 
+				phone == null || phone.trim().equals("")) {
 			out.write("用户字段信息不能为空！");
 			out.flush();
 			return;
@@ -247,7 +247,8 @@ public class TreeServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String phone = request.getParameter("phone");
 		PrintWriter out = response.getWriter();
-		if (password == null || password.equals("") || phone == null || phone.equals("")) {
+		if (password == null || password.trim().equals("") || 
+				phone == null || phone.trim().equals("")) {
 			out.write("信息不能为空！");
 			out.flush();
 			return;
@@ -290,11 +291,12 @@ public class TreeServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String zhname = request.getParameter("zhname");
 		String phone = request.getParameter("phone");
-		if (id_str == null || departId_str == null || departId_str.equals("") ||
-				username == null || username.equals("") || 
-				password == null || password.equals("") || 
-				zhname == null || zhname.equals("") || 
-				phone == null || phone.equals("")) {
+		if (id_str == null || id_str.trim().equals("") ||
+				departId_str == null || departId_str.trim().equals("") ||
+				username == null || username.trim().equals("") || 
+				password == null || password.trim().equals("") || 
+				zhname == null || zhname.trim().equals("") || 
+				phone == null || phone.trim().equals("")) {
 			out.write("用户字段信息不能为空！");
 			out.flush();
 			return;
@@ -384,7 +386,7 @@ public class TreeServlet extends HttpServlet {
 		String key = request.getParameter("key");
 		key = URLDecoder.decode(key, "utf-8");
 		System.out.println("key=" + key);
-		if (key == null || key.equals("")) return;
+		if (key == null || key.trim().equals("")) return;
 		String regex = "^\\d+$";
 		Pattern phone_pattern = Pattern.compile(regex);
 		Matcher matcher = phone_pattern.matcher(key);
@@ -422,7 +424,7 @@ public class TreeServlet extends HttpServlet {
 	private void queryByContent(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String key = request.getParameter("key");
-		if (key == null || key.equals("")) return;
+		if (key == null || key.trim().equals("")) return;
 		key = URLDecoder.decode(key, "utf-8");
 		System.out.println("key=" + key);
 		HttpSession httpSession = request .getSession();
@@ -494,13 +496,13 @@ public class TreeServlet extends HttpServlet {
 		String msg = request.getParameter("msg");
 		msg = URLDecoder.decode(msg, "utf-8");
 		System.out.println("msg=" + msg);
-		if (msg == null || msg.equals("")) {
+		if (msg == null || msg.trim().equals("")) {
 			out.write("信息不能为空！！");
 			out.flush();
 		}
 		System.out.println("idstr=" + idstr);
 		
-		if (idstr == null || idstr.equals("")) {
+		if (idstr == null || idstr.trim().equals("")) {
 			out.write("接收人有误！！");
 			out.flush();
 		} else {

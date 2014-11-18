@@ -8,6 +8,7 @@
 		<typeAlias alias="Level" type="com.csrc.msgcenter.model.Level"/>
 		<typeAlias alias="User" type="com.csrc.msgcenter.model.User"/>
 		<typeAlias alias="Message" type="com.csrc.msgcenter.model.Message"/>
+		<typeAlias alias="Contact" type="com.csrc.msgcenter.model.Contact"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -28,5 +29,6 @@
 		<mapper resource="LevelMapper.xml"/>
 		<mapper resource="UserMapper.xml"/>
 		<mapper resource="MessageMapper.xml"/>
+		<mapper resource="ContactMapper.xml"/>
 	</mappers>
 </configuration>

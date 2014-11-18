@@ -4,8 +4,10 @@
 /send.html
 /usermgr.html
 /contactmgr.html
+/query.html
 /auth
 /getTree
+/contact
 /js/*
 /css/*
 /test/*

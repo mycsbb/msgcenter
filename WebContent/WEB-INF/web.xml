@@ -3,7 +3,6 @@
   <display-name>msgcenter</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-<!--     <welcome-file>index.jsp</welcome-file> -->
   </welcome-file-list>
   <servlet>
     <servlet-name>InitServlet</servlet-name>
@@ -47,4 +46,14 @@
     <error-code>505</error-code>
     <location>/505.jsp</location>
   </error-page>
+  <servlet>
+    <description></description>
+    <display-name>ContactServlet</display-name>
+    <servlet-name>ContactServlet</servlet-name>
+    <servlet-class>com.csrc.msgcenter.servlet.ContactServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ContactServlet</servlet-name>
+    <url-pattern>/contact</url-pattern>
+  </servlet-mapping>
 </web-app>

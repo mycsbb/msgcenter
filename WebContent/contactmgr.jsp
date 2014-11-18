@@ -11,9 +11,10 @@
 <head>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>联系人管理</title>
 <link rel="stylesheet" href="css/index.css" type="text/css">
-<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css"
+	type="text/css">
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 <script src="js/jquery-ui-1.9.2.js"></script>
@@ -21,9 +22,45 @@
 <script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
+	function getContacts() {
+		$.ajax({
+					url : 'contact',
+					data : {},
+					type : 'post',
+					dataType : 'text',
+					success : function(data) {
+						var str = data.trim();
+						if (str != "") {
+							contacts = eval("(" + str + ")");
+							var html = "";
+							for ( var i = 0; i < contacts.length; i++) {
+								contactMap[contacts[i].id] = contacts[i];
+								html = html
+										+ "<tr><td><input type=\"checkbox\" name=\"chk\" "
+										+ "onclick=\"docheck()\" id=\""
+										+ contacts[i].id + "\"/></td><td>"
+										+ contacts[i].zhname + "</td><td>"
+										+ contacts[i].phone + "</td></tr>";
+							}
+							;
+							$("table#contact_tablex").html(
+									$("table#contact_tablex #header_tr")
+										.prop("outerHTML") + html);
+						}
+					}
+				});
+	}
 	$(function() {
-		createTree("usermanager", "usermgr_tree");
+		getContacts();
 	});
+	function checkx(obj) {
+		if ($(obj).prop("checked")) {
+			$("input[name='chk']").prop("checked", true);
+		} else {
+			$("input[name='chk']").prop("checked", false);
+		}
+		$("#cmgrform")[0].reset();
+	}
 	function insert() {
 		var zhname = $("input[name='zhname']").val().trim();
 		var departId = $('#depart option:selected').val().trim();
@@ -31,8 +68,8 @@
 		var username = $("input[name='username']").val().trim();
 		var password = $("input[name='password']").val().trim();
 		var phone = $("input[name='phone']").val().trim();
-		if (zhname == "" || departId == "-1" || username == "" ||
-				password == "" || phone == "") {
+		if (zhname == "" || departId == "-1" || username == ""
+				|| password == "" || phone == "") {
 			alert("必选项不能为空！");
 			return;
 		}
@@ -46,7 +83,8 @@
 			alert("电话格式不正确！");
 			return;
 		}
-		if (levelId == "-1") levelId = "100";
+		if (levelId == "-1")
+			levelId = "100";
 		$.ajax({
 			url : 'getTree?action=insert',
 			data : {
@@ -118,7 +156,7 @@
 			}
 		});
 	}
-	
+
 	function updateUser() {
 		var id = $("input[name='id']").val().trim();
 		var zhname = $("input[name='zhname']").val().trim();
@@ -127,8 +165,8 @@
 		var username = $("input[name='username']").val().trim();
 		var password = $("input[name='password']").val().trim();
 		var phone = $("input[name='phone']").val().trim();
-		if (zhname == "" || departId == "-1" || 
-				username == "" || password == "" || phone == "") {
+		if (zhname == "" || departId == "-1" || username == ""
+				|| password == "" || phone == "") {
 			alert("必选项不能为空！");
 			return;
 		}
@@ -146,7 +184,8 @@
 			alert("电话格式不正确！");
 			return;
 		}
-		if (levelId == "-1") levelId = "100";
+		if (levelId == "-1")
+			levelId = "100";
 		$.ajax({
 			url : 'getTree?action=update_user',
 			data : {
@@ -173,112 +212,83 @@
 				}
 			}
 		});
-	} 
+	}
 </script>
-<style type="text/css">
-ul.ztree { /*
-	margin-top: 10px;
-	border: 1px solid #617775;
-	background: #f0f6e4;*/
-	width: 200px;
-	height: 360px;
-	overflow-y: scroll;
-	overflow-x: auto; 
-}
-</style>
 </head>
 <body>
 	<div style="position: absolute; left: 30px; top: 10px;">
-		<div class="zTreeBackground left"
-			style="margin-left: 0px; float: left; ">
-			<ul id="usermgr_tree" class="ztree"></ul>
+		<div style="float: left; width: 320px; height: 60px;">
+			<div
+				style="overflow-x: auto; overflow-y: scroll; width: 280px; height: 360px; margin-top: 15px;">
+				<div>
+					<b>个人通讯录：</b>
+				</div>
+				<div>
+					<table bordercolor="black" border="1" cellspacing="0"
+						style="border-collapse: collapse; text-align: center;"
+						id="contact_tablex">
+						<tr id="header_tr">
+							<th style="width: 40px;"><input type="checkbox"
+								onclick="checkx(this)" /></th>
+							<th style="width: 60px;">姓名</th>
+							<th style="width: 100px;">号码</th>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="chk"
+								onclick="docheck(this)" id="7" /></td>
+							<td>陈江涛</td>
+							<td>18810996699</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="chk" /></td>
+							<td>张长江</td>
+							<td>18810993809</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="chk" /></td>
+							<td>刘黄河</td>
+							<td>18815678809</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		</div>
-		<div style="float: left; margin-top: 20px; margin-left: 60px;">
-		<form action="" method="post" id="mgrform">
-			<table border="1" bordercolor="black" cellspacing="0"
-				style="border-collapse: collapse; width: 590px;" >
-				<tr height="30px">
-					<td class="color"><span>姓名<span style="color: red;">*</span>:
-					</span></td>
-					<td class="white1"><span style="margin-left: 5px">
-					 <input type="hidden" name="id"/>
-					 <input type="text" name="zhname" style="width: 140px" />
-					</span></td>
-				</tr>
-				<tr height="30px">
-					<td class="color"><span>处室<span style="color: red;">*</span>:
-					</span></td>
-					<td class="white1"><span style="margin-left: 5px"> 
-							<select style="width: 146px" id="depart">
-								<option value="-1">[请选择]</option>
-								<option value="3">综合处</option>
-								<option value="4">立案处</option>
-								<option value="5">督查一处</option>
-								<option value="6">督查二处</option>
-								<option value="7">协调处</option>
-								<option value="8">法规处</option>
-								<option value="9">涉外处</option>
-								<option value="20">技术指导处</option>
-								<option value="100">其他</option>
-						</select>
-					</span></td>
-				</tr>
-				<tr height="30px">
-					<td class="color"><span>职位:</span></td>
-					<td class="white1"><span style="margin-left: 5px"> 
-						<select style="width: 146px" id="level">
-								<option value="-1">[请选择]</option>
-								<option value="4">处长</option>
-								<option value="5">调研员</option>
-								<option value="6">副处长</option>
-								<option value="7">副调研员</option>
-								<option value="8">主任科员</option>
-								<option value="9">副主任科员</option>
-								<option value="10">研员</option>
-								<option value="11">文秘</option>
-								<option value="100">其他</option>
-						</select>
-					</span></td>
-				</tr>
-				<tr height="30px">
-					<td class="color"><span>用户名<span style="color: red;">*</span>:
-					</span></td>
-					<td class="white1"><span style="margin-left: 5px"> <input
-							type="text" name="username" style="width: 140px" />
-							(以字母开头，只能由数字和字母组成)
-					</span></td>
-				</tr>
-				<tr height="30px">
-					<td class="color"><span>密码<span style="color: red;">*</span>:
-					</span></td>
-					<td class="white1"><span style="margin-left: 5px"> <input
-							type="text" name="password" style="width: 140px" />
-					</span></td>
-				</tr>
-				<tr height="30px">
-					<td class="color"><span>手机号<span style="color: red;">*</span>:
-					</span></td>
-					<td class="white1"><span style="margin-left: 5px"> <input
-							type="text" name="phone" style="width: 140px" />
-					</span></td>
-				</tr>
-				<tr height="30px">
-					<td style="background-color: white; width: 1060px;" colspan="2">
-						<div>
-							<span style="margin-left: 150px"> <input type="button"
-								value="添加" onclick="insert()" /></span> 
-							<span style="margin-left: 0px"> <input type="button"
-								value="删除" onclick="delusers()" /></span> 
-							<span style="margin-left: 0px"> <input type="button"
-								value="更新" onclick="updateUser()" /></span> 
-								<span><input type="button" value="重置" 
-								onclick="resetx()"/></span> 
-								<span style="margin-left: 0px">(本系统仅供参考)</span>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</form>
+		<div style="float: left; width: 650px; height: 360px;">
+			<div style="margin-top: 15px;">
+				<form action="" method="post" id="cmgrform">
+					<table border="1" bordercolor="black" cellspacing="0"
+						style="border-collapse: collapse; width: 590px;">
+						<tr height="60px">
+							<td class="color"><span>姓名<span style="color: red;">*</span>:
+							</span></td>
+							<td class="whitex"><span style="margin-left: 5px"> <input
+									type="hidden" name="id" /> <input type="text" name="zhname"
+									style="width: 140px" />
+							</span></td>
+						</tr>
+						<tr height="60px">
+							<td class="color"><span>手机号<span style="color: red;">*</span>:
+							</span></td>
+							<td class="whitex"><span style="margin-left: 5px"> <input
+									type="text" name="phone" style="width: 140px" />
+							</span></td>
+						</tr>
+						<tr height="30px">
+							<td style="background-color: white; width: 1060px;" colspan="2">
+								<div>
+									<span style="margin-left: 100px"> <input type="button"
+										value="添加" onclick="insert()" /></span> <span
+										style="margin-left: 0px"> <input type="button"
+										value="删除" onclick="delusers()" /></span> <span
+										style="margin-left: 0px"> <input type="button"
+										value="更新" onclick="updateUser()" /></span> <span><input
+										type="button" value="重置" onclick="resetx()" />
+								</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

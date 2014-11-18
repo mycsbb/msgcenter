@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -176,6 +177,48 @@ public class TestMsgCenter {
 			System.out.println(e);
 		}
 	}
+	
+	@Test
+	public void tSort() throws SQLException, IOException {
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(60);
+		list.add(57);
+		list.add(57);
+		list.add(36);
+		list.add(58);
+		list.add(53);
+		list.add(59);
+		list.add(41);
+		list.add(43);
+		list.add(88);
+		list.add(77);
+		list.add(73);
+		list.add(37);
+		list.add(80);
+		list.add(89);
+		list.add(49);
+		list.add(64);
+		list.add(40);
+		list.add(35);
+		list.add(34);
+		list.add(89);
+		list.add(50);
+		list.add(31);
+		list.add(47);
+		list.add(29);
+		list.add(60);
+		list.add(43);
+		list.add(33);
+		list.add(34);
+		list.add(46);
+		list.add(72);
+		list.add(75);
+		Collections.sort(list);
+		
+		for (int i = 0; i< list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+	}
 
 	public String userToJson(User user) {
 		Map<String, String> filterMap = new HashMap<String, String>();
@@ -194,4 +237,6 @@ public class TestMsgCenter {
 
 		return str;
 	}
+	
+	
 }

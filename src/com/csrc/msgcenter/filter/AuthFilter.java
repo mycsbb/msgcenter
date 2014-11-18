@@ -111,6 +111,9 @@ public class AuthFilter implements Filter {
 			if (servletPath.endsWith(".html")) {
 				request.getRequestDispatcher(servletPath.replace(".html", ".jsp"))
 					.forward(req, res);
+			} else if (servletPath.equals("/")) {
+				request.getRequestDispatcher("/index.jsp")
+					.forward(req, res);
 			} else {
 				chain.doFilter(req, res);
 			}

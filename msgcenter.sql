@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50037
 File Encoding         : 65001
 
-Date: 2014-11-15 18:45:20
+Date: 2014-11-18 19:59:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,6 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `contact`;
 CREATE TABLE `contact` (
   `id` int(11) NOT NULL auto_increment,
+  `userId` int(11) default NULL,
   `zhname` varchar(255) default NULL,
   `phone` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
@@ -29,6 +30,9 @@ CREATE TABLE `contact` (
 -- ----------------------------
 -- Records of contact
 -- ----------------------------
+INSERT INTO `contact` VALUES ('1', '3', '陈金', '18010151140');
+INSERT INTO `contact` VALUES ('2', '3', '陈木', '18010151140');
+INSERT INTO `contact` VALUES ('3', '3', '陈火', '18010151140');
 
 -- ----------------------------
 -- Table structure for `department`

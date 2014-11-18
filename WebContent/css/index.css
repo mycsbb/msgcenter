@@ -58,6 +58,10 @@ td.white1 {
 	background-color: white;
 	width: 440px;
 }
+td.whitex {
+	background-color: white;
+	width: 220px;
+}
 .line_up{
     background: #cccccc;   /*不能渐变的浏览器*/  
     filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=white,endcolorstr=#195893, gradientType=0);  /*IE*/  

@@ -13,6 +13,8 @@
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/index.css" type="text/css">
+<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css"
+	type="text/css">
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
 <script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
@@ -21,6 +23,37 @@
 	var dialog_is_init = false;
 	$(document).ready(function() {
 		$("#funcpage").load("send.html");
+
+		var _move = false; 
+		var _x = -1, _y = -1; 
+		$("#titdiv").mousedown(function(e) {
+			_move = true;
+			_x = e.pageX - parseInt($("#dragdiv").css("left"));
+			_y = e.pageY - parseInt($("#dragdiv").css("top"));
+			//$("#dragdiv").fadeTo(20, 0.5); //点击后开始拖动并透明显示
+			//$("#dragdiv").fadeTo(20, 1); //点击后开始拖动并透明显示
+		});
+		$(document).mousemove(function(e) {
+			if (_move) {
+				var x = e.pageX - _x;
+				var y = e.pageY - _y;
+				if (x < 0)
+					x = 0;
+				if (x > 900)
+					x = 900;
+				if (y < 0)
+					y = 0;
+				if (y > 150)
+					y = 150;
+				$("#dragdiv").css({
+					top : y,
+					left : x
+				});
+			}
+		}).mouseup(function() {
+			_move = false;
+			//$("#dragdiv").fadeTo("fast", 1); //松开鼠标后停止移动并恢复成不透明
+		});
 	});
 	function loadpage(name) {
 		if (name == "usermgr") {
@@ -29,78 +62,172 @@
 			$("#funcpage").load("send.html");
 		} else if (name == "query") {
 			$("#funcpage").load("query.html");
-		} else if (name == "useradd") {
-			$("#funcpage").load("useradd.html");
-		} else if (name == "userdel") {
-			$("#funcpage").load("userdel.html");
-		}  else if (name == "userupdate") {
-			$("#funcpage").load("userupdate.html");
-		}
+		} else if (name == "contactmgr") {
+			$("#funcpage").load("contactmgr.html");
+		} 
+
 	}
-	
+
 	function sendfeature() {
-// 		$("#sendmenu").css("display", "block");
-// 		$("#usermenu").css("display", "none");
-// 		$("#funcpage").load("send.html");
 		$("#funcmenu").children().css("display", "none");
 		$("#funcmenu").children("#sendmenu").css("display", "block");
 		$("#funcpage").load("send.html");
 	}
 	function usermanager() {
-// 		$("#sendmenu").css("display", "none");
-// 		$("#usermenu").css("display", "block");
-// 		$("#funcpage").load("usermgr.html");
 		$("#funcmenu").children().css("display", "none");
 		$("#funcmenu").children("#usermenu").css("display", "block");
 		$("#funcpage").load("usermgr.html");
 	}
-	function contacts_manager() {
+	function contact_manager() {
 		$("#funcmenu").children().css("display", "none");
 		$("#funcmenu").children("#contactmenu").css("display", "block");
+		$("#funcpage").load("contactmgr.html");
+	}
+
+	function choose_confirm() {
+		$("#opadiv").hide();
+		$("#dragdiv").hide();
+	}
+	function choose_cancel() {
+		idstr = "";
+		$("#peers").html("");
+		$("#opadiv").hide();
+		$("#dragdiv").hide();
 	}
 </script>
+<style type="text/css">
+ul.ztree { /*
+	margin-top: 10px;
+	border: 1px solid #617775;
+	background: #f0f6e4;
+	width: 200px;
+	height: 360px;
+	overflow-y: scroll;
+	overflow-x: auto; */
+}
+</style>
 <title>Index</title>
 </head>
 <body>
-<div style="position: absolute;left: 0px; top: 0px; width: 1365px;height: 605px;
-background-color: black; z-index: 99; display: none;" class="opacity" id="opadiv"></div>
-	<div id="headarea">
-		<div style="width: 185px; height: 25px;
-		float: right;margin-top: 52px">
-			<span><a href="javascript:showinfo()">${sessionScope["MsgCenterUser"].zhname}</a>,欢迎你!</span> <span><a href="auth?action=logout">注销</a></span>
+	<div
+		style="position: fixed; left: 0px; top: 0px; width: 1365px; height: 605px; background-color: black; z-index: 999; display: none;"
+		class="opacity" id="opadiv"></div>
+	<div id="dragdiv"
+		style="z-index: 1000; position: fixed; left: 540px; top: 100px; width: 560px; height: 450px; background-color: aqua; display: none;">
+		<div
+			style="width: 560px; height: 24px; background-color: rgb(184, 201, 213);"
+			id="titdiv">
+			<span>请选择收件人</span><span style="margin-left: 430px;"> <a
+				href="javascript:choose_cancel()"> <b>X</b>
+			</a></span>
 		</div>
-		<div style="height: 5px; width: 1360px; 
-		position: absolute; top: 75px;overflow: hidden;" class="line_up"></div>
+		<div
+			style="width: 560px; height: 426px; background-color: rgb(230, 230, 230);">
+			<fieldset id="fs"
+				style="width: 522px; height: 400px; border: inset; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; background-color: #DFECF9">
+				<div style="width: 522px; height: 330px;">
+					<div class="zTreeBackground left"
+						style="margin-left: 20px; margin-top: 6px; float: left; width: 200px; height: 300px; ">
+						<ul id="sendtree" class="ztree"
+							style="height: 300px; width: 200px; margin-left: 0px; margin-top: 10px;"></ul>
+					</div>
+					<div
+						style="width: 282px; height: 324px; float: left;margin-left: 20px;">
+						<div style="margin-top: 24px; margin-left: 12px;
+						height: 300px; overflow-x: auto; overflow-y: scroll;">
+							<div>
+								<b>个人通讯录：</b>
+							</div>
+							<div>
+								<table bordercolor="black" border="1" cellspacing="0"
+									style="border-collapse: collapse; text-align: center;"
+									id="contact_table">
+									<tr id="header_tr">
+										<th style="width: 70px;"><input type="checkbox" 
+										onclick="checkx(this)"/></th>
+										<th style="width: 60px;">姓名</th>
+										<th style="width: 100px;">号码</th>
+									</tr>
+									<tr>
+										<td><input type="checkbox" name="chk"
+										onclick="docheck(this)" id="7"/></td>
+										<td>陈江涛</td>
+										<td>18810996699</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox" name="chk"/></td>
+										<td>张长江</td>
+										<td>18810993809</td>
+									</tr>
+									<tr>
+										<td><input type="checkbox" name="chk"/></td>
+										<td>刘黄河</td>
+										<td>18815678809</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div style="width: 522px; height: 70px; float: left;">
+					<div style="margin-left: 180px; margin-top: 20px;">
+						<span>
+							<input value="确定" onclick="choose_confirm()" type="button">
+						</span>
+						<span style="margin-left: 30px;">
+							<input value="取消" onclick="choose_cancel()" type="button">
+						</span>
+					</div>
+				</div>
+
+				<!-- 				<div -->
+				<!-- 					style="margin-left: 0px; float: left; width: 130px; height: 380px;"> -->
+
+				<!-- 				</div> -->
+			</fieldset>
+		</div>
+	</div>
+	<div id="headarea">
+		<div
+			style="width: 185px; height: 25px; float: right; margin-top: 52px">
+			<span><a href="javascript:showinfo()">${sessionScope["MsgCenterUser"].zhname}</a>,欢迎你!</span>
+			<span><a href="auth?action=logout">注销</a></span>
+		</div>
+		<div
+			style="height: 5px; width: 1360px; position: absolute; top: 75px; overflow: hidden;"
+			class="line_up"></div>
 		<!-- 		<div style="height: 5px; margin-top: 0px;" class="line_down"></div> -->
 	</div>
 	<div id="menuarea">
 		<div style="margin-top: 9px">
 			<c:choose>
-				<c:when test="${sessionScope['MsgCenterUser'].role == '0' }"> 
-<%-- 				<c:out value="${sessionScope['MsgCenterUser'].role}"></c:out> --%>
-					<span class="yuan" style="background-color: #64C1E3;margin-left: 32px;"> 
-			 			<a href="javascript:" onclick="sendfeature()">短信发送</a></span>
-					<span class="yuan"style="background-color: #64C1E3;"> 
-						<a href="javascript:" onclick="usermanager()">用户管理</a></span>
-					<span class="yuan"style="background-color: #64C1E3;"> 
-						<a href="javascript:" onclick="contacts_manager()">通讯录管理</a></span>
+				<c:when test="${sessionScope['MsgCenterUser'].role == '0' }">
+					<%-- 				<c:out value="${sessionScope['MsgCenterUser'].role}"></c:out> --%>
+					<span class="yuan"
+						style="background-color: #64C1E3; margin-left: 32px;"> <a
+						href="javascript:" onclick="sendfeature()">短信发送</a></span>
+					<span class="yuan" style="background-color: #64C1E3;"> <a
+						href="javascript:" onclick="usermanager()">用户管理</a></span>
+					<span class="yuan" style="background-color: #64C1E3;"> <a
+						href="javascript:" onclick="contact_manager()">通讯录管理</a></span>
 				</c:when>
 				<c:otherwise>
-					<span class="yuan" style="background-color: #64C1E3;margin-left: 32px;"> 
-			 			<a href="javascript:" onclick="sendfeature()">短信发送</a></span>
-			 		<span class="yuan"style="background-color: #64C1E3;"> 
-						<a href="javascript:" onclick="contacts_manager()">通讯录管理</a></span>
+					<span class="yuan"
+						style="background-color: #64C1E3; margin-left: 32px;"> <a
+						href="javascript:" onclick="sendfeature()">短信发送</a></span>
+					<span class="yuan" style="background-color: #64C1E3;"> <a
+						href="javascript:" onclick="contact_manager()">通讯录管理</a></span>
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div style="height: 5px; margin-top: 5px; overflow: hidden;" class="line_up"></div>
+		<div style="height: 5px; margin-top: 5px; overflow: hidden;"
+			class="line_up"></div>
 	</div>
 	<div id="funcarea">
 		<div id="funcmenu">
 			<div
-				style="margin-top: 30px; margin-left: 30px; 
-				border-width: 1px; border-color: #808080; border-style: solid; 
-				width: 180px; height: 200px;" id="sendmenu">
+				style="margin-top: 30px; margin-left: 30px; border-width: 1px; border-color: #808080; border-style: solid; width: 180px; height: 200px;"
+				id="sendmenu">
 				<div style="margin-top: 10px; margin-left: 15px;">
 					<ul>
 						<li><a href="javascript:" onclick="loadpage('sendpage')">信息发送</a></li>
@@ -109,22 +236,20 @@ background-color: black; z-index: 99; display: none;" class="opacity" id="opadiv
 				</div>
 			</div>
 			<div
-				style="margin-top: 30px; margin-left: 30px; 
-				border-width: 1px; border-color: #808080; border-style: solid; 
-				width: 180px; height: 200px; display: none;" id="usermenu">
+				style="margin-top: 30px; margin-left: 30px; border-width: 1px; border-color: #808080; border-style: solid; width: 180px; height: 200px; display: none;"
+				id="usermenu">
 				<div style="margin-top: 10px; margin-left: 15px;">
 					<ul>
 						<li><a href="javascript:" onclick="loadpage('usermgr')">用户管理</a></li>
-<!-- 						<li><a href="javascript:" onclick="loadpage('useradd')">添加用户</a></li> -->
-<!-- 						<li><a href="javascript:" onclick="loadpage('userdel')">删除用户</a></li> -->
-<!-- 						<li><a href="javascript:" onclick="loadpage('userupdate')">更改用户</a></li> -->
+						<!-- 						<li><a href="javascript:" onclick="loadpage('useradd')">添加用户</a></li> -->
+						<!-- 						<li><a href="javascript:" onclick="loadpage('userdel')">删除用户</a></li> -->
+						<!-- 						<li><a href="javascript:" onclick="loadpage('userupdate')">更改用户</a></li> -->
 					</ul>
 				</div>
 			</div>
 			<div
-				style="margin-top: 30px; margin-left: 30px; 
-				border-width: 1px; border-color: #808080; border-style: solid; 
-				width: 180px; height: 200px; display: none;" id="contactmenu">
+				style="margin-top: 30px; margin-left: 30px; border-width: 1px; border-color: #808080; border-style: solid; width: 180px; height: 200px; display: none;"
+				id="contactmenu">
 				<div style="margin-top: 10px; margin-left: 15px;">
 					<ul>
 						<li><a href="javascript:" onclick="loadpage('contactmgr')">通讯录管理</a></li>
@@ -134,5 +259,55 @@ background-color: black; z-index: 99; display: none;" class="opacity" id="opadiv
 		</div>
 		<div id="funcpage"></div>
 	</div>
+
+
+	<!-- 	
+	<div aria-labelledby="ui-id-1" role="dialog" tabindex="-1" id="dragdiv"
+		style="display: none; outline: 0px none; z-index: 1000; position: absolute;
+		left: 540px; top: 100px;"
+		class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable"
+		>
+		<div style="background-color: rgb(184, 201, 213);"
+			class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+			<span class="ui-dialog-title" id="ui-id-1">请选择收件人</span><a
+				style="margin-left: 340px;" role="button"
+				class="ui-dialog-titlebar-close ui-corner-all" href="#"><span
+				class="ui-icon ui-icon-closethick"><b>X</b></span></a>
+		</div>
+		<div class="ui-dialog-content ui-widget-content" id="dialog"
+			style="width: 460px; height: 400px; background-color: rgb(230, 230, 230);">
+			<fieldset id="fs"
+				style="width: 412px; height: 400px; border: inset; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; background-color: #DFECF9">
+				<div class="zTreeBackground left"
+					style="margin-left: 20px; margin-top: 6px; float: left; width: 240px; height: 380px;">
+					<ul id="tree" class="ztree"></ul>
+				</div>
+				<div
+					style="margin-left: 0px; float: left; width: 130px; height: 380px;">
+					<div style="margin-left: 30px; margin-top: 40px;">
+						<div>
+							<input value="确定" onclick="choose_confirm()" type="button">
+						</div>
+						<div style="margin-top: 20px;">
+							<input value="取消" onclick="choose_cancel()" type="button">
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<div style="z-index: 1000;" class="ui-resizable-handle ui-resizable-n"></div>
+		<div style="z-index: 1000;" class="ui-resizable-handle ui-resizable-e"></div>
+		<div style="z-index: 1000;" class="ui-resizable-handle ui-resizable-s"></div>
+		<div style="z-index: 1000;" class="ui-resizable-handle ui-resizable-w"></div>
+		<div style="z-index: 1000;"
+			class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se"></div>
+		<div style="z-index: 1000;"
+			class="ui-resizable-handle ui-resizable-sw"></div>
+		<div style="z-index: 1000;"
+			class="ui-resizable-handle ui-resizable-ne"></div>
+		<div style="z-index: 1000;"
+			class="ui-resizable-handle ui-resizable-nw"></div>
+	</div>
+	-->
 </body>
 </html>
