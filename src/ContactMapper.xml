@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="Contact">
 	<insert id="insert" parameterType="Contact">
 		insert into
-		contact(zhname,phone) values(
-			 #{zhname}, #{phone}
+		contact(userId,zhname,phone) values(
+			 #{userId},#{zhname},#{phone}
 		)
 	</insert>
 	
@@ -18,6 +18,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="queryByZhname" parameterType="map" resultType="Contact">
 		select * from contact where userId = #{userId} and zhname = #{zhname}
 	</select>
+	<select id="queryByPhone" parameterType="map" resultType="Contact">
+		select * from contact where userId = #{userId} and phone = #{phone}
+	</select>
 	
 	<select id="queryLikeZhname" parameterType="map" resultType="Contact">
 		select * from contact where userId = #{userId} and zhname like '%${zhname}%'
@@ -25,6 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="queryAll" resultType="Contact">
 		select * from contact
+	</select>
+	
+	<select id="queryAllByUserid" parameterType="int" resultType="Contact">
+		select * from contact where userId = #{userId}
 	</select>
 	
 	

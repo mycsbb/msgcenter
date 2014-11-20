@@ -58,12 +58,11 @@
 		docheck();
 	}
 	
-	var contactMap = new Object();
-	var contact_str = "";
 	function docheck() {
 		contact_str = "";
 		$("input[name='chk']:checked").each(function() {
-			contact_str = contact_str + contactMap[$(this).attr("id")].zhname + "; ";
+			var id = $(this).attr("id");
+			contact_str = contact_str + contactMap[id].zhname + "; ";
 		});
 		$("#peers").html(peers + contact_str);
 	}
@@ -94,9 +93,11 @@
 		});
 	}
 	function chooseReceiver() {
+		idstr = "";
+		phone_str = "";
+		$("#peers").html("");
 		createTree("sendmsg", "sendtree");
 		getContacts();
-		
 		$("#opadiv").show();
 		$("#dragdiv").show();
 	}
@@ -123,12 +124,42 @@
 	}
 	var clock;
 	function sendmsg() {
-		var msg = $("#msgarea").val();
-		if (msg.trim() == "" || idstr == "") {
-			alert("接收人或短信息不能为空！！");
+		var optional_peers_str =  $("#optional_peers").val().replace(/\n/g,"").trim();
+		if ((phone_str.trim() == "" || phone_str == "")
+				&& (idstr.trim() == "" || idstr == "")
+				&& optional_peers_str == "") {
+			alert("接收人不能为空！！");
 			return;
 		}
-		$("#result").html("<b>.</b>");
+		var reg = /^([1-9]{1}\d*,)+$/;
+		if (phone_str != "" && !reg.test(phone_str)) {
+			alert("联系人格式不正确！！");
+			return;
+		}
+		var optional_peers =  optional_peers_str.split(",");
+		var optional_phone_str = "";
+		for (var i = 0; i < optional_peers.length; i++) {
+			var optional_peer = optional_peers[i].trim();
+			if (optional_peer == "") {
+				continue;
+			} else {
+				reg = /^[1-9]{1}\d*$/;
+				if (!reg.test(optional_peer)) {
+					alert("自定义收信人格式不正确！！");
+					return;
+				} else {
+					optional_phone_str = optional_phone_str + optional_peer + ",";
+				}
+			}
+		}
+		phone_str = phone_str + "" + optional_phone_str;
+		var msg = $("#msgarea").val();
+		if (msg == "" || msg.trim() == "" || msg.replace(/\n/g,"").trim() == "") {
+			alert("短信息不能为空！！");
+			return;
+		}
+		
+		$("#result").html("发送中<b>.</b>");
 		elapse = elapse + 1;
 		clock = setInterval("indicator()", 250);
 		var msg = $("#msgarea").val();
@@ -137,6 +168,7 @@
 			url : 'getTree?action=send',
 			data : {
 				idstr : idstr,
+				phone_str : phone_str,
 				msg : msg
 			},
 			type : 'post',
@@ -146,16 +178,8 @@
 				clearInterval(clock);
 				elapse = 1;
 				//$(".right").append("<div >" + data + "</div>");
-				$("#result").html(data);
+				$("#result").html("<span style='color: red;'>" + data + "</span>");
 				$("#msgarea").val("");
-				var peers = $("#peers").html();
-				peers = peers.substring(0, peers.length);
-				$('div#sended ul:first').append(
-						"<li><div><b>" + currentTime()
-								+ "</b></div><div><b>TO:&nbsp;" + peers
-								+ "</b></div><div>" + decodeURIComponent(msg)
-								+ "</div></li>");
-				scrollBottom();
 			}
 		});
 	}
@@ -182,7 +206,7 @@ ul.ztree {
 <!-- 						type="text" name="task" />(任务名称不会作为短信内容发出去) -->
 <!-- 				</span></td> -->
 <!-- 			</tr> -->
-			<tr height="230px">
+			<tr height="240px">
 				<td class="color"><span>收信人<span style="color: red;">*</span>:
 				</span></td>
 				<td class="white">
@@ -196,11 +220,11 @@ ul.ztree {
 						</span>
 					</div>
 					<div style="margin-left: 5px;">
-						<div>自定义收信人(<span style="color: red;">号码以分号;隔开</span>):
+						<div>自定义收信人(<span style="color: red;">号码以分号<b>;</b>隔开</span>):
 						</div>
 						<div>
 							<textarea
-								style="width: 550px; height: 50px;"
+								style="width: 550px; height: 60px;"
 								id="optional_peers"></textarea>
 						</div>
 <!-- 						<input type="text" name="optional_peers" -->

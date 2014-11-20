@@ -47,7 +47,8 @@ public class TestMsgCenter {
 	public void t01() {
 		User user = new User(1, "chen1", "123", 1, 1, "陈", "123", 1);
 		System.out.println(JSONUtil.toJSON(user));
-		System.out.println("12,34".split(",").length);
+		System.out.println("12,34,".split("n").length);
+		String[] strs =  "12,34,".split(",");
 	}
 
 	@Test

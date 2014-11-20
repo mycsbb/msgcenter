@@ -187,8 +187,22 @@ public class ContactServlet extends HttpServlet {
 		int id = Integer.parseInt(id_str);
 
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
+		HttpSession httpSession = request.getSession();
+		User cur_user = (User) httpSession
+				.getAttribute(AuthFilter.USER_SESSION_KEY);
 		Contact qcontact;
 		try {
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("userId", cur_user.getId());
+			paramMap.put("zhname", zhname);
+			qcontact = session.selectOne("Contact.queryByZhname",
+					paramMap);
+			if (qcontact != null) {
+				out.write("该联系人名称已经存在！");
+				out.flush();
+				return;
+			}
+			
 			qcontact = session.selectOne("Contact.queryById", id);
 			if (qcontact == null) {
 				out.write("联系人不存在！数据库有可能已经发生改变");
@@ -278,7 +292,7 @@ public class ContactServlet extends HttpServlet {
 		User cur_user = (User) httpSession
 				.getAttribute(AuthFilter.USER_SESSION_KEY);
 		Contact contact = new Contact(cur_user.getId(), phone, zhname);
-
+		System.out.println(contact);
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
 		try {
 			Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -307,9 +321,12 @@ public class ContactServlet extends HttpServlet {
 	private void queryAllContacts(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
+		HttpSession httpSession = request.getSession();
+		User cur_user = (User) httpSession
+				.getAttribute(AuthFilter.USER_SESSION_KEY);
 		String json = "";
 		try {
-			List<Contact> contacts = session.selectList("Contact.queryAll");
+			List<Contact> contacts = session.selectList("Contact.queryAllByUserid", cur_user.getId());
 			for (Contact contact : contacts) {
 				json += contactToJson(contact, "userId") + ",";
 			}

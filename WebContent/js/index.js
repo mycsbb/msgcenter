@@ -33,8 +33,6 @@ function clearCheckedOldNodes() {
 }
 
 var cnt = 0;
-var idstr = "";
-var peers = "";
 function dealcheck_1(e, treeId, treeNode) {
 	var zTree = $.fn.zTree.getZTreeObj(setting.container_id);
 	var nodes = zTree.getCheckedNodes(true);

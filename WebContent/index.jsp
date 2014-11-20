@@ -20,7 +20,6 @@
 <script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.9.2.js"></script>
 <script type="text/javascript">
-	var dialog_is_init = false;
 	$(document).ready(function() {
 		$("#funcpage").load("send.html");
 
@@ -84,12 +83,40 @@
 		$("#funcpage").load("contactmgr.html");
 	}
 
+	//下面是对话框数据交互
+	var idstr = "";
+	var peers = "";
+	var contactMap = new Object();
+	var contact_str = "";
+	var phone_str = "";
 	function choose_confirm() {
+		idstr = "";
+		phone_str = "";
+		contact_str = "";
+		$("input[name='chk']:checked").each(function() {
+			var id = $(this).attr("id");
+			contact_str = contact_str + contactMap[id].zhname + "; ";
+			phone_str = phone_str + contactMap[id].phone + ",";
+		});
+		
+		var zTree = $.fn.zTree.getZTreeObj(setting.container_id);
+		var nodes = zTree.getCheckedNodes(true);
+		peers = "";
+		idstr = "";
+		for ( var i = 0; i < nodes.length; i++) {
+			if (nodes[i].is_person == true) {
+				peers = peers + nodes[i].name + "; ";
+				idstr = idstr + nodes[i].id + ",";
+			}
+		}
+		
+		$("#peers").html(peers + contact_str);
 		$("#opadiv").hide();
 		$("#dragdiv").hide();
 	}
 	function choose_cancel() {
 		idstr = "";
+		phone_str = "";
 		$("#peers").html("");
 		$("#opadiv").hide();
 		$("#dragdiv").hide();
@@ -147,22 +174,6 @@ ul.ztree { /*
 										onclick="checkx(this)"/></th>
 										<th style="width: 60px;">姓名</th>
 										<th style="width: 100px;">号码</th>
-									</tr>
-									<tr>
-										<td><input type="checkbox" name="chk"
-										onclick="docheck(this)" id="7"/></td>
-										<td>陈江涛</td>
-										<td>18810996699</td>
-									</tr>
-									<tr>
-										<td><input type="checkbox" name="chk"/></td>
-										<td>张长江</td>
-										<td>18810993809</td>
-									</tr>
-									<tr>
-										<td><input type="checkbox" name="chk"/></td>
-										<td>刘黄河</td>
-										<td>18815678809</td>
 									</tr>
 								</table>
 							</div>
