@@ -41,7 +41,7 @@
 			$("div#queryResult ul:first").html("");
 		});
 	});
-	
+
 	var canQuery = 1;
 	var startTime = -1, curTime;
 	var interval = 800;
@@ -68,49 +68,62 @@
 			action = "queryByContent";
 		}
 		$.ajax({
-			url : 'getTree?action=' + action,
-			data : {
-				key : key
-			},
-			type : 'post',
-			dataType : 'text',
-			success : function(data) {
-				$("div#queryResult ul:first").html("");
-				if (data == "")
-					return;
-				//queryResults = JSON.parse(data);
-				queryResults = eval("(" + data + ")");
-				for ( var p in resultMap) {
-					resultMap[p] = null;
-				}
-				var ul_html = "";
-				for ( var i = 0; i < queryResults.length; i++) {
-					resultMap[queryResults[i].id] = queryResults[i];
-					var content = "";
-					var receiver = "";
-					if (queryResults[i].content.length > max_content) {
-						content = queryResults[i].content.substring(0,
-								max_content)
-								+ "<b>. . .</b>";
-					} else {
-						content = queryResults[i].content;
+					url : 'getTree?action=' + action,
+					data : {
+						key : key
+					},
+					type : 'post',
+					dataType : 'text',
+					success : function(data) {
+						data = data.trim();
+						if (data.substr(0, 9) == "<!DOCTYPE") {
+							alert("session expired");
+							return;
+						}
+						$("div#queryResult ul:first").html("");
+						if (data == "")
+							return;
+						//queryResults = JSON.parse(data);
+						if (data.substr(0, 1) == "[") {
+							queryResults = eval("(" + data + ")");
+							for ( var p in resultMap) {
+								resultMap[p] = null;
+							}
+							var ul_html = "";
+							for ( var i = 0; i < queryResults.length; i++) {
+								resultMap[queryResults[i].id] = queryResults[i];
+								var content = "";
+								var receiver = "";
+								if (queryResults[i].content.length > max_content) {
+									content = queryResults[i].content
+											.substring(0, max_content)
+											+ "<b>. . .</b>";
+								} else {
+									content = queryResults[i].content;
+								}
+								if (queryResults[i].receiver.length > max_receiver) {
+									receiver = queryResults[i].receiver
+											.substring(0, max_content)
+											+ "<b>. . .</b>";
+								} else {
+									receiver = queryResults[i].receiver;
+								}
+								ul_html += "<li onmouseover=\"showMessage(this)\" id=\""
+										+ queryResults[i].id
+										+ "\"><div>时间: "
+										+ queryResults[i].timestamp
+										+ "; 接收号码: "
+										+ receiver
+										+ "; 内容: "
+										+ content + "</div></li>";
+							}
+							$("div#detailShow ul:first").html("");
+							$("div#queryResult ul:first").html(ul_html);
+						} else {
+							alert(data);
+						}
 					}
-					if (queryResults[i].receiver.length > max_receiver) {
-						receiver = queryResults[i].receiver.substring(0,
-								max_content)
-								+ "<b>. . .</b>";
-					} else {
-						receiver = queryResults[i].receiver;
-					}
-					ul_html += "<li onmouseover=\"showMessage(this)\" id=\""
-							+ queryResults[i].id + "\"><div>时间: "
-							+ queryResults[i].timestamp + "; 接收号码: " + receiver
-							+ "; 内容: " + content + "</div></li>";
-				}
-				$("div#detailShow ul:first").html("");
-				$("div#queryResult ul:first").html(ul_html);
-			}
-		});
+				});
 	}
 	//显示单条短信的详细信息; 
 	var showed = -1;
@@ -148,7 +161,7 @@
 			</div>
 		</div>
 		<div
-			style="width: 300px; height: 400px; float: left; border-width: 0px; border-color: #808080; border-style: solid;margin-left: 10px">
+			style="width: 300px; height: 400px; float: left; border-width: 0px; border-color: #808080; border-style: solid; margin-left: 10px">
 			<div style="margin-left: 20px; margin-top: 15px; width: 280px;"
 				id="detailShow">
 				<ul></ul>

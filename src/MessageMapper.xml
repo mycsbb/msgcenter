@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="Message">
 	<insert id="insert" parameterType="Message">
 		insert into
-		message(sender,receiver,content,timestamp) values(
-		#{sender},
+		message(userId,receiver,content,timestamp) values(
+		#{userId},
 		#{receiver},
 		#{content},
 		#{timestamp}
@@ -19,11 +19,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--与MessageMapper接口中的queryByPhone方法对应，包括方法名和参数类型。SQL语句中以“#{}”的形式引用参数-->
 	<select id="queryByPhone" parameterType="map" resultType="Message">
-		select * from message where sender = #{sender} and receiver like '%${receiver}%'
+		select * from message where userId = #{userId} and receiver like '%${receiver}%'
 	</select>
 	
 	<select id="queryByContent" parameterType="map" resultType="Message">
-		select * from message where sender = #{sender} and content like '%${content}%'
+		select * from message where userId = #{userId} and content like '%${content}%'
 	</select>
 	
 </mapper>

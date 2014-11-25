@@ -72,8 +72,8 @@
 		$("#funcmenu").children().css("display", "none");
 		$("#funcmenu").children("#sendmenu").css("display", "block");
 		$("#funcpage").load("send.html");
-		// 		$(".yuan").css("background-color", "#64C1E3");
-		// 		$(obj).parent().css("background-color", "#6A6AFF");
+// 		$(".yuan").css("background-color", "#64C1E3");
+// 		$(obj).parent().css("background-color", "#6A6AFF");
 	}
 	function usermanager(obj) {
 		$("#funcmenu").children().css("display", "none");
@@ -154,43 +154,56 @@ ul.ztree { /*
 		</div>
 		<div
 			style="width: 605px; height: 426px; background-color: rgb(230, 230, 230);">
-			<div style="width: 590px; height: 345px; background-color: aqua;">
-				<div class="zTreeBackground left"
-					style="margin-left: 20px; margin-top: 6px; float: left; width: 200px; height: 300px;">
-					<ul id="sendtree" class="ztree"
-						style="height: 300px; width: 200px; margin-left: 0px; margin-top: 10px;"></ul>
-				</div>
-				<div
-					style="width: 282px; height: 324px; float: left; margin-left: 20px;">
+			<fieldset id="fs"
+				style="width: 593px; height: 400px; border: inset; 
+				border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px;
+				 border-left-width: 3px; background-color: #DFECF9">
+				<div style="width: 590px; height: 345px; background-color: aqua;">
+					<div class="zTreeBackground left"
+						style="margin-left: 20px; margin-top: 6px; float: left; 
+						width: 200px; height: 300px;
+						">
+						<ul id="sendtree" class="ztree"
+							style="height: 300px; width: 200px; margin-left: 0px; margin-top: 10px;"></ul>
+					</div>
 					<div
-						style="margin-top: 24px; margin-left: 12px; height: 300px; overflow-x: auto; overflow-y: scroll;">
-						<div>
-							<b>个人通讯录：</b>
-						</div>
-						<div>
-							<table bordercolor="black" border="1" cellspacing="0"
-								style="border-collapse: collapse; text-align: center;"
-								id="contact_table">
-								<tr id="header_tr">
-									<th style="width: 70px;"><input type="checkbox"
-										onclick="checkx(this)" /></th>
-									<th style="width: 60px;">姓名</th>
-									<th style="width: 100px;">号码</th>
-								</tr>
-							</table>
+						style="width: 282px; height: 324px; float: left; margin-left: 20px;
+						">
+						<div
+							style="margin-top: 24px; margin-left: 12px; height: 300px; overflow-x: auto; overflow-y: scroll;">
+							<div>
+								<b>个人通讯录：</b>
+							</div>
+							<div>
+								<table bordercolor="black" border="1" cellspacing="0"
+									style="border-collapse: collapse; text-align: center;"
+									id="contact_table">
+									<tr id="header_tr">
+										<th style="width: 70px;"><input type="checkbox"
+											onclick="checkx(this)" /></th>
+										<th style="width: 60px;">姓名</th>
+										<th style="width: 100px;">号码</th>
+									</tr>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div style="width: 522px; height: 70px; float: left;">
-				<div style="margin-left: 180px; margin-top: 20px;">
-					<span> <input value="确定" onclick="choose_confirm()"
-						type="button">
-					</span> <span style="margin-left: 30px;"> <input value="取消"
-						onclick="choose_cancel()" type="button">
-					</span>
+				<div style="width: 522px; height: 70px; float: left;">
+					<div style="margin-left: 180px; margin-top: 20px;">
+						<span> <input value="确定" onclick="choose_confirm()"
+							type="button">
+						</span> <span style="margin-left: 30px;"> <input value="取消"
+							onclick="choose_cancel()" type="button">
+						</span>
+					</div>
 				</div>
-			</div>
+
+				<!-- 				<div -->
+				<!-- 					style="margin-left: 0px; float: left; width: 130px; height: 380px;"> -->
+
+				<!-- 				</div> -->
+			</fieldset>
 		</div>
 	</div>
 	<div id="headarea">

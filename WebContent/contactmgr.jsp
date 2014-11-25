@@ -27,6 +27,10 @@
 					success : function(data) {
 						var str = data.trim();
 						if (str != "") {
+							if (str.substr(0,9) == "<!DOCTYPE") {
+								alert("session expired");
+								return;
+							}
 							contacts = eval("(" + str + ")");
 							var html = "";
 							for ( var i = 0; i < contacts.length; i++) {
@@ -38,10 +42,8 @@
 										+ contacts[i].zhname + "</td><td>"
 										+ contacts[i].phone + "</td></tr>";
 							}
-							;
-							$("table#contact_tablex").html(
-									$("table#contact_tablex #header_tr")
-										.prop("outerHTML") + html);
+							$("table#contact_tablex").html("<tbody>" + 
+									$("#header_trx").prop("outerHTML") + html + "</tbody>");
 						}
 					}
 				});
@@ -59,7 +61,7 @@
 	}
 	function docheck(obj) {
 		var n = $("input[name='chkx']:checked").length;
-		$("#allchk").prop("checked", false);
+		$("#allchkx").prop("checked", false);
 		if (n == 0) {
 			$("#cmgrform")[0].reset();
 		} else if (n == 1) {
@@ -68,14 +70,14 @@
 			$("input[name='zhname']").val(contactMap[id].zhname);
 			$("input[name='phone']").val(contactMap[id].phone);
 		} else if ($("input[name='chkx']").length == n) {
-			$("#allchk").prop("checked", true);
+			$("#allchkx").prop("checked", true);
 			$("#cmgrform")[0].reset();
 		} else {
 			$("#cmgrform")[0].reset();
 		}
 	}
 	function resetx() {
-		$("#allchk").prop("checked", false);
+		$("#allchkx").prop("checked", false);
 		$("input[name='chkx']").prop("checked", false);
 		$("#cmgrform")[0].reset();
 	}
@@ -102,6 +104,10 @@
 			success : function(data) {
 				var str = data.trim();
 				if (str != "") {
+					if (str.substr(0,9) == "<!DOCTYPE") {
+						alert("session expired");
+						return;
+					}
 					if (str == "add_success") {
 						getContacts();
 						resetx();
@@ -120,9 +126,9 @@
 		}
 		
 		var idstr = "";
-		$("input[name='chk']:checked").each(function() {
+		$("input[name='chkx']:checked").each(function() {
 			var id = $(this).attr("id");
-			idstr += id + ",";
+			idstr += idstr + id + ",";
 		});
 		var reg = /^(\d+,)+$/;
 		if (!reg.test(idstr)) {
@@ -139,6 +145,10 @@
 			success : function(data) {
 				var str = data.trim();
 				if (str != "") {
+					if (str.substr(0,9) == "<!DOCTYPE") {
+						alert("session expired");
+						return;
+					}
 					if (str == "delete_success") {
 						getContacts();
 						resetx();
@@ -180,6 +190,10 @@
 			success : function(data) {
 				var str = data.trim();
 				if (str != "") {
+					if (str.substr(0,9) == "<!DOCTYPE") {
+						alert("session expired");
+						return;
+					}
 					if (str == "update_success") {
 						getContacts();
 						resetx();
@@ -205,9 +219,9 @@
 					<table border="0" cellspacing="0"
 						style="text-align: center;"
 						id="contact_tablex">
-						<tr id="header_tr">
+						<tr id="header_trx">
 							<th style="width: 40px;"><input type="checkbox"
-								onclick="checkx(this)" id="allchk"/></th>
+								onclick="checkx(this)" id="allchkx"/></th>
 							<th style="width: 60px;">姓名</th>
 							<th style="width: 100px;">号码</th>
 						</tr>
@@ -239,12 +253,12 @@
 							<td style="width: 1060px;" colspan="2">
 								<div>
 									<span style="margin-left: 137px"> <input type="button"
-										value="添加" onclick="insert()" /></span> <span
-										style="margin-left: 0px"> <input type="button"
-										value="删除" onclick="delcontacts()" /></span> <span
-										style="margin-left: 0px"> <input type="button"
-										value="更新" onclick="updateContact()" /></span> <span><input
-										type="button" value="重置" onclick="resetx()" /></span>
+										value="添加" onclick="insert()" style="width: 48px;"/></span> <span
+										style="margin-left: 6px"> <input type="button"
+										value="删除" onclick="delcontacts()" style="width: 48px;"/></span> <span
+										style="margin-left: 7px"> <input type="button"
+										value="更新" onclick="updateContact()" style="width: 48px;"/></span>
+										 <span style="margin-left: 7px"><input type="button" value="重置" onclick="resetx()" style="width: 48px;"/></span>
 								</div>
 							</td>
 						</tr>

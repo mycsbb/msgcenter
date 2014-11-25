@@ -120,7 +120,7 @@ public class ContactServlet extends HttpServlet {
 			out.write("请重新选择要删除的联系人！！");
 			out.flush();
 		} else {
-			Pattern pattern = Pattern.compile("(\\d+,)*\\d+");
+			Pattern pattern = Pattern.compile("(\\d+,)*\\d+[,]*");
 			Matcher matcher = pattern.matcher(idstr);
 			if (matcher.matches()) {
 				try{
@@ -195,14 +195,6 @@ public class ContactServlet extends HttpServlet {
 			Map<String, Object> paramMap = new HashMap<String, Object>();
 			paramMap.put("userId", cur_user.getId());
 			paramMap.put("zhname", zhname);
-			qcontact = session.selectOne("Contact.queryByZhname",
-					paramMap);
-			if (qcontact != null) {
-				out.write("该联系人名称已经存在！");
-				out.flush();
-				return;
-			}
-			
 			qcontact = session.selectOne("Contact.queryById", id);
 			if (qcontact == null) {
 				out.write("联系人不存在！数据库有可能已经发生改变");

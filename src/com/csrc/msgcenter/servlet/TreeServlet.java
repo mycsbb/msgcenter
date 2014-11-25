@@ -410,7 +410,7 @@ public class TreeServlet extends HttpServlet {
 		String json = "";
 		try {
 			Map<String, Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("sender", cur_user.getUsername());
+			paramMap.put("userId", cur_user.getId());
 			paramMap.put("receiver", key);
 			List<Message> msgList = session.selectList("Message.queryByPhone",
 					paramMap);
@@ -444,7 +444,7 @@ public class TreeServlet extends HttpServlet {
 		String json = "";
 		try {
 			Map<String, Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("sender", cur_user.getUsername());
+			paramMap.put("userId", cur_user.getId());
 			paramMap.put("content", key);
 			List<Message> msgList = session.selectList(
 					"Message.queryByContent", paramMap);
@@ -569,13 +569,13 @@ public class TreeServlet extends HttpServlet {
 		if (!phones.equals("")) {
 			SmsClient.sendMessage(phones, msg);
 			// 把信息放入数据库
-			String sender = cur_user.getUsername();
+			Integer userId = cur_user.getId();
 			String receiver = phones;
 			String content = msg;
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			session = SessionUtil.getSessionFactory().openSession();
 			try {
-				Message message = new Message(sender, receiver, content,
+				Message message = new Message(userId, receiver, content,
 						timestamp);
 				session.insert("Message.insert", message);
 				session.commit();

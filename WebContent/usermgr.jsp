@@ -62,8 +62,12 @@
 			success : function(data) {
 				var str = data.trim();
 				if (str != "") {
+					if (str.substr(0, 9) == "<!DOCTYPE") {
+						alert("session expired");
+						return;
+					}
 					if (str == "add_success") {
-						createTree("usermanager");
+						createTree("usermanager", "usermgr_tree");
 						resetx();
 						alert("添加成功！");
 					} else {
@@ -77,9 +81,15 @@
 		$("#mgrform")[0].reset();
 		$("#depart option[value='-1']").attr("selected", "selected");
 		$("#level option[value='-1']").attr("selected", "selected");
+		
+		var zTree = $.fn.zTree.getZTreeObj("usermgr_tree");
+		var nodes = zTree.getCheckedNodes(true);
+		for (var i=0; i < nodes.length; i++) {
+			zTree.checkNode(nodes[i], false, true);
+		}
 	}
 	function delusers() {
-		var zTree = $.fn.zTree.getZTreeObj("tree");
+		var zTree = $.fn.zTree.getZTreeObj("usermgr_tree");
 		var nodes = zTree.getCheckedNodes(true);
 		if (nodes.length <= 0) {
 			alert("请选择要删除的用户！");
@@ -107,8 +117,12 @@
 			success : function(data) {
 				var str = data.trim();
 				if (str != "") {
+					if (str.substr(0, 9) == "<!DOCTYPE") {
+						alert("session expired");
+						return;
+					}
 					if (str == "delete_success") {
-						createTree("usermanager");
+						createTree("usermanager", "usermgr_tree");
 						resetx();
 						alert("删除成功！");
 					} else {
@@ -163,8 +177,12 @@
 			success : function(data) {
 				var str = data.trim();
 				if (str != "") {
+					if (str.substr(0, 9) == "<!DOCTYPE") {
+						alert("session expired");
+						return;
+					}
 					if (str == "update_success") {
-						createTree("usermanager");
+						createTree("usermanager", "usermgr_tree");
 						resetx();
 						alert("更改成功！");
 					} else {

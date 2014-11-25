@@ -121,7 +121,7 @@ public class TestMsgCenter {
 			String receiver = "19000";
 			String content = "hello..";
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			Message message = new Message(sender, receiver, content, timestamp);
+			Message message = new Message(3, receiver, content, timestamp);
 			session.insert("Message.insert", message);
 			session.commit();
 		} finally {

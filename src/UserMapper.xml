@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<set>
 			<if test="password!=null">departId=#{departId},</if>
 			<if test="password!=null">levelId=#{levelId},</if>
-			<if test="password!=null">username=#{levelId},</if>
+			<if test="password!=null">username=#{username},</if>
 			<if test="password!=null">password=#{password},</if>
 			<if test="password!=null">zhname=#{zhname},</if>
 			<if test="phone!=null">phone=#{phone}</if>

@@ -76,6 +76,10 @@
 			success : function(data) {
 				var str = data.trim();
 				if (str != "") {
+					if (str.substr(0, 9) == "<!DOCTYPE") {
+						alert("session expired");
+						return;
+					}
 					contacts = eval("(" + str + ")");
 					var html = "";
 					for (var i = 0; i < contacts.length; i++) {
@@ -86,8 +90,8 @@
 								+ contacts[i].zhname + "</td><td>" 
 								+ contacts[i].phone + "</td></tr>"; 
 					}
-					;
-					$("table#contact_table").html($("#header_tr").prop("outerHTML") + html);
+					$("table#contact_table").html("<tbody>" + $("#header_tr").prop("outerHTML") 
+							+ html + "</tbody>");
 				}
 			}
 		});
@@ -136,7 +140,7 @@
 			alert("联系人格式不正确！！");
 			return;
 		}
-		var optional_peers =  optional_peers_str.split(",");
+		var optional_peers =  optional_peers_str.split(";");
 		var optional_phone_str = "";
 		for (var i = 0; i < optional_peers.length; i++) {
 			var optional_peer = optional_peers[i].trim();
@@ -174,6 +178,11 @@
 			type : 'post',
 			dataType : 'text',
 			success : function(data) {
+				data = data.trim();
+				if (data.substr(0, 9) == "<!DOCTYPE") {
+					alert("session expired");
+					return;
+				}
 				//恢复状态
 				clearInterval(clock);
 				elapse = 1;
