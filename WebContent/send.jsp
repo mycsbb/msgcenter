@@ -99,6 +99,7 @@
 	function chooseReceiver() {
 		idstr = "";
 		phone_str = "";
+		contact_str = "";
 		$("#peers").html("");
 		createTree("sendmsg", "sendtree");
 		getContacts();
@@ -221,7 +222,8 @@ ul.ztree {
 				<td class="white">
 					<div style="overflow:">
 						<span style="margin-left: 5px;"> <textarea
-								style="width: 550px; height: 120px; overflow-y: scroll;"
+								style="width: 550px; height: 120px; overflow-y: scroll;
+								resize:none;"
 								id="peers" readonly="readonly"></textarea>
 						</span> <span style="margin-bottom: 50px;">
 							<input type="button" name="opener" onclick="chooseReceiver()"
@@ -233,7 +235,7 @@ ul.ztree {
 						</div>
 						<div>
 							<textarea
-								style="width: 550px; height: 60px;"
+								style="width: 550px; height: 60px; resize:none;"
 								id="optional_peers"></textarea>
 						</div>
 <!-- 						<input type="text" name="optional_peers" -->
@@ -247,7 +249,7 @@ ul.ztree {
 				<td class="white">
 					<div style="overflow:">
 						<span style="margin-left: 5px;"> <textarea
-								style="width: 550px; height: 120px; overflow-y: scroll;"
+								style="width: 550px; height: 120px; overflow-y: scroll; resize:none;"
 								id="msgarea"></textarea>
 						</span> <span style="">
 							<input type="button" onclick="sendmsg()" value="发送" />

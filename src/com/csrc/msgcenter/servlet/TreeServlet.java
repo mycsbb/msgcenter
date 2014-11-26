@@ -26,6 +26,7 @@ import com.csrc.msgcenter.model.User;
 import com.csrc.msgcenter.util.JSONUtil;
 import com.csrc.msgcenter.util.SessionUtil;
 import com.csrc.msgcenter.webservice.SmsClient;
+import com.sms.webservice.client.SmsReturnObj;
 
 /**
  * Servlet implementation class TreeServlet
@@ -567,24 +568,35 @@ public class TreeServlet extends HttpServlet {
 		phones = phones.substring(0, phones.length() - 1);
 		
 		if (!phones.equals("")) {
-			SmsClient.sendMessage(phones, msg);
-			// 把信息放入数据库
-			Integer userId = cur_user.getId();
-			String receiver = phones;
-			String content = msg;
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			session = SessionUtil.getSessionFactory().openSession();
 			try {
-				Message message = new Message(userId, receiver, content,
-						timestamp);
-				session.insert("Message.insert", message);
-				session.commit();
-			} finally {
-				session.close();
+				SmsReturnObj retObj = SmsClient.sendMessage(phones, msg);
+				if (retObj.getReturnCode() != 1) {
+					out.write("短信发送失败，原因为：" + retObj.getReturnMsg());
+					out.flush();
+				} else {
+					System.out.println("短信发送成功！返回结果为：" + retObj.getReturnMsg());
+					// 把信息放入数据库
+					Integer userId = cur_user.getId();
+					String receiver = phones;
+					String content = msg;
+					Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+					session = SessionUtil.getSessionFactory().openSession();
+					try {
+						Message message = new Message(userId, receiver, content,
+								timestamp);
+						session.insert("Message.insert", message);
+						session.commit();
+					} finally {
+						session.close();
+					}
+					out.write("发送成功！！");
+					out.flush();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				out.write("发送过程发生异常！！");
+				out.flush();
 			}
-			// 返回成功信息
-			out.write("发送成功！！");
-			out.flush();
 		} else {
 			out.write("请重新选择收信人！！");
 			out.flush();

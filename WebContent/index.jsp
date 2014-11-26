@@ -112,14 +112,15 @@
 				idstr = idstr + nodes[i].id + ",";
 			}
 		}
-
 		$("#peers").html(peers + contact_str);
 		$("#opadiv").hide();
 		$("#dragdiv").hide();
 	}
 	function choose_cancel() {
+		peers = "";
 		idstr = "";
 		phone_str = "";
+		contact_str = "";
 		$("#peers").html("");
 		$("#opadiv").hide();
 		$("#dragdiv").hide();
@@ -144,52 +145,55 @@ ul.ztree { /*
 		style="width: 1365px; height: 605px; background-color: black; display: none;"
 		class="opacity fixedopadiv" id="opadiv"></div>
 	<div id="dragdiv" class="fixeddragdiv"
-		style="width: 617px; height: 450px; display: none;">
+		style="width: 617px; height: 440px; display: none; background-color: red; border-width: 1px; border-style: solid; border-color: #E8EFF4;">
 		<div
-			style="width: 617px; height: 24px; background-color: rgb(184, 201, 213);"
+			style="width: 617px; height: 25px; background-color: rgb(184, 201, 213);"
 			id="titdiv">
-			<span>请选择收件人</span><span style="margin-left: 430px;"> <a
+			<span>请选择收件人</span><span style="margin-left: 490px;"> <a
 				href="javascript:choose_cancel()"> <b>X</b>
 			</a></span>
 		</div>
-		<div
-			style="width: 605px; height: 426px; background-color: rgb(230, 230, 230);">
-			<div style="width: 590px; height: 345px; background-color: aqua;">
+		<div style="width: 617px; height: 345px; background-color: #E8EFF4;">
+			<div
+				style="width: 280px; height: 345px; float: left;">
 				<div class="zTreeBackground left"
-					style="margin-left: 20px; margin-top: 6px; float: left; width: 200px; height: 300px;">
+					style="margin-left: 33px; margin-top: 5px; width: 200px; height: 300px;
+					">
 					<ul id="sendtree" class="ztree"
 						style="height: 300px; width: 200px; margin-left: 0px; margin-top: 10px;"></ul>
 				</div>
+			</div>
+			<div
+				style="width: 335px; height: 345px; float: left;">
 				<div
-					style="width: 282px; height: 324px; float: left; margin-left: 20px;">
-					<div
-						style="margin-top: 24px; margin-left: 12px; height: 300px; overflow-x: auto; overflow-y: scroll;">
-						<div>
-							<b>个人通讯录：</b>
-						</div>
-						<div>
-							<table bordercolor="black" border="1" cellspacing="0"
-								style="border-collapse: collapse; text-align: center;"
-								id="contact_table">
-								<tr id="header_tr">
-									<th style="width: 70px;"><input type="checkbox"
-										onclick="checkx(this)" /></th>
-									<th style="width: 60px;">姓名</th>
-									<th style="width: 100px;">号码</th>
-								</tr>
-							</table>
-						</div>
+					style="width: 282px; height: 310px; margin-left: 13px; margin-top: 16px; 
+					overflow-x: auto; overflow-y: scroll; ">
+					<div>
+						<b>个人通讯录：</b>
+					</div>
+					<div>
+						<table bordercolor="black" border="1" cellspacing="0"
+							style="border-collapse: collapse; text-align: center;"
+							id="contact_table">
+							<tr id="header_tr">
+								<th style="width: 70px;"><input type="checkbox"
+									onclick="checkx(this)" /></th>
+								<th style="width: 60px;">姓名</th>
+								<th style="width: 100px;">号码</th>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
-			<div style="width: 522px; height: 70px; float: left;">
-				<div style="margin-left: 180px; margin-top: 20px;">
-					<span> <input value="确定" onclick="choose_confirm()"
-						type="button">
-					</span> <span style="margin-left: 30px;"> <input value="取消"
-						onclick="choose_cancel()" type="button">
-					</span>
-				</div>
+		</div>
+		<div
+			style="width: 617px; height: 48px; background-color: #E8EFF4; padding-top: 20px; border-top-color: #B8C9D5; border-top-width: 2px; border-top-style: solid;">
+			<div style="margin-left: 230px; width: 150px;">
+				<span> <input value="确定" onclick="choose_confirm()"
+					type="button">
+				</span> <span style="margin-left: 30px;"> <input value="取消"
+					onclick="choose_cancel()" type="button">
+				</span>
 			</div>
 		</div>
 	</div>

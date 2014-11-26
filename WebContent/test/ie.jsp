@@ -75,5 +75,11 @@ margin-left: 300px;margin-top: 100px;">
 	</table>
 </div>
 <div id="fixedTop" style="background-color: red;"></div>
+<div style="background-color: green;">
+abc<br/>cdf
+</div>
+<div>
+	<textarea style="width: 100px; height: 200px; resize:none; outline: none;"></textarea>
+</div>
 </body>
 </html>

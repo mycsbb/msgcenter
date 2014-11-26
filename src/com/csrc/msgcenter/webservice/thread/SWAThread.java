@@ -20,8 +20,12 @@ public class SWAThread extends Thread {
 	public void run() {
 		for (int i = 0; i < count; i++) {
 			String mobile = seg + String.valueOf(start + i);
-			SmsClient.sendMessage(mobile, content, operId, "", i,
-					(short) 0, (short) 0, (short) 0, "");
+			try {
+				SmsClient.sendMessage(mobile, content, operId, "", i,
+						(short) 0, (short) 0, (short) 0, "");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		System.out.println(seg + "thread 退出！");
 	}

@@ -10,53 +10,78 @@ import com.sms.webservice.client.SmsWebClient;
 import com.sms.webservice.domain.SmsMORecord;
 import com.sms.webservice.domain.SmsReportRecord;
 
+@SuppressWarnings("rawtypes")
 public class SmsClient {
 	private static Pattern pattern = Pattern.compile("(\\d+,)*\\d+");
-	
+
 	static {
 		initClient();
 	}
 
 	public static void main(String[] argv) {
-		/*SWAServer server = new SWAServer(); 
-		server.start();*/
+		/*
+		 * SWAServer server = new SWAServer(); server.start();
+		 */
 		String mobile = "18010151140";
 		String content = "根据中国证监会举报中心委托，特向您发送此条短信。您的注册验证码为:123456";
 		int operId = 10100;
-		sendMessage(mobile, content, operId, "", 1,(short) 0, (short) 0, (short) 0, "");
-		/*sendMorephoneMessage();
-		receiveRPT();
-		sendGroupMessage(); 
-		receiveMO(); 
-		regInst(); 
-		unregInst();*/
+		try {
+			SmsReturnObj retObj = sendMessage(mobile, content, operId, "", 1, (short) 0, (short) 0,
+					(short) 0, "");
+			if (retObj.getReturnCode() != 1) {
+				System.out.println("短信发送失败，原因为：" + retObj.getReturnMsg());
+			} else {
+				System.out.println("短信发送成功！返回结果为：" + retObj.getReturnMsg());
+			}
+			
+		} catch (Exception e) {
+			System.out.println("短信发送过程发生异常!");
+			e.printStackTrace();
+		}
+		/*
+		 * sendMorephoneMessage(); receiveRPT(); sendGroupMessage();
+		 * receiveMO(); regInst(); unregInst();
+		 */
 	}
 
 	public static void initClient() {
 		if (!SmsWebClient.enable()) {
 			int ret = 0;
 			try {
-				ret = SmsWebClient.init("http://www3.chinaclear.cn/smsWebservice/SmsWebInterface.ws","ZJHjcj", "CSRC_jcj_201");
+				ret = SmsWebClient
+						.init("http://www3.chinaclear.cn/smsWebservice/SmsWebInterface.ws",
+								"ZJHjcj", "CSRC_jcj_201");
 				System.out.println(ret);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				System.out.println("短信平台接口初始化过程中异常！");
-			} 
+			}
 			if (ret == -1 || !SmsWebClient.enable()) {
 				System.out.println("短信平台接口初始化失败！");
 				return;
 			}
 		}
 	}
-	public static void sendMessage(String mobilephone, java.lang.String content) {
-		sendMessage(mobilephone, content, 10100, "", 1,(short) 0, (short) 0, (short) 0, "");
+
+	public static SmsReturnObj sendMessage(String mobilephone, String content)
+			throws Exception {
+		return sendMessage(mobilephone, content, 10100, "", 1, (short) 0, (short) 0,
+				(short) 0, "");
 	}
 
-	public static void sendMessage(java.lang.String mobilephone,
-			java.lang.String content, int operId, java.lang.String tosend_time,
-			int sms_id, short backlist_filter, short fbdword_filter,
-			short priority, java.lang.String valid_time) {
-		// 单个手机号码发送
+	// 单个号多个号均可以发送
+	public static SmsReturnObj sendMessage(String mobilephone, String content,
+			int operId, String tosend_time, int sms_id, short backlist_filter,
+			short fbdword_filter, short priority, String valid_time)
+			throws Exception {
+		return SmsWebClient.webSendMessage(mobilephone, content, operId,
+				tosend_time, sms_id, backlist_filter, fbdword_filter, priority,
+				valid_time);
+	}
+
+	public static void sendMessage_old(String mobilephone, String content,
+			int operId, String tosend_time, int sms_id, short backlist_filter,
+			short fbdword_filter, short priority, String valid_time) {
 		try {
 			SmsReturnObj retObj = SmsWebClient.webSendMessage(mobilephone,
 					content, operId, tosend_time, sms_id, backlist_filter,
@@ -73,7 +98,8 @@ public class SmsClient {
 	}
 
 	public static void sendMorephoneMessage(String phones, String msg) {
-		if (phones == null || phones.equals("")) System.out.println("发送失败：手机号为空！！");
+		if (phones == null || phones.equals(""))
+			System.out.println("发送失败：手机号为空！！");
 		Matcher matcher = pattern.matcher(phones);
 		if (!matcher.matches()) {
 			System.out.println("发送失败：手机号格式不正确！！");
@@ -81,8 +107,12 @@ public class SmsClient {
 		System.out.println("enter......send more phone---" + phones);
 		// 多个手机号码发送
 		try {
-			//SmsReturnObj retObj = SmsWebClient.webSendMessage("13520782089,13241822626", "多个手机号码,短信发送测试", 10030, "", 1, (short) 0, (short) 0, (short) 0, "");
-			SmsReturnObj retObj = SmsWebClient.webSendMessage(phones, msg, 10030, "", 1, (short) 0, (short) 0, (short) 0, "");
+			// SmsReturnObj retObj =
+			// SmsWebClient.webSendMessage("13520782089,13241822626",
+			// "多个手机号码,短信发送测试", 10030, "", 1, (short) 0, (short) 0, (short) 0,
+			// "");
+			SmsReturnObj retObj = SmsWebClient.webSendMessage(phones, msg,
+					10030, "", 1, (short) 0, (short) 0, (short) 0, "");
 			if (retObj.getReturnCode() != 1) {
 				System.out.println("短信发送失败，原因为：" + retObj.getReturnMsg());
 			} else {
@@ -110,6 +140,7 @@ public class SmsClient {
 		}
 	}
 
+	
 	public static void receiveRPT() {
 		// 回执接收
 		try {
@@ -119,7 +150,8 @@ public class SmsClient {
 				System.out.println("收到上行状态报告：");
 				while (it.hasNext()) {
 					SmsReportRecord record = (SmsReportRecord) it.next();
-					System.out.println("手机号码：" + record.mobilephone + "\t回执代码"
+					System.out
+							.println("手机号码：" + record.mobilephone + "\t回执代码"
 									+ record.report + "\t状态报告描述："
 									+ record.reportstatus);
 				}
@@ -141,7 +173,8 @@ public class SmsClient {
 				System.out.println("收到上行短信：");
 				while (it.hasNext()) {
 					SmsMORecord record = (SmsMORecord) it.next();
-					System.out.println("手机号码：" + record.mobilephone + "\t内容："+ record.content);
+					System.out.println("手机号码：" + record.mobilephone + "\t内容："
+							+ record.content);
 				}
 			} else {
 				System.out.println("没有上行短信！");
@@ -155,7 +188,8 @@ public class SmsClient {
 	public static void regInst() {
 		// 指令注册
 		try {
-			SmsReturnObj retObj = SmsWebClient.webRegisterInstruction(10009,"webUser inst", "query", "#", "", "");
+			SmsReturnObj retObj = SmsWebClient.webRegisterInstruction(10009,
+					"webUser inst", "query", "#", "", "");
 			if (retObj.getReturnCode() != 1) {
 				System.out.println("指令注册失败，原因为：" + retObj.getReturnMsg());
 			} else {
@@ -170,7 +204,8 @@ public class SmsClient {
 	public static void unregInst() {
 		// 指令注销
 		try {
-			SmsReturnObj retObj = SmsWebClient.webUnregisterInstruction(10020,46, "query");
+			SmsReturnObj retObj = SmsWebClient.webUnregisterInstruction(10020,
+					46, "query");
 			if (retObj.getReturnCode() != 1) {
 				System.out.println("指令注销失败，原因为：" + retObj.getReturnMsg());
 			} else {

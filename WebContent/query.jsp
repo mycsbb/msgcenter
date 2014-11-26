@@ -126,27 +126,57 @@
 				});
 	}
 	//显示单条短信的详细信息; 
-	var showed = -1;
 	function showMessage(obj) {
 		$("#person_info").css("display", "none");
-		//if (showed == obj.id) return;
+		var receiver_str = "";
+		var cur_pos = 2;
+		var receivers = resultMap[obj.id].receiver.split(",");
+		if (receivers.length <= 2) {
+			receiver_str = resultMap[obj.id].receiver;
+		} else {
+			receiver_str = receivers[0] + "," + receivers[1] + ",</br>";
+			for (var i = 0; i < parseInt((receivers.length - 2) / 3); i++) {
+				receiver_str = receiver_str + receivers[cur_pos] + "," + 
+					receivers[cur_pos + 1] + "," + receivers[cur_pos + 2] + ",</br>";
+				cur_pos = cur_pos + 3;
+			}
+			for (var i = cur_pos; i < receivers.length; i++) {
+				receiver_str = receiver_str + receivers[i] + ",";
+			}
+			receiver_str = receiver_str + "</br>";
+			//alert(receiver_str);
+		}
+		
+		var content = "";
+		cur_pos = 0;
+		for (var i = 0; i < parseInt(resultMap[obj.id].content.length / 20); i++) {
+			content = content + resultMap[obj.id].content.substring(cur_pos, 20) + "<br/>";
+			cur_pos = cur_pos + 20;
+		}
+		content = content + resultMap[obj.id].content.substring(cur_pos, 
+				resultMap[obj.id].content.length - cur_pos);
 		var ul_html = "<li><div><b>时间:&nbsp;&nbsp;</b>"
 				+ resultMap[obj.id].timestamp + "</div></li>"
 				+ "<li><div><b>接收号码:&nbsp;&nbsp;</b>"
-				+ resultMap[obj.id].receiver + "</div></li>"
-				+ "<li><div><b>内容:&nbsp;&nbsp;</b>" + resultMap[obj.id].content
+				+ receiver_str + "</div></li>"
+				+ "<li><div><b>内容:&nbsp;&nbsp;</b>" + content
 				+ "</div></li>";
 		$("div#detailShow ul:first").html(ul_html);
-		showed = obj.id;
+		
+		//下面是新式方法
 	}
 </script>
 </head>
 <body>
 	<div
-		style="position: absolute; left: 30px; top: 10px; width: 650px; height: 405px; border-width: 0px; border-color: #808080; border-style: solid;"
+		style="position: absolute; left: 30px; top: 10px; width: 900px; height: 405px; 
+		border-width: 0px; border-color: #808080; border-style: solid;
+		"
 		id="login">
 		<div
-			style="width: 300px; height: 400px; float: left; border-width: 0px; border-color: #808080; border-style: solid; overflow: auto; margin-left: 10px"
+			style="width: 300px; height: 400px; float: left; 
+			border-width: 0px; border-color: #808080; border-style: solid; 
+			overflow: auto; margin-left: 10px;"
 			id="query">
 			<div style="margin-left: 0px; margin-top: 15px;">
 				历史查询
@@ -161,11 +191,18 @@
 			</div>
 		</div>
 		<div
-			style="width: 300px; height: 400px; float: left; border-width: 0px; border-color: #808080; border-style: solid; margin-left: 10px">
-			<div style="margin-left: 20px; margin-top: 15px; width: 280px;"
+			style="width: 400px; height: 400px; float: left; 
+			border-width: 0px; border-color: #808080; border-style: solid; margin-left: 10px;
+			">
+			<div style="margin-left: 20px; margin-top: 15px; overflow: auto;
+			width: 360px; height: 370px;
+			">
+				<div style="width: 300px; height: 370px;"
 				id="detailShow">
-				<ul></ul>
+					<ul></ul>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 </body>
