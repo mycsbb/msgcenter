@@ -206,7 +206,7 @@ ul.ztree { /*
 </style>
 </head>
 <body>
-	<div style="position: absolute; left: 30px; top: 10px;">
+	<div style="margin-left: 30px; margin-top: 10px;">
 		<div class="zTreeBackground left"
 			style="margin-left: 0px; float: left; ">
 			<ul id="usermgr_tree" class="ztree"></ul>

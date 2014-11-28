@@ -191,3 +191,25 @@ function testMap(){
     });   
     alert(s);   
 }  
+
+function getElementPosition(obj) {
+	var actualLeft = obj.offsetLeft;
+	var current = obj.offsetParent;
+	while (current != null) {
+		actualLeft += current.offsetLeft;
+		current = current.offsetParent;
+	}
+
+	var actualTop = obj.offsetTop;
+	var current = obj.offsetParent;
+	while (current != null) {
+		actualTop += current.offsetTop;
+		current = current.offsetParent;
+	}
+	var position = {
+		left : actualLeft,
+		top : actualTop
+	};
+
+	return position;
+}

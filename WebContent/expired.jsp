@@ -18,7 +18,7 @@ body {
 </style>
 </head>
 <body>
-<div style="position: absolute; left: 30px; top: 10px;">
+<div style="margin-left: 30px; margin-top: 10px;">
 	<center><h1>session expired..</h1></center>
 	<center><a href="login.html">请先登录！！</a></center>
 </div>

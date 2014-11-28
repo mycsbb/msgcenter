@@ -162,42 +162,42 @@
 				+ "<li><div><b>内容:&nbsp;&nbsp;</b>" + content
 				+ "</div></li>";
 		$("div#detailShow ul:first").html(ul_html);
-		
-		//下面是新式方法
+	}
+	
+	function query_prepare(obj) {
+		$("input[name='key']").val("");
 	}
 </script>
 </head>
 <body>
-	<div
-		style="position: absolute; left: 30px; top: 10px; width: 900px; height: 405px; 
-		border-width: 0px; border-color: #808080; border-style: solid;
-		"
-		id="login">
+	<div style="margin-left: 30px; margin-top: 10px; width: 900px; height: 405px; ">
 		<div
-			style="width: 300px; height: 400px; float: left; 
+			style="width: 310px; height: 400px; float: left; 
 			border-width: 0px; border-color: #808080; border-style: solid; 
 			overflow: auto; margin-left: 10px;"
 			id="query">
-			<div style="margin-left: 0px; margin-top: 15px;">
+			<div style="margin-left: 0px; margin-top: 15px;
+			">
 				历史查询
 				<div>
-					按手机号<input type="radio" name="queryType" value="phone" /> 按内容<input
-						type="radio" name="queryType" value="content" /> <input
+					按手机号<input type="radio" name="queryType" value="phone" onclick="query_prepare(this)"/> 
+					按内容<input
+						type="radio" name="queryType" value="content" onclick="query_prepare(this)"/> <input
 						type="text" name="key" />
 				</div>
-				<div id="queryResult">
-					<ul style="list-style-type: disc;"></ul>
+				<div id="queryResult" style="width: 270px;">
+					<ul style="list-style-type: decimal;"></ul>
 				</div>
 			</div>
 		</div>
 		<div
 			style="width: 400px; height: 400px; float: left; 
 			border-width: 0px; border-color: #808080; border-style: solid; margin-left: 10px;
+			overflow: auto;">
+			<div style="margin-left: 20px; margin-top: 15px; 
+			width: 350px;
 			">
-			<div style="margin-left: 20px; margin-top: 15px; overflow: auto;
-			width: 360px; height: 370px;
-			">
-				<div style="width: 300px; height: 370px;"
+				<div style="width: 310px;"
 				id="detailShow">
 					<ul></ul>
 				</div>

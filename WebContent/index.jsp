@@ -22,38 +22,39 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#funcpage").load("send.html");
+		//$("#funcpage").load("test/ie.html");
 
-		var _move = false;
-		var _x = -1, _y = -1;
-		$("#titdiv").mousedown(function(e) {
-			_move = true;
-			_x = e.pageX - parseInt($("#dragdiv").css("left"));
-			_y = e.pageY - parseInt($("#dragdiv").css("top"));
-			//$("#dragdiv").fadeTo(20, 0.5); //点击后开始拖动并透明显示
-			//$("#dragdiv").fadeTo(20, 1); //点击后开始拖动并透明显示
-		});
-		$(document).mousemove(function(e) {
-			if (_move) {
-				var x = e.pageX - _x;
-				var y = e.pageY - _y;
-				if (x < 0)
-					x = 0;
-				if (x > 800)
-					x = 800;
-				if (y < 0)
-					y = 0;
-				if (y > 150)
-					y = 150;
-				$("#dragdiv").css({
-					top : y,
-					left : x
-				});
-			}
-		});
-		$(document).mouseup(function() {
-			_move = false;
-			//$("#dragdiv").fadeTo("fast", 1); //松开鼠标后停止移动并恢复成不透明
-		});
+// 		var _move = false;
+// 		var _x = -1, _y = -1;
+// 		$("#titdiv").mousedown(function(e) {
+// 			_move = true;
+// 			_x = e.pageX - parseInt($("#dragdiv").css("left"));
+// 			_y = e.pageY - parseInt($("#dragdiv").css("top"));
+// 			//$("#dragdiv").fadeTo(20, 0.5); //点击后开始拖动并透明显示
+// 			//$("#dragdiv").fadeTo(20, 1); //点击后开始拖动并透明显示
+// 		});
+// 		$(document).mousemove(function(e) {
+// 			if (_move) {
+// 				var x = e.pageX - _x;
+// 				var y = e.pageY - _y;
+// 				if (x < 0)
+// 					x = 0;
+// 				if (x > 800)
+// 					x = 800;
+// 				if (y < 0)
+// 					y = 0;
+// 				if (y > 150)
+// 					y = 150;
+// 				$("#dragdiv").css({
+// 					top : y,
+// 					left : x
+// 				});
+// 			}
+// 		});
+// 		$(document).mouseup(function() {
+// 			_move = false;
+// 			//$("#dragdiv").fadeTo("fast", 1); //松开鼠标后停止移动并恢复成不透明
+// 		});
 	});
 	function loadpage(name) {
 		if (name == "usermgr") {
@@ -65,7 +66,6 @@
 		} else if (name == "contactmgr") {
 			$("#funcpage").load("contactmgr.html");
 		}
-
 	}
 
 	function sendfeature(obj) {
@@ -85,46 +85,6 @@
 		$("#funcmenu").children("#contactmenu").css("display", "block");
 		$("#funcpage").load("contactmgr.html");
 	}
-
-	//下面是对话框数据交互
-	var idstr = "";
-	var peers = "";
-	var contactMap = new Object();
-	var contact_str = "";
-	var phone_str = "";
-	function choose_confirm() {
-		idstr = "";
-		phone_str = "";
-		contact_str = "";
-		$("input[name='chk']:checked").each(function() {
-			var id = $(this).attr("id");
-			contact_str = contact_str + contactMap[id].zhname + "; ";
-			phone_str = phone_str + contactMap[id].phone + ",";
-		});
-
-		var zTree = $.fn.zTree.getZTreeObj(setting.container_id);
-		var nodes = zTree.getCheckedNodes(true);
-		peers = "";
-		idstr = "";
-		for ( var i = 0; i < nodes.length; i++) {
-			if (nodes[i].is_person == true) {
-				peers = peers + nodes[i].name + "; ";
-				idstr = idstr + nodes[i].id + ",";
-			}
-		}
-		$("#peers").html(peers + contact_str);
-		$("#opadiv").hide();
-		$("#dragdiv").hide();
-	}
-	function choose_cancel() {
-		peers = "";
-		idstr = "";
-		phone_str = "";
-		contact_str = "";
-		$("#peers").html("");
-		$("#opadiv").hide();
-		$("#dragdiv").hide();
-	}
 </script>
 <style type="text/css">
 ul.ztree { /*
@@ -141,62 +101,7 @@ ul.ztree { /*
 <title>Index</title>
 </head>
 <body>
-	<div
-		style="width: 1365px; height: 605px; background-color: black; display: none;"
-		class="opacity fixedopadiv" id="opadiv"></div>
-	<div id="dragdiv" class="fixeddragdiv"
-		style="width: 617px; height: 440px; display: none; background-color: red; border-width: 1px; border-style: solid; border-color: #E8EFF4;">
-		<div
-			style="width: 617px; height: 25px; background-color: rgb(184, 201, 213);"
-			id="titdiv">
-			<span>请选择收件人</span><span style="margin-left: 490px;"> <a
-				href="javascript:choose_cancel()"> <b>X</b>
-			</a></span>
-		</div>
-		<div style="width: 617px; height: 345px; background-color: #E8EFF4;">
-			<div
-				style="width: 280px; height: 345px; float: left;">
-				<div class="zTreeBackground left"
-					style="margin-left: 33px; margin-top: 5px; width: 200px; height: 300px;
-					">
-					<ul id="sendtree" class="ztree"
-						style="height: 300px; width: 200px; margin-left: 0px; margin-top: 10px;"></ul>
-				</div>
-			</div>
-			<div
-				style="width: 335px; height: 345px; float: left;">
-				<div
-					style="width: 282px; height: 310px; margin-left: 13px; margin-top: 16px; 
-					overflow-x: auto; overflow-y: scroll; ">
-					<div>
-						<b>个人通讯录：</b>
-					</div>
-					<div>
-						<table bordercolor="black" border="1" cellspacing="0"
-							style="border-collapse: collapse; text-align: center;"
-							id="contact_table">
-							<tr id="header_tr">
-								<th style="width: 70px;"><input type="checkbox"
-									onclick="checkx(this)" /></th>
-								<th style="width: 60px;">姓名</th>
-								<th style="width: 100px;">号码</th>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div
-			style="width: 617px; height: 48px; background-color: #E8EFF4; padding-top: 20px; border-top-color: #B8C9D5; border-top-width: 2px; border-top-style: solid;">
-			<div style="margin-left: 230px; width: 150px;">
-				<span> <input value="确定" onclick="choose_confirm()"
-					type="button">
-				</span> <span style="margin-left: 30px;"> <input value="取消"
-					onclick="choose_cancel()" type="button">
-				</span>
-			</div>
-		</div>
-	</div>
+
 	<div id="headarea">
 		<div
 			style="width: 185px; height: 25px; float: right; margin-top: 52px">
@@ -232,7 +137,7 @@ ul.ztree { /*
 					<span class="yuan"
 						style="background-color: #64C1E3; margin-left: 32px;"> <a
 						href="javascript:" onclick="sendfeature(this)">短信发送</a></span>
-					<span class="yuan" style="background-color: #64C1E3;"> <a
+					<span class="yuan" style="background-color: red;"> <a
 						href="javascript:" onclick="contact_manager(this)">通讯录管理</a></span>
 				</c:otherwise>
 			</c:choose>

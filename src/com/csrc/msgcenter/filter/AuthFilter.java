@@ -1,6 +1,10 @@
 package com.csrc.msgcenter.filter;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +30,31 @@ public class AuthFilter implements Filter {
 	public String GOING_IN = "Enter AuthInterceptor.";
 	public String GOING_OUT = "Go out AuthInterceptor.";
 
+	static {
+		String path = "";
+		try {
+			path = AuthFilter.class.getResource("/").toURI().getPath();
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println("path: " + path + "urls.permitted");
+		try {
+			FileInputStream fis = new FileInputStream(path + "urls.permitted");
+			InputStreamReader isr = new InputStreamReader(fis, "utf-8");
+			BufferedReader br = new BufferedReader(isr);
+			String line;
+			while ((line = br.readLine()) != null) {
+				if (!line.trim().equals("")) {
+					System.out.println("init----------: " + line.trim());
+					AuthFilter.urls_permitted.add(line.trim());
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	/**
 	 * Default constructor.
 	 */
@@ -44,7 +73,7 @@ public class AuthFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain chain) throws IOException, ServletException {
 		System.out.println("enter filter...");
-		
+
 		if (!isNeedAuth) {
 			chain.doFilter(req, res);
 			System.out.println(GOING_OUT);
@@ -59,7 +88,7 @@ public class AuthFilter implements Filter {
 		String reqType = request.getMethod();
 
 		System.out.println("servletPath=" + servletPath);
-		
+
 		int flag = 0;
 		for (int i = 0; i < urls_permitted.size(); i++) {
 			String url = urls_permitted.get(i);
@@ -77,10 +106,11 @@ public class AuthFilter implements Filter {
 			request.getRequestDispatcher("/404.jsp").forward(req, res);
 			return;
 		}
-		
+
 		String action = request.getParameter("action");
 		if (reqType.equalsIgnoreCase("post") && servletPath.equals("/auth")) {
-			if (session != null && session.getAttribute(USER_SESSION_KEY) != null) {
+			if (session != null
+					&& session.getAttribute(USER_SESSION_KEY) != null) {
 				System.out.println("[login-post-has-session]");
 				request.getRequestDispatcher("/index.jsp").forward(req, res);
 				System.out.println(GOING_OUT);
@@ -89,15 +119,18 @@ public class AuthFilter implements Filter {
 			}
 			return;
 		}
-		
+
 		if (reqType.equalsIgnoreCase("get") && servletPath.equals("/auth")) {
-			if (session != null && session.getAttribute(USER_SESSION_KEY) != null) {
+			if (session != null
+					&& session.getAttribute(USER_SESSION_KEY) != null) {
 				if (action != null && action.equals("logout")) {
 					session.removeAttribute(USER_SESSION_KEY);
-					response.sendRedirect(request.getContextPath() + "/login.html");
+					response.sendRedirect(request.getContextPath()
+							+ "/login.html");
 				} else {
 					System.out.println("[has-session]");
-					request.getRequestDispatcher("/index.jsp").forward(req, res);
+					request.getRequestDispatcher("/index.jsp")
+							.forward(req, res);
 					System.out.println(GOING_OUT);
 				}
 			} else {
@@ -105,24 +138,25 @@ public class AuthFilter implements Filter {
 			}
 			return;
 		}
-		
+
 		if (session != null && session.getAttribute(USER_SESSION_KEY) != null) {
 			System.out.println("[login-post-has-session]");
 			if (servletPath.endsWith(".html")) {
-				request.getRequestDispatcher(servletPath.replace(".html", ".jsp"))
-					.forward(req, res);
+				request.getRequestDispatcher(
+						servletPath.replace(".html", ".jsp")).forward(req, res);
 			} else if (servletPath.equals("/")) {
-				request.getRequestDispatcher("/index.jsp")
-					.forward(req, res);
+				request.getRequestDispatcher("/index.jsp").forward(req, res);
 			} else {
 				chain.doFilter(req, res);
 			}
 			System.out.println(GOING_OUT);
 		} else {
-			if (servletPath.startsWith("/js/") || servletPath.startsWith("/css/") || 
-					servletPath.startsWith("/test/")) {
+			if (servletPath.startsWith("/js/")
+					|| servletPath.startsWith("/css/")
+					|| servletPath.startsWith("/test/")) {
 				chain.doFilter(req, res);
-			} else if (servletPath.equals("/login.html") || servletPath.equals("/")) {
+			} else if (servletPath.equals("/login.html")
+					|| servletPath.equals("/")) {
 				request.getRequestDispatcher("/login.jsp").forward(req, res);
 			} else if (servletPath.equals("/index.html")) {
 				response.sendRedirect(request.getContextPath() + "/login.html");

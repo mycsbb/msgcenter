@@ -49,6 +49,8 @@
 				});
 	}
 	$(function() {
+// 		var pos = getElementPosition($("#funcpage")[0]);
+// 		alert(pos.left + " " + pos.top);
 		getContacts();
 	});
 	function checkx(obj) {
@@ -208,7 +210,8 @@
 </script>
 </head>
 <body>
-	<div style="position: absolute; left: 30px; top: 10px;">
+<!-- 	<div style="position: absolute; left: 273px; top: 139px;"> -->
+	<div style="margin-left: 30px; margin-top: 10px;">
 		<div style="float: left; width: 320px; height: 60px;">
 			<div
 				style="overflow-x: auto; overflow-y: scroll; width: 280px; height: 360px; margin-top: 15px;">

@@ -39,7 +39,7 @@ body {
 	height: 475px;
 	background-color: #FCFCB4;
 	float: left;
-	position: relative;
+/* 	position: relative; */
 }
 
 #sendarea {
@@ -120,6 +120,7 @@ td.whitex { /* 	background-color: white; */
 	opacity: 0.3;
 }
 
+/* fixed不管如果滚动，他离浏览器边的距离是固定的 */
 .fixeddragdiv { 
 	z-index: 1000; 
 	/* 可自定义top的值，离窗口底部的距离 */

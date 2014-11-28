@@ -24,18 +24,25 @@ public class InitServlet extends HttpServlet {
      */
     public InitServlet() throws IOException {
         super();
-        String path = this.getClass().getResource("/").getPath();
-        FileInputStream fis = new FileInputStream(path + "urls.permitted");
-        InputStreamReader isr = new InputStreamReader(fis, "utf-8");
-        BufferedReader br = new BufferedReader(isr);
-        String line;
-        while ((line = br.readLine()) != null) {
-        	if (!line.trim().equals("")) {
-        		System.out.println("init----------: " + line.trim());
-        		AuthFilter.urls_permitted.add(line.trim());
-        	}
-        }
+        
+/*		String path = this.getClass().getResource("/").getPath();
+		FileInputStream fis = new FileInputStream(path + "urls.permitted");
+		InputStreamReader isr = new InputStreamReader(fis, "utf-8");
+		BufferedReader br = new BufferedReader(isr);
+		String line;
+		while ((line = br.readLine()) != null) {
+			if (!line.trim().equals("")) {
+				System.out.println("init----------: " + line.trim());
+				AuthFilter.urls_permitted.add(line.trim());
+			}
+		}*/
     }
+
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
