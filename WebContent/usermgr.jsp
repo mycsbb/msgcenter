@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	String zNodes = (String)request.getAttribute("zNodes");
+	//out.println(zNodes);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,7 +25,11 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
 	$(function() {
-		createTree("usermanager", "usermgr_tree");
+		//createTree("usermanager", "usermgr_tree");
+		setting.flag = "usermanager";
+		setting.container_id = "usermgr_tree";
+		zNodes = eval('(${requestScope.zNodes})');
+		$.fn.zTree.init($("#usermgr_tree"), setting, zNodes);
 	});
 	function insert() {
 		var zhname = $("input[name='zhname']").val().trim();
@@ -41,7 +48,7 @@
 			alert("用户名格式不正确！");
 			return;
 		}
-		reg = /^\d+$/;
+		reg = /^[1-9]{1}\d{3,10}$/;
 		if (!reg.test(phone)) {
 			alert("电话格式不正确！");
 			return;
@@ -155,7 +162,7 @@
 			alert("用户名格式不正确！");
 			return;
 		}
-		reg = /^\d+$/;
+		reg = /^[1-9]{1}\d{3,10}$/;
 		if (!reg.test(phone)) {
 			alert("电话格式不正确！");
 			return;
@@ -229,15 +236,20 @@ ul.ztree { /*
 					<td class="white1"><span style="margin-left: 5px"> 
 							<select style="width: 146px" id="depart">
 								<option value="-1">[请选择]</option>
+								<option value="2">局领导</option>
 								<option value="3">综合处</option>
-								<option value="4">立案处</option>
-								<option value="5">督查一处</option>
-								<option value="6">督查二处</option>
-								<option value="7">协调处</option>
-								<option value="8">法规处</option>
-								<option value="9">涉外处</option>
+								<option value="4">协调处</option>
+<!-- 								<option value="23">立案处</option> -->
+								<option value="28">线索一处</option>
+								<option value="29">线索二处</option>
+								<option value="30">线索三处</option>
+								<option value="22">督查一处</option>
+								<option value="21">督查二处</option>
 								<option value="20">技术指导处</option>
-								<option value="100">其他</option>
+								<option value="24">复核处</option>
+								<option value="25">法规处</option>
+								<option value="26">涉外处</option>
+								<option value="31">其他</option>
 						</select>
 					</span></td>
 				</tr>
@@ -246,14 +258,18 @@ ul.ztree { /*
 					<td class="white1"><span style="margin-left: 5px"> 
 						<select style="width: 146px" id="level">
 								<option value="-1">[请选择]</option>
-								<option value="4">处长</option>
-								<option value="5">调研员</option>
-								<option value="6">副处长</option>
-								<option value="7">副调研员</option>
-								<option value="8">主任科员</option>
-								<option value="9">副主任科员</option>
-								<option value="10">研员</option>
-								<option value="11">文秘</option>
+								<option value="1">局长</option>
+								<option value="2">巡视员</option>
+								<option value="3">副局长</option>
+								<option value="4">副巡视员</option>
+								<option value="5">处长</option>
+								<option value="6">调研员</option>
+								<option value="7">副处长</option>
+								<option value="8">副调研员</option>
+								<option value="9">主任科员</option>
+								<option value="10">副主任科员</option>
+								<option value="11">科员</option>
+								<option value="12">文秘</option>
 								<option value="100">其他</option>
 						</select>
 					</span></td>

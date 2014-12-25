@@ -39,9 +39,10 @@
 		});
 	});
 	function showpos(obj) {
+		alert(1);
 		var pos = getElementPosition(obj);
-		$("#tdiv").css("left", "0px");
-		$("#tdiv").css("top", "-30px");
+		//$("#tdiv").css("left", "0px");
+		//$("#tdiv").css("top", "-30px");
 		//alert(document.documentElement.outerHTML);
 	}
 	function getElementPosition(obj) {

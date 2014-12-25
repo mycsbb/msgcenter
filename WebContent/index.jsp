@@ -58,13 +58,15 @@
 	});
 	function loadpage(name) {
 		if (name == "usermgr") {
-			$("#funcpage").load("usermgr.html");
+			//$("#funcpage").load("usermgr.html");
+			$("#funcpage").load("getTree?action=usermgr");
 		} else if (name == "sendpage") {
 			$("#funcpage").load("send.html");
 		} else if (name == "query") {
 			$("#funcpage").load("query.html");
 		} else if (name == "contactmgr") {
-			$("#funcpage").load("contactmgr.html");
+			//$("#funcpage").load("contactmgr.html");
+			$("#funcpage").load("contact?action=contactmgr");
 		}
 	}
 
@@ -78,12 +80,14 @@
 	function usermanager(obj) {
 		$("#funcmenu").children().css("display", "none");
 		$("#funcmenu").children("#usermenu").css("display", "block");
-		$("#funcpage").load("usermgr.html");
+		//$("#funcpage").load("usermgr.html");
+		loadpage("usermgr");
 	}
 	function contact_manager(obj) {
 		$("#funcmenu").children().css("display", "none");
 		$("#funcmenu").children("#contactmenu").css("display", "block");
-		$("#funcpage").load("contactmgr.html");
+		//$("#funcpage").load("contactmgr.html");
+		loadpage("contactmgr");
 	}
 </script>
 <style type="text/css">
@@ -131,13 +135,13 @@ ul.ztree { /*
 					<span class="yuan" style="background-color: #64C1E3;"> <a
 						href="javascript:" onclick="usermanager(this)">用户管理</a></span>
 					<span class="yuan" style="background-color: #64C1E3;"> <a
-						href="javascript:" onclick="contact_manager(this)">通讯录管理</a></span>
+						href="javascript:" onclick="contact_manager(this)">个人通讯录</a></span>
 				</c:when>
 				<c:otherwise>
 					<span class="yuan"
 						style="background-color: #64C1E3; margin-left: 32px;"> <a
 						href="javascript:" onclick="sendfeature(this)">短信发送</a></span>
-					<span class="yuan" style="background-color: red;"> <a
+					<span class="yuan" style="background-color: #64C1E3;"> <a
 						href="javascript:" onclick="contact_manager(this)">通讯录管理</a></span>
 				</c:otherwise>
 			</c:choose>

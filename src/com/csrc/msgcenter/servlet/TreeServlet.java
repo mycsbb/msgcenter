@@ -77,6 +77,8 @@ public class TreeServlet extends HttpServlet {
 			deleteUsers(request, response);
 		} else if (action.equals("fetchuser")) {
 			queryById(request, response);
+		} else if (action.equals("usermgr")) {
+			do_usermgr(request, response);
 		} else {
 			PrintWriter out = response.getWriter();
 			out.write("<center><H1>404 not found!!</H1></center>");
@@ -112,7 +114,7 @@ public class TreeServlet extends HttpServlet {
 				out.flush();
 				return;
 			}
-			String str = userToJson(quser, "role");
+			String str = userToJson(quser, "role,password");
 			out.write(str);
 			out.flush();
 		} finally {
@@ -260,7 +262,7 @@ public class TreeServlet extends HttpServlet {
 			return;
 		}
 		// 下面验证手机格式
-		String regex = "^\\d+$";
+		String regex = "^[1-9]{1}\\d{3,10}$";
 		Pattern phone_pattern = Pattern.compile(regex);
 		Matcher matcher = phone_pattern.matcher(phone);
 		if (!matcher.matches()) {
@@ -322,7 +324,7 @@ public class TreeServlet extends HttpServlet {
 		phone = phone.trim();
 
 		// 下面验证手机格式
-		String regex = "^\\d+$";
+		String regex = "^[1-9]{1}\\d{3,10}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(phone);
 		if (!matcher.matches()) {
@@ -486,6 +488,40 @@ public class TreeServlet extends HttpServlet {
 				json = "[" + json.substring(0, json.length() - 1) + "]";
 				System.out.println(json);
 			}
+		} finally {
+			session.close();
+		}
+		// 这句有用
+		// 这句没用
+		// response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.write(json);
+		out.flush();
+	}
+	
+	protected void do_usermgr(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		SqlSession session = SessionUtil.getSessionFactory().openSession();
+		String json = "";
+		try {
+			List<Department> departments = session
+					.selectList("Department.queryAll");
+			List<User> users = session.selectList("User.queryAll");
+			for (User user : users) {
+				user.setId(user.getId() * (-1));
+				json += userToJson(user, "username,password,levelId,phone")
+						+ ",";
+			}
+			for (Department department : departments) {
+				json += departmentToJson(department) + ",";
+			}
+			if (json != "") {
+				json = "[" + json.substring(0, json.length() - 1) + "]";
+				System.out.println(json);
+			}
+			
+			request.setAttribute("zNodes", json);
+			request.getRequestDispatcher("/usermgr.jsp").forward(request, response);
 		} finally {
 			session.close();
 		}

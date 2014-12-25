@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50037
 File Encoding         : 65001
 
-Date: 2014-11-25 18:57:22
+Date: 2014-12-24 10:38:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,10 +30,7 @@ CREATE TABLE `contact` (
 -- ----------------------------
 -- Records of contact
 -- ----------------------------
-INSERT INTO `contact` VALUES ('1', '3', '陈金', '18010151140');
-INSERT INTO `contact` VALUES ('4', '3', '长江', '1234567');
-INSERT INTO `contact` VALUES ('5', '3', '黄河', '1234');
-INSERT INTO `contact` VALUES ('8', '3', '西藏', '12345');
+INSERT INTO `contact` VALUES ('1', '3', '张三', '18884000234');
 
 -- ----------------------------
 -- Table structure for `department`
@@ -53,10 +50,18 @@ CREATE TABLE `department` (
 INSERT INTO `department` VALUES ('1', '0', '中国证监会', '1');
 INSERT INTO `department` VALUES ('2', '1', '稽查局', '106');
 INSERT INTO `department` VALUES ('3', '2', '综合处', '10601');
-INSERT INTO `department` VALUES ('4', '2', '立案处', '10602');
-INSERT INTO `department` VALUES ('5', '2', '督查一处', '10603');
-INSERT INTO `department` VALUES ('6', '2', '督查二处', '10604');
-INSERT INTO `department` VALUES ('20', '2', '技术指导处', '10609');
+INSERT INTO `department` VALUES ('4', '2', '协调处', '10602');
+INSERT INTO `department` VALUES ('20', '2', '技术指导处', '10606');
+INSERT INTO `department` VALUES ('21', '2', '督查二处', '10605');
+INSERT INTO `department` VALUES ('22', '2', '督查一处', '10604');
+INSERT INTO `department` VALUES ('24', '2', '复核处', '10607');
+INSERT INTO `department` VALUES ('25', '2', '法规处', '10608');
+INSERT INTO `department` VALUES ('26', '2', '涉外处', '10609');
+INSERT INTO `department` VALUES ('27', '2', '线索中心', '10603');
+INSERT INTO `department` VALUES ('28', '27', '线索一处', '1060301');
+INSERT INTO `department` VALUES ('29', '27', '线索二处', '1060302');
+INSERT INTO `department` VALUES ('30', '27', '线索三处', '1060303');
+INSERT INTO `department` VALUES ('31', '2', '其它', '10620');
 
 -- ----------------------------
 -- Table structure for `level`
@@ -65,24 +70,26 @@ DROP TABLE IF EXISTS `level`;
 CREATE TABLE `level` (
   `id` int(11) NOT NULL,
   `position` varchar(255) default NULL,
+  `rank` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of level
 -- ----------------------------
-INSERT INTO `level` VALUES ('1', '局长');
-INSERT INTO `level` VALUES ('2', '巡视员');
-INSERT INTO `level` VALUES ('3', '副局长');
-INSERT INTO `level` VALUES ('4', '处长');
-INSERT INTO `level` VALUES ('5', '调研员');
-INSERT INTO `level` VALUES ('6', '副处长');
-INSERT INTO `level` VALUES ('7', '副调研员');
-INSERT INTO `level` VALUES ('8', '主任科员');
-INSERT INTO `level` VALUES ('9', '副主任科员');
-INSERT INTO `level` VALUES ('10', '科员');
-INSERT INTO `level` VALUES ('11', '文秘');
-INSERT INTO `level` VALUES ('100', '其他');
+INSERT INTO `level` VALUES ('1', '局长', '1');
+INSERT INTO `level` VALUES ('2', '巡视员', '2');
+INSERT INTO `level` VALUES ('3', '副局长', '3');
+INSERT INTO `level` VALUES ('4', '副巡视员', '4');
+INSERT INTO `level` VALUES ('5', '处长', '11');
+INSERT INTO `level` VALUES ('6', '调研员', '12');
+INSERT INTO `level` VALUES ('7', '副处长', '13');
+INSERT INTO `level` VALUES ('8', '副调研员', '14');
+INSERT INTO `level` VALUES ('9', '主任科员', '21');
+INSERT INTO `level` VALUES ('10', '副主任科员', '22');
+INSERT INTO `level` VALUES ('11', '科员', '23');
+INSERT INTO `level` VALUES ('12', '文秘', '24');
+INSERT INTO `level` VALUES ('100', '其他', '100');
 
 -- ----------------------------
 -- Table structure for `message`
@@ -136,6 +143,21 @@ INSERT INTO `message` VALUES ('37', '3', '18010151140,18010151140', '1000', '201
 INSERT INTO `message` VALUES ('38', '3', '18010151140', '4500', '2014-11-25 10:13:25');
 INSERT INTO `message` VALUES ('39', '3', '18010151140,1234', 'chchhjkl2020', '2014-11-25 10:13:25');
 INSERT INTO `message` VALUES ('40', '3', '18010151140', '11.25..', '2014-11-25 10:32:17');
+INSERT INTO `message` VALUES ('41', '3', '18010151140,15005059526,13910392825,18010151140', 'hello', '2014-11-26 09:54:49');
+INSERT INTO `message` VALUES ('42', '3', '18010151140,18010151140', '1126..', '2014-11-26 14:26:18');
+INSERT INTO `message` VALUES ('43', '3', '18010151140,18010151140', '13940', '2014-11-26 14:28:42');
+INSERT INTO `message` VALUES ('44', '3', '18010151140,18010151140', '7e83784', '2014-11-26 16:40:41');
+INSERT INTO `message` VALUES ('45', '3', '18010151140', 'helllll.............', '2014-11-28 14:49:24');
+INSERT INTO `message` VALUES ('46', '3', '18010151140', '18898', '2014-11-28 18:48:46');
+INSERT INTO `message` VALUES ('47', '3', '18010151140', 'chenn', '2014-11-28 19:11:53');
+INSERT INTO `message` VALUES ('48', '3', '18010151140', '1222', '2014-12-22 10:51:14');
+INSERT INTO `message` VALUES ('49', '3', '18010151140,1234', '233', '2014-12-22 10:52:12');
+INSERT INTO `message` VALUES ('50', '3', '18010151140', '111', '2014-12-22 10:56:42');
+INSERT INTO `message` VALUES ('51', '3', '18010151140,1234567,1234', 'cdcdvfv', '2014-12-22 11:00:43');
+INSERT INTO `message` VALUES ('52', '3', '18010151140,1234567,1234', '你好品', '2014-12-22 11:00:54');
+INSERT INTO `message` VALUES ('53', '42', '18010151140', 'bhml', '2014-12-22 17:50:09');
+INSERT INTO `message` VALUES ('54', '42', '18010151140', 'fhvjgb', '2014-12-22 17:51:31');
+INSERT INTO `message` VALUES ('55', '3', '18010151140,18811110000', 'hello', '2014-12-24 10:18:53');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -156,12 +178,43 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '2', '1', 'ouyang', '123', '欧阳健生', '1234', '1');
-INSERT INTO `user` VALUES ('3', '20', '100', 'chen', '123', '陈水宝', '18010151140', '0');
-INSERT INTO `user` VALUES ('4', '20', '100', 'chenming', '123', '陈明', '15005059526', '1');
-INSERT INTO `user` VALUES ('5', '4', '4', 'sunling', '123', '孙凌', '1234', '1');
-INSERT INTO `user` VALUES ('6', '3', '6', 'peishengchun', '123', '斐胜春', '1234', '1');
-INSERT INTO `user` VALUES ('7', '5', '4', 'wanglu', '123', '王鲁', '1234', '1');
-INSERT INTO `user` VALUES ('8', '6', '4', 'wuqian', '123', '吴茜', '1234', '1');
-INSERT INTO `user` VALUES ('9', '20', '4', 'xiaoxin', '123', '王晓新', '13910392825', '1');
-INSERT INTO `user` VALUES ('14', '5', '100', 'jcc', '123', '江西', '1234', '1');
+INSERT INTO `user` VALUES ('3', '20', '100', 'chen', '202cb962ac59075b964b07152d234b70', '陈水宝', '18010151140', '0');
+INSERT INTO `user` VALUES ('4', '2', '1', 'ouyangjs', '51a88d6de194796c99efb656ef193779', '欧阳健生', '13911353812', '1');
+INSERT INTO `user` VALUES ('5', '2', '3', 'yejw', '51a88d6de194796c99efb656ef193779', '叶锦伟', '13911785680', '1');
+INSERT INTO `user` VALUES ('6', '2', '3', 'zhangxx', '51a88d6de194796c99efb656ef193779', '张晓轩', '13910785972', '1');
+INSERT INTO `user` VALUES ('7', '24', '5', 'zhangjm', '51a88d6de194796c99efb656ef193779', '张今铭', '13910593946', '1');
+INSERT INTO `user` VALUES ('8', '24', '8', 'heliu', '51a88d6de194796c99efb656ef193779', '何柳', '13701162795', '1');
+INSERT INTO `user` VALUES ('9', '24', '8', 'zhanglie', '51a88d6de194796c99efb656ef193779', '张列', '13811796522', '1');
+INSERT INTO `user` VALUES ('10', '24', '9', 'zhangtao1', '51a88d6de194796c99efb656ef193779', '张涛', '13581823676', '1');
+INSERT INTO `user` VALUES ('11', '3', '7', 'peishch', '51a88d6de194796c99efb656ef193779', '斐胜春', '18601189108', '1');
+INSERT INTO `user` VALUES ('12', '3', '7', 'kongqy', '51a88d6de194796c99efb656ef193779', '孔庆岩', '13520089542', '1');
+INSERT INTO `user` VALUES ('13', '3', '7', 'lisong', '51a88d6de194796c99efb656ef193779', '李松', '15010963772', '1');
+INSERT INTO `user` VALUES ('14', '3', '9', 'sunlei1', '51a88d6de194796c99efb656ef193779', '孙雷', '13691516066', '1');
+INSERT INTO `user` VALUES ('15', '3', '9', 'wuxin', '51a88d6de194796c99efb656ef193779', '武欣', '13701199075', '1');
+INSERT INTO `user` VALUES ('16', '4', '5', 'hankch', '51a88d6de194796c99efb656ef193779', '韩开创', '13910291051', '1');
+INSERT INTO `user` VALUES ('17', '4', '9', 'chengdan', '51a88d6de194796c99efb656ef193779', '成丹', '13810122327', '1');
+INSERT INTO `user` VALUES ('18', '4', '9', 'chenxue', '51a88d6de194796c99efb656ef193779', '陈雪', '13811297228', '1');
+INSERT INTO `user` VALUES ('19', '22', '5', 'wanglu', '51a88d6de194796c99efb656ef193779', '王鲁', '13601038905', '1');
+INSERT INTO `user` VALUES ('20', '22', '8', 'liangyue', '51a88d6de194796c99efb656ef193779', '梁跃', '13581780662', '1');
+INSERT INTO `user` VALUES ('21', '22', '8', 'chenqm', '51a88d6de194796c99efb656ef193779', '陈秋梅', '13810109280', '1');
+INSERT INTO `user` VALUES ('22', '21', '5', 'wuqian', '51a88d6de194796c99efb656ef193779', '吴茜', '13801281496', '1');
+INSERT INTO `user` VALUES ('23', '21', '8', 'sun_lei', '51a88d6de194796c99efb656ef193779', '孙磊', '13681254543', '1');
+INSERT INTO `user` VALUES ('24', '21', '8', 'cuiqian', '51a88d6de194796c99efb656ef193779', '崔倩', '18601189121', '1');
+INSERT INTO `user` VALUES ('25', '20', '5', 'shiwm', '51a88d6de194796c99efb656ef193779', '史文明', '13501234679', '1');
+INSERT INTO `user` VALUES ('26', '20', '100', 'wangxiaoxin', '51a88d6de194796c99efb656ef193779', '王晓新', '13910392825', '1');
+INSERT INTO `user` VALUES ('27', '20', '100', 'chenming1', '51a88d6de194796c99efb656ef193779', '陈明', '15005059526', '1');
+INSERT INTO `user` VALUES ('28', '20', '100', 'xuyh', '51a88d6de194796c99efb656ef193779', '许玉欢', '18033066570', '1');
+INSERT INTO `user` VALUES ('29', '25', '7', 'zhangjb', '51a88d6de194796c99efb656ef193779', '张杰斌', '13810577067', '1');
+INSERT INTO `user` VALUES ('30', '26', '5', 'pengjing', '51a88d6de194796c99efb656ef193779', '彭晶', '13910535162', '1');
+INSERT INTO `user` VALUES ('31', '26', '8', 'li_na', '51a88d6de194796c99efb656ef193779', '李娜', '15010959426', '1');
+INSERT INTO `user` VALUES ('32', '26', '100', 'wangjiac', '51a88d6de194796c99efb656ef193779', '王嘉诚', '13611265567', '1');
+INSERT INTO `user` VALUES ('33', '26', '100', 'songrh', '51a88d6de194796c99efb656ef193779', '宋若菡', '15011419892', '1');
+INSERT INTO `user` VALUES ('34', '25', '9', 'xuchm', '51a88d6de194796c99efb656ef193779', '许春茂', '13810260202', '1');
+INSERT INTO `user` VALUES ('37', '28', '5', 'sunling', '51a88d6de194796c99efb656ef193779', '孙凌', '13601189081', '1');
+INSERT INTO `user` VALUES ('38', '28', '8', 'yang_xiao', '51a88d6de194796c99efb656ef193779', '杨潇', '18601189018', '1');
+INSERT INTO `user` VALUES ('39', '28', '8', 'zhaohang', '51a88d6de194796c99efb656ef193779', '赵航', '15810052188', '1');
+INSERT INTO `user` VALUES ('40', '29', '6', 'chenjie', '40482657f8e444fb928da14dabc13c97', '王捷', '13910568632', '1');
+INSERT INTO `user` VALUES ('41', '29', '8', 'wangdun', '51a88d6de194796c99efb656ef193779', '王敦', '13910261707', '1');
+INSERT INTO `user` VALUES ('42', '30', '7', 'yaoml', '51a88d6de194796c99efb656ef193779', '姚明利', '13520289545', '1');
+INSERT INTO `user` VALUES ('43', '30', '8', 'liujing1', '51a88d6de194796c99efb656ef193779', '刘静', '13522716970', '1');
+INSERT INTO `user` VALUES ('44', '2', '4', 'wangxx', '51a88d6de194796c99efb656ef193779', '王修祥', '13501100966', '1');

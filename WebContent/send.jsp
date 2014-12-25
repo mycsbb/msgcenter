@@ -20,6 +20,7 @@
 <script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
 <script type="text/javascript" src="js/jquery.ztree.excheck-3.5.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/tree.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var _move = false;
@@ -53,8 +54,6 @@
 			_move = false;
 			//$("#dragdiv").fadeTo("fast", 1); //松开鼠标后停止移动并恢复成不透明
 		});
-		
-		createTree("sendmsg", "sendtree");
 	});
 	
 	//下面是对话框数据交互
@@ -157,6 +156,8 @@
 		phone_str = "";
 		contact_str = "";
 		$("#peers").html("");
+		//var tree = new Tree();
+		//tree.createTree("sendmsg", "sendtree");
 		createTree("sendmsg", "sendtree");
 		getContacts();
 		$("#opadiv").show();
@@ -281,7 +282,7 @@ ul.ztree {
 						<span style="margin-left: 5px;"> <textarea
 								style="width: 550px; height: 120px; overflow-y: scroll;
 								resize:none;"
-								id="peers" readonly="readonly"></textarea>
+								id="peers" disabled="disabled"></textarea>
 						</span> <span style="margin-bottom: 50px;">
 							<input type="button" name="opener" onclick="chooseReceiver()"
 							value="选择收信人" />

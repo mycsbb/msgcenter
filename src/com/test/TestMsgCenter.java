@@ -74,6 +74,26 @@ public class TestMsgCenter {
 			session.close();
 		}
 	}
+	@Test
+	public void tJoinSort() throws SQLException, IOException {
+		SqlSession session = sessionFactory.openSession();
+		String json = "";
+		// System.out.println("21,-3,33,".split(",").length);
+		try {
+			List<Department> departments = session
+					.selectList("Department.queryAll");
+			List<User> users = session.selectList("User.queryAll");
+			for (Department department : departments) {
+				json += departmentToJson(department) + ",";
+			}
+			for (User user : users) {
+				System.out.println(user);
+			}
+			
+		} finally {
+			session.close();
+		}
+	}
 
 	@Test
 	public void tInsert() throws SQLException, IOException {

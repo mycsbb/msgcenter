@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>联系人管理</title>
+<title>个人通讯录</title>
 <link rel="stylesheet" href="css/index.css" type="text/css">
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
@@ -44,6 +44,9 @@
 							}
 							$("table#contact_tablex").html("<tbody>" + 
 									$("#header_trx").prop("outerHTML") + html + "</tbody>");
+						} else {
+							$("table#contact_tablex").html("<tbody>" + 
+									$("#header_trx").prop("outerHTML") + "</tbody>");
 						}
 					}
 				});
@@ -51,7 +54,20 @@
 	$(function() {
 // 		var pos = getElementPosition($("#funcpage")[0]);
 // 		alert(pos.left + " " + pos.top);
-		getContacts();
+		//getContacts();
+		contacts = eval('(${requestScope.contacts})');
+		var html = "";
+		for ( var i = 0; i < contacts.length; i++) {
+			contactMap[contacts[i].id] = contacts[i];
+			html = html
+					+ "<tr><td><input type=\"checkbox\" name=\"chkx\" "
+					+ "onclick=\"docheck(this)\" id=\""
+					+ contacts[i].id + "\"/></td><td>"
+					+ contacts[i].zhname + "</td><td>"
+					+ contacts[i].phone + "</td></tr>";
+		}
+		$("table#contact_tablex").html("<tbody>" + 
+				$("#header_trx").prop("outerHTML") + html + "</tbody>");
 	});
 	function checkx(obj) {
 		if ($(obj).prop("checked")) {
@@ -63,6 +79,20 @@
 	}
 	function docheck(obj) {
 		var n = $("input[name='chkx']:checked").length;
+		var len = $("input[name='chkx']").length;
+		if (len == 1) {
+			if ($(obj).prop("checked")) {
+				$("#allchkx").prop("checked", true);
+				var id = $(obj).attr("id");
+				$("input[name='id']").val(id);
+				$("input[name='zhname']").val(contactMap[id].zhname);
+				$("input[name='phone']").val(contactMap[id].phone);
+			} else {
+				$("#allchkx").prop("checked", false);
+				$("#cmgrform")[0].reset();
+			}
+			return;
+		}
 		$("#allchkx").prop("checked", false);
 		if (n == 0) {
 			$("#cmgrform")[0].reset();
@@ -90,7 +120,7 @@
 			alert("必选项不能为空！");
 			return;
 		}
-		var reg = /^[1-9]{1}\d*$/;
+		var reg = /^[1-9]{1}\d{3,10}$/;
 		if (!reg.test(phone)) {
 			alert("电话格式不正确！");
 			return;
@@ -175,7 +205,7 @@
 			alert("请重新选择要更改的联系人！");
 			return;
 		}
-		var reg = /^\d+$/;
+		var reg = /^[1-9]{1}\d{3,10}$/;
 		if (!reg.test(phone)) {
 			alert("电话格式不正确！");
 			return;

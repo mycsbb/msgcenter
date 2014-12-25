@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert" parameterType="User">
 		insert into
 		user(departId,levelId,username,password,zhname,phone,role) values(
-			#{departId}, #{levelId}, #{username}, #{password}, #{zhname},
+			#{departId}, #{levelId}, #{username}, MD5(#{password}), #{zhname},
 			#{phone}, #{role}
 		)
 	</insert>
@@ -21,7 +21,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="queryAll" resultType="User">
-		select * from user order by levelId
+<!-- 		select * from user order by levelId -->
+		select id,departId,levelId,username,password,zhname,phone,role from (
+		select user.id,user.departId,user.levelId,user.username,user.password,
+		user.zhname,user.phone,user.role,rank from user,level 
+		where user.levelId = level.id order by rank ) as t
 	</select>
 	
 	<select id="queryPhones" resultType="string">
@@ -47,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="update_personal" parameterType="User">
 		update user
 		<set>
-			<if test="password!=null">password=#{password},</if>
+			<if test="password!=null">password=MD5(#{password}),</if>
 			<if test="phone!=null">phone=#{phone}</if>
 		</set>
 		<where>
@@ -60,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="password!=null">departId=#{departId},</if>
 			<if test="password!=null">levelId=#{levelId},</if>
 			<if test="password!=null">username=#{username},</if>
-			<if test="password!=null">password=#{password},</if>
+			<if test="password!=null">password=MD5(#{password}),</if>
 			<if test="password!=null">zhname=#{zhname},</if>
 			<if test="phone!=null">phone=#{phone}</if>
 		</set>

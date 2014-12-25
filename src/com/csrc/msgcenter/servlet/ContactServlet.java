@@ -66,6 +66,8 @@ public class ContactServlet extends HttpServlet {
 			deleteContacts(request, response);
 		} else if (action.equals("fetchcontact")) {
 			queryById(request, response);
+		} else if (action.equals("contactmgr")) {
+			do_contactmgr(request, response);
 		} else {
 			PrintWriter out = response.getWriter();
 			out.write("<center><H1>404 not found!!</H1></center>");
@@ -167,7 +169,7 @@ public class ContactServlet extends HttpServlet {
 		phone = phone.trim();
 
 		// 下面验证手机格式
-		String regex = "^\\d+$";
+		String regex = "^[1-9]{1}\\d{3,10}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(phone);
 		if (!matcher.matches()) {
@@ -271,7 +273,7 @@ public class ContactServlet extends HttpServlet {
 		phone = phone.trim();
 
 		// 下面验证手机格式
-		String regex = "^\\d+$";
+		String regex = "^[1-9]{1}\\d{3,10}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(phone);
 		if (!matcher.matches()) {
@@ -330,6 +332,33 @@ public class ContactServlet extends HttpServlet {
 			session.close();
 		}
 
+		PrintWriter out = response.getWriter();
+		out.write(json);
+		out.flush();
+	}
+	
+	private void do_contactmgr(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		SqlSession session = SessionUtil.getSessionFactory().openSession();
+		HttpSession httpSession = request.getSession();
+		User cur_user = (User) httpSession
+				.getAttribute(AuthFilter.USER_SESSION_KEY);
+		String json = "";
+		try {
+			List<Contact> contacts = session.selectList("Contact.queryAllByUserid", cur_user.getId());
+			for (Contact contact : contacts) {
+				json += contactToJson(contact, "userId") + ",";
+			}
+			if (json != "") {
+				json = "[" + json.substring(0, json.length() - 1) + "]";
+				System.out.println(json);
+			}
+			request.setAttribute("contacts", json);
+			request.getRequestDispatcher("/contactmgr.jsp").forward(request, response);
+		} finally {
+			session.close();
+		}
+		
 		PrintWriter out = response.getWriter();
 		out.write(json);
 		out.flush();

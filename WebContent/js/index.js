@@ -89,7 +89,8 @@ function dealcheck_2(e, treeId, treeNode) {
 					$("#level option[value='" + cur_node.levelId + "']")
 					.attr("selected", "selected");
 					$("input[name='username']").val(cur_node.username);
-					$("input[name='password']").val(cur_node.password);
+					//$("input[name='password']").val(cur_node.password);
+					$("input[name='password']").val("●●●●●●");
 					$("input[name='phone']").val(cur_node.phone);
 				} else {
 					alert(data);
@@ -124,6 +125,12 @@ function createTree(flag, container_id) {
 			// zNodes = JSON.parse(data);
 			zNodes = eval("(" + data + ")");
 			$.fn.zTree.init($("#" + container_id), setting, zNodes);
+//			var zTree = $.fn.zTree.getZTreeObj(setting.container_id);
+//			zTree.expandAll(false);
+//			var node = zTree.getNodeByTId("tree_1");
+//			zTree.expandNode(node, true, false, true);
+//			node = zTree.getNodeByTId("tree_2");
+//			zTree.expandNode(node, true, false, true);
 			//count();
 			// clearFlag = $("#last").attr("checked");
 		}

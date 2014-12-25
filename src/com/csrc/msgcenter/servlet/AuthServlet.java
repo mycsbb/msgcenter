@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.csrc.msgcenter.filter.AuthFilter;
 import com.csrc.msgcenter.model.User;
+import com.csrc.msgcenter.util.MD5Util;
 import com.csrc.msgcenter.util.SessionUtil;
 
 /**
@@ -58,7 +59,7 @@ public class AuthServlet extends HttpServlet {
 		try{
 			User user = session.selectOne("User.queryByUsername", username);
 			System.out.println(user);
-			if (user != null && password.equals(user.getPassword())) {
+			if (user != null && MD5Util.MD5(password).equalsIgnoreCase(user.getPassword())) {
 				httpsession.setAttribute(AuthFilter.USER_SESSION_KEY, user);
 				out.write("success");
 				out.flush();
