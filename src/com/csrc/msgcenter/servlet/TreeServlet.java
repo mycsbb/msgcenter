@@ -254,19 +254,31 @@ public class TreeServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException {
 		String password = request.getParameter("password");
 		String phone = request.getParameter("phone");
+		String pwd_flag = request.getParameter("pwd_flag");
 		PrintWriter out = response.getWriter();
 		if (password == null || password.trim().equals("") || phone == null
-				|| phone.trim().equals("")) {
+				|| phone.trim().equals("")
+				|| pwd_flag == null || pwd_flag.trim().equals("")) {
 			out.write("信息不能为空！");
 			out.flush();
 			return;
 		}
 		// 下面验证手机格式
 		String regex = "^[1-9]{1}\\d{3,10}$";
-		Pattern phone_pattern = Pattern.compile(regex);
-		Matcher matcher = phone_pattern.matcher(phone);
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(phone);
 		if (!matcher.matches()) {
 			out.write("手机格式不正确！");
+			out.flush();
+			return;
+		}
+		
+		
+		regex = "^[0-1]{1}$";
+		pattern = Pattern.compile(regex);
+		matcher = pattern.matcher(pwd_flag);
+		if (!matcher.matches()) {
+			out.write("信息不正确！");
 			out.flush();
 			return;
 		}
@@ -275,12 +287,14 @@ public class TreeServlet extends HttpServlet {
 				.getAttribute(AuthFilter.USER_SESSION_KEY);
 		SqlSession session = SessionUtil.getSessionFactory().openSession();
 		try {
-			cur_user.setPassword(password);
+			if (Integer.parseInt(pwd_flag) == 1) {
+				cur_user.setPassword(password);
+			}
 			cur_user.setPhone(phone);
 			int n = session.update("User.update_personal", cur_user);
 			session.commit();
 			if (n > 0) {
-				out.write("更新成功！");
+				out.write("update_success");
 			} else
 				out.write("更新失败！");
 			out.flush();

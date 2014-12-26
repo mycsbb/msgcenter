@@ -137,6 +137,22 @@ td.whitex { /* 	background-color: white; */
 	_left: expression(eval(document.documentElement.scrollLeft
 	     + (parseInt(this.currentStyle.marginLeft, 10) || 540)));
 }
+.fixeddragdiv2 { 
+	z-index: 2001; 
+	/* 可自定义top的值，离窗口底部的距离 */
+	position: fixed;
+	top: 100px;
+	left: 455px;
+	/* 可自定义top的值，离窗口底部的距离 */
+	_position: absolute;
+	_top: 100px;
+	_left: 455px;
+	/* 可自定义修改||后面的值，也是离窗口顶部的距离，和上面top的值保持一致*/
+	_top: expression(eval(document.documentElement.scrollTop 
+		+ (parseInt(this.currentStyle.marginTop, 10) || 100)));
+	_left: expression(eval(document.documentElement.scrollLeft
+	     + (parseInt(this.currentStyle.marginLeft, 10) || 455)));
+}
 .fixedopadiv { 
 	z-index: 999; 
 	position: fixed;
@@ -149,4 +165,25 @@ td.whitex { /* 	background-color: white; */
 		+ (parseInt(this.currentStyle.marginTop, 10) || 0)));
 	_left: expression(eval(document.documentElement.scrollLeft
 	     + (parseInt(this.currentStyle.marginLeft, 10) || 0)));
+}
+
+.fixedopadiv2 { 
+	z-index: 2000; 
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	_position: absolute;
+	_top: 0px;
+	_left: 0px;
+	_top: expression(eval(document.documentElement.scrollTop 
+		+ (parseInt(this.currentStyle.marginTop, 10) || 0)));
+	_left: expression(eval(document.documentElement.scrollLeft
+	     + (parseInt(this.currentStyle.marginLeft, 10) || 0)));
+}
+
+.person_info_tr {
+	height: 30px;
+}
+.person_meta_td {
+	text-align: right;
 }
